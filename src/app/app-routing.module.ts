@@ -15,6 +15,7 @@ import {AnalyticsComponent} from './DemoPages/Dashboards/analytics/analytics.com
 import {ForgotPasswordBoxedComponent} from './DemoPages/UserPages/forgot-password-boxed/forgot-password-boxed.component';
 import {LoginBoxedComponent} from './DemoPages/UserPages/login-boxed/login-boxed.component';
 import {RegisterBoxedComponent} from './DemoPages/UserPages/register-boxed/register-boxed.component';
+import {LoginComponent} from './Pages/login/login.component';
 
 // Elements
 
@@ -107,7 +108,7 @@ const routes: Routes = [
     children: [
 
       // User Pages
-
+      {path: 'login' , component:LoginComponent, data:{extraParameter: ''}},
       {path: 'pages/login-boxed', component: LoginBoxedComponent, data: {extraParameter: ''}},
       {path: 'pages/register-boxed', component: RegisterBoxedComponent, data: {extraParameter: ''}},
       {path: 'pages/forgot-password-boxed', component: ForgotPasswordBoxedComponent, data: {extraParameter: ''}},
