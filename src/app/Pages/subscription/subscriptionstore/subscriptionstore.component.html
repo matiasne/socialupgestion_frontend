@@ -1,0 +1,72 @@
+<div class="card-body"><h5 class="card-title">Nueva Subscripcion</h5>
+  <form>
+
+     <!--Comercio-->
+     <div class="position-relative form-group">
+        <label for="commercio">Commercio</label>
+          <input name="commercio" id="commercio" placeholder="Comercio" type="text" class="form-control">
+    </div>
+
+    <!--Cliente-->
+    <div class="position-relative form-group">
+      <label for="nombrecliente">Cliente</label>
+        <input name="nombrecliente" id="nombrecliente" placeholder="Cliente" type="text" class="form-control">
+    </div>
+
+    <!--Empleado-->
+    <div class="position-relative form-group">
+        <label for="empleado">Empleado</label>
+          <input name="empleado" id="empleado" placeholder="Empleado" type="text" class="form-control">
+    </div>
+
+    <!--Fecha Inicio-->
+    <div class="position-relative form-group">
+      <label for="start">Fecha Inicio</label>
+      <div> 
+        <input type="date" id="fechainicio" name="fechainicio" value="09-09-2019">
+      </div>
+
+    </div>
+    
+    <!--Periodo-->
+    <div class="position-relative form-group">
+        <label for="periodoselect">Periodo</label>
+        <select name="periodoselect" id="periodoselect" class="form-control">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select>
+    </div>
+
+    <!--ESTADO PAGARE-->
+    <div class="position-relative form-group">
+        <label for="estadopagare">Estado Pagare</label>
+        <select name="estadopagare" id="estadopagare" class="form-control">
+          <option>Anticipado</option>
+          <option>Vencido</option>
+        </select>
+    </div>
+
+    <!--ESTADO-->
+    <div class="position-relative form-group">
+        <label for="estado">Estado Subcripcion</label>
+        <select name="estado" id="estado" class="form-control">
+          <option>Activo</option>
+          <option>Cancelado</option>
+        </select>
+    </div>
+
+    <!--Precio Total-->
+    <div class="position-relative form-group">
+        <label for="costototal">Costo Total</label>
+          <input name="costototal" id="costototal" placeholder="Costo Total" type="number" class="form-control">
+    </div>
+    
+    <button class="mt-1 btn btn-primary" type="submit">Guardar</button>
+  </form>
+</div>
+
+
