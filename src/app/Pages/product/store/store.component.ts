@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StoreComponent implements OnInit {
 
+  heading = 'Nuevo Producto';
+  subheading = 'Rellenar todos los campos del formulario del nuevo producto.';
+  icon = 'pe-7s-phone icon-gradient bg-premium-dark';
+ 
   constructor() { }
 
   ngOnInit() {

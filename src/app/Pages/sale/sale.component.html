@@ -1,4 +1,4 @@
-
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 <div class="main-card mb-3 card">
   <div class="card-header">
     <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Ventas</div>
@@ -31,12 +31,12 @@
         <td class="text-center">1500</td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary">Actualizar</button>
+            <button class="btn-shadow btn btn-primary" routerLink="/venta/actualizar">Editar</button>
           </div>
         </td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary">Borrar</button>
+            <button class="btn-shadow btn btn-primary" (click)="open()">Borrar</button>
           </div>
         </td>
       </tr>

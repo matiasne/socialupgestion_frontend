@@ -116,6 +116,20 @@ import { SubscriptionstoreComponent } from './Pages/subscription/subscriptionsto
 import { SubscriptiondeleteComponent } from './Pages/subscription/subscriptiondelete/subscriptiondelete.component';
 import { SaledeleteComponent } from './Pages/sale/saledelete/saledelete.component';
 import { ProductdeleteComponent } from './Pages/product/productdelete/productdelete.component';
+import { PaymentComponent } from './Pages/payment/payment.component';
+import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
+import { PaymentdeleteComponent } from './Pages/payment/paymentdelete/paymentdelete.component';
+import { ClientComponent } from './Pages/client/client.component';
+import { ClientstoreComponent } from './Pages/client/clientstore/clientstore.component';
+import { ClientupdateComponent } from './Pages/client/clientupdate/clientupdate.component';
+import { ClientdeleteComponent } from './Pages/client/clientdelete/clientdelete.component';
+import { EmployeComponent } from './Pages/employe/employe.component';
+import { EmployestoreComponent } from './Pages/employe/employestore/employestore.component';
+import { EmployeupdateComponent } from './Pages/employe/employeupdate/employeupdate.component';
+import { EmployedeleteComponent } from './Pages/employe/employedelete/employedelete.component';
+import { SingleModalComponent } from './DemoPages/Components/single-modal/single-modal.component';
+import { ModalComponent } from './Components/modal/modal.component';
+import { ModalaboutComponent } from './Components/modalabout/modalabout.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -219,6 +233,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SubscriptiondeleteComponent,
     SaledeleteComponent,
     ProductdeleteComponent,
+    PaymentComponent,
+    PaymentstoreComponent,
+    PaymentdeleteComponent,
+    ClientComponent,
+    ClientstoreComponent,
+    ClientupdateComponent,
+    ClientdeleteComponent,
+    EmployeComponent,
+    EmployestoreComponent,
+    EmployeupdateComponent,
+    EmployedeleteComponent,
+    SingleModalComponent,
+    ModalComponent,
+    ModalaboutComponent,
   ],
   imports: [
     BrowserModule,

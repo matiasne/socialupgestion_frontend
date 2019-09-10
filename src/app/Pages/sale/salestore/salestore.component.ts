@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalestoreComponent implements OnInit {
 
+  heading = 'Nueva Venta';
+  subheading = 'Rellenar todos los campos del formulario de la nueva venta.';
+  icon = 'pe-7s-phone icon-gradient bg-premium-dark';
+
   constructor() { }
 
   ngOnInit() {

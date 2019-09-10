@@ -80,6 +80,24 @@ import {SubscriptionstoreComponent} from './Pages/subscription/subscriptionstore
 import {SubscriptiondeleteComponent} from './Pages/subscription/subscriptiondelete/subscriptiondelete.component';
 
 
+//Payment
+
+import {PaymentComponent} from './Pages/payment/payment.component';
+import {PaymentstoreComponent} from './Pages/payment/paymentstore/paymentstore.component';
+import {PaymentdeleteComponent} from './Pages/payment/paymentdelete/paymentdelete.component';
+
+
+//Cliente
+import {ClientComponent} from './Pages/client/client.component';
+import {ClientstoreComponent} from './Pages/client/clientstore/clientstore.component';
+import {ClientupdateComponent} from './Pages/client/clientupdate/clientupdate.component';
+import {ClientdeleteComponent} from './Pages/client/clientdelete/clientdelete.component';
+
+//Employe
+import {EmployeComponent} from './Pages/employe/employe.component';
+import {EmployestoreComponent} from './Pages/employe/employestore/employestore.component';
+import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdate.component';
+import {EmployedeleteComponent} from './Pages/employe/employedelete/employedelete.component';
 
 const routes: Routes = [
   {
@@ -147,9 +165,26 @@ const routes: Routes = [
       {path: 'subscripcion', component:SubscriptionComponent, data: {extraParameter: ''}},
       {path: 'subscripcion/guardar', component:SubscriptionstoreComponent, data: {extraParameter: ''}},
       {path: 'subscripcion/borrar', component:SubscriptiondeleteComponent, data: {extraParameter: ''}},
+      
+      //Payment
+      {path: 'pagare', component:PaymentComponent, data:{extraParameter: ''} },
+      {path: 'pagare/guardar', component:PaymentstoreComponent, data:{extraParameter: ''} },
+      {path: 'pagare/borrar', component:PaymentdeleteComponent, data:{extraParameter: ''} },
+
+
+      //Client
+      {path: 'cliente', component:ClientComponent, data:{extraParameter: ''} },
+      {path: 'cliente/guardar', component:ClientstoreComponent, data:{extraParameter: ''} },
+      {path: 'cliente/actualizar', component:ClientupdateComponent, data:{extraParameter: ''} },
+      {path: 'cliente/borrar', component:ClientdeleteComponent, data:{extraParameter: ''} },
+
+      //Employe
+      {path: 'empleado', component:EmployeComponent, data:{extraParameter: ''} },
+      {path: 'empleado/guardar', component:EmployestoreComponent, data:{extraParameter: ''} },
+      {path: 'empleado/actualizar', component:EmployeupdateComponent, data:{extraParameter: ''} },
+      {path: 'empleado/borrar', component:EmployedeleteComponent, data:{extraParameter: ''} },
 
     ]
-
   },
   {
     path: '',

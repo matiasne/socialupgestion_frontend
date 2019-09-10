@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubscriptionstoreComponent implements OnInit {
 
+  heading = 'Nueva Subscripcion';
+  subheading = 'Rellenar todos los campos del formulario de la nueva subscripcion.';
+  icon = 'pe-7s-phone icon-gradient bg-premium-dark';
+
+
   constructor() { }
 
   ngOnInit() {

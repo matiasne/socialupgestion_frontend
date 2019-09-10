@@ -1,4 +1,4 @@
-
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 <div class="main-card mb-3 card">
   <div class="card-header">
     <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Productos</div>
@@ -37,12 +37,12 @@
         <td class="text-center">20</td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary">Actualizar</button>
+            <button class="btn-shadow btn btn-primary" routerLink="/producto/actualizar">Editar</button>
           </div>
         </td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary">Borrar</button>
+            <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
           </div>
         </td>
       </tr>
@@ -50,6 +50,7 @@
       </tbody>
     </table>
   </div>
+
   <div class="d-block p-4 text-center card-footer">
     <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
       <span class="mr-2 opacity-7">
@@ -58,4 +59,47 @@
       <span class="mr-1">Actualizar</span>
     </button>
   </div>
-</div>
+
+  <div class="row">
+    <div class="col-md-12 ">
+      <div class="card main-card mb-12">
+        <div class="card-body">
+          <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+          <div class="divider"></div>
+          <!--<pre>{{page}}</pre>-->
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<table>
+  <thead>
+  <th># Policy ID</th>
+  <th>Policy name</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let policy of policies">
+  <td>{{policy.id}}</td>
+  <td>{{policy.name}}</td>
+  </tr>
+  </tbody>
+  </table>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Producto</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar este producto?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>

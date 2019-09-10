@@ -14,6 +14,7 @@ export class ModalsComponent implements OnInit {
   closeResult: string;
 
   constructor(private modalService: NgbModal) {
+    
   }
 
   open(content) {
