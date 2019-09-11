@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/Components/modal/modal.component';
 import { ModalaboutComponent } from 'src/app/Components/modalabout/modalabout.component';
+import { Subscription } from 'rxjs';
+import { CommercesService } from 'src/app/Services/commerces.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,12 +24,34 @@ export class ClientComponent implements OnInit {
   }]
 
 
-  ngOnInit() {
+
+  public commerce:any;
+  private commerceSubscription: Subscription;
+  
+  constructor(
+    private modalService: NgbModal,
+    public _commerceService:CommercesService,
+    public router: Router,
+  ) {
+  
+    this.commerce = "";
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      this.commerce = data;
+      console.log(this.commerce);
+
+      if(this.commerce == "0"){
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
-  title = 'app';
+  ngOnDestroy() {
+    this.commerceSubscription.unsubscribe();
+  }
 
-  constructor(private modalService: NgbModal) {}
+  
+  ngOnInit() {
+  }
 
   open() {
     // const modalRef = this.modalService.open(ModalComponent);

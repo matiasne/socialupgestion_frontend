@@ -14,15 +14,17 @@
                  class="form-group">
               <div><input id="exampleInput1" type="email" placeholder="Ingrese email..." required="required"
                           aria-required="true" class="form-control"
-                          aria-describedby="exampleInputGroup1__BV_description_">
+                          aria-describedby="exampleInputGroup1__BV_description_" [(ngModel)]="email">
                 <small tabindex="-1" id="exampleInputGroup1__BV_description_" class="form-text text-muted">Nunca comparta su correo
                   con otra persona
                 </small>
               </div>
             </div>
             <div id="exampleInputGroup2" role="group" class="form-group">
-              <div><input id="exampleInput2" type="password" placeholder="Ingrese contraseña..." required="required"
-                          aria-required="true" class="form-control"></div>
+              <div>
+                <input id="exampleInput2" type="password" placeholder="Ingrese contraseña..." required="required"
+                          aria-required="true" class="form-control" [(ngModel)]="password">
+              </div>
             </div>
             <div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
                                                                autocomplete="off" class="custom-control-input"
@@ -37,7 +39,7 @@
           <div class="modal-footer clearfix">
             <div class="float-left"><a [routerLink]="" class="btn-lg btn btn-link">Recuperar contraseña</a></div>
             <div class="float-right">
-              <button type="button" class="btn btn-primary btn-lg">Ingresar a tu cuenta</button>
+              <button type="button" class="btn btn-primary btn-lg" (click)="login()">Ingresar a tu cuenta</button>
             </div>
           </div>
         </div>

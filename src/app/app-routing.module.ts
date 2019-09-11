@@ -100,6 +100,7 @@ import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdat
 import {EmployedeleteComponent} from './Pages/employe/employedelete/employedelete.component';
 
 const routes: Routes = [
+  {path: '', component: LoginComponent, data: {extraParameter: 'dashboardsMenu'}},
   {
     path: '',
     component: BaseLayoutComponent,
@@ -107,11 +108,11 @@ const routes: Routes = [
 
       //home
 
-      {path: 'home' , component:HomeComponent, data:{extraParameter: 'dashboardsMenu'}},
+      {path: 'home' , component:HomeComponent, data:{extraParameter: ''}},
 
       // Dashboads
 
-      {path: '', component: AnalyticsComponent, data: {extraParameter: 'dashboardsMenu'}},
+     
 
       // Elements
 

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommercesService } from 'src/app/Services/commerces.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employe',
@@ -16,7 +20,29 @@ export class EmployeComponent implements OnInit {
     title:"Agregar Empleado"
   }]
 
-  constructor() { }
+  public commerce:any;
+  private commerceSubscription: Subscription;
+  
+  constructor(
+    private modalService: NgbModal,
+    public _commerceService:CommercesService,
+    public router: Router,
+  ) {
+  
+    this.commerce = "";
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      this.commerce = data;
+      console.log(this.commerce);
+
+      if(this.commerce == "0"){
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.commerceSubscription.unsubscribe();
+  }
 
   ngOnInit() {
   }

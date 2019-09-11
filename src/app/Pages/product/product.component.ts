@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { CommercesService } from 'src/app/Services/commerces.service';
+import { Commerce } from 'src/app/Models/Commerce';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -18,12 +22,35 @@ export class ProductComponent implements OnInit {
     title:"Agregar Producto"
   }]
 
-  constructor(private modalService: NgbModal) {
-    
+  public commerce:any;
+  private commerceSubscription: Subscription;
+  
+  constructor(
+    private modalService: NgbModal,
+    public _commerceService:CommercesService,
+    public router: Router,
+  ) {
+  
+    this.commerce = "";
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      this.commerce = data;
+      console.log(this.commerce);
+
+      if(this.commerce == "0"){
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.commerceSubscription.unsubscribe();
   }
 
   ngOnInit() {
+
   }
+
+  
 
 
   open(content) {

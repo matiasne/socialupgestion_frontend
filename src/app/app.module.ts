@@ -131,6 +131,8 @@ import { SingleModalComponent } from './DemoPages/Components/single-modal/single
 import { ModalComponent } from './Components/modal/modal.component';
 import { ModalaboutComponent } from './Components/modalabout/modalabout.component';
 
+
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };

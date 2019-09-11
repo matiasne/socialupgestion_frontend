@@ -7,13 +7,10 @@
     <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
       <thead>
       <tr>
-        <th class="text-center">Nro</th>
-        <th class="text-center">Imagen</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Comercio</th>
-        <th class="text-center">Proveedor</th>
         <th class="text-center">Categoria</th>
-        <th class="text-center">Codigo</th>
+        <th class="text-center">Código</th>
+        <th class="text-center">Imagen</th>
+        <th class="text-center">Nombre</th>      
         <th class="text-center">Descricion</th>
         <th class="text-center">Precio</th>
         <th class="text-center">Stock</th>
@@ -22,30 +19,28 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center" style="width: 80px;">
-          <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
-        </td>
-        <td class="text-center">Chocolate</td>
-        <td class="text-center">Caracol</td>
-        <td class="text-center">Mauro</td>
-        <td class="text-center">Dulces</td>
-        <td class="text-center">68454</td>
-        <td class="text-center">Son ricos</td>
-        <td class="text-center">$50</td>
-        <td class="text-center">20</td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/producto/actualizar">Editar</button>
-          </div>
-        </td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
-          </div>
-        </td>
-      </tr>
+        <tr *ngFor="let product of commerce.products" (click)="selecionarComercio(commerce)">
+          <td class="text-center text-muted" style="width: 80px;">{{product.category}}</td>
+          <td class="text-center text-muted" style="width: 80px;">{{product.code}}</td>
+          <td class="text-center" style="width: 80px;">
+            <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
+          </td>
+          <td class="text-center">{{product.name}}</td>
+          <td class="text-center">{{product.description}}</td>
+          <td class="text-center">{{product.price}}</td>
+          <td class="text-center">{{product.stock}}</td> 
+            
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" routerLink="/producto/actualizar">Editar</button>
+            </div>
+          </td>
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
+            </div>
+          </td>
+        </tr>
   
       </tbody>
     </table>
