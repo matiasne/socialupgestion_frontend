@@ -1,0 +1,71 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form>
+
+    <!--Nombre-->
+    <div class="position-relative form-group">
+      <label for="nameproduct">Nombre</label>
+        <input name="nameproduct" id="nameproduct" placeholder="Nombre" type="text" class="form-control">
+    </div>
+
+
+    <!--Comercio-->
+    <div class="position-relative form-group">
+        <label for="commercio">Commercio</label>
+          <input name="commercio" id="commercio" placeholder="Comercio" type="text" class="form-control">
+    </div>
+
+    <!--Proveedor-->
+    <div class="position-relative form-group">
+        <label for="proveedor">Proveedor</label>
+          <input name="proveedor" id="proveedor" placeholder="Proveedor" type="text" class="form-control">
+    </div>
+
+    <!--Categoria-->
+    <div class="position-relative form-group">
+      <label for="categoriaSelect">Categoria</label>
+      <select name="categoriaSelect" id="categoriaSelect" class="form-control">
+        <option>Golosinas</option>
+        <option>Verduras</option>
+        <option>Frutas</option>
+      </select>
+    </div>
+
+    <!--precio-->
+    <div class="position-relative form-group">
+        <label for="codigo">Codigo</label>
+          <input name="codigo" id="codigo" placeholder="Codigo" type="number" class="form-control">
+    </div>
+    
+
+    <!--Descripcion-->
+    <div class="position-relative form-group">
+      <label for="descripcion">Descripcion</label>
+      <textarea name="descripcion" id="descripcion" class="form-control">
+      
+      </textarea>
+    </div>
+
+    <!--Precio-->
+    <div class="position-relative form-group">
+        <label for="precio">Precio</label>
+          <input name="precio" id="precio" placeholder="Precio" type="number" class="form-control">
+    </div>
+    
+
+    <!--Imagen-->
+    <div class="position-relative form-group">
+      
+      <label for="imagenproduct">Imagen</label>
+      
+      <input name="imagenproduct" id="imagenproduct" type="file" class="form-control-file">
+      
+      <small class="form-text text-muted">
+        Seleccione la imagen del producto.
+      </small>
+
+    </div>
+    
+    <button class="mt-1 btn btn-primary" type="submit">Guardar</button>
+  </form>
+</div>

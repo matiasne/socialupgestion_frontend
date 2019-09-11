@@ -1,0 +1,41 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form>
+
+
+    <!--Cliente-->
+    <div class="position-relative form-group">
+      <label for="nombrecliente">Cliente</label>
+        <input name="nombrecliente" id="nombrecliente" placeholder="Cliente" type="text" class="form-control">
+    </div>
+
+    <!--Empleado-->
+    <div class="position-relative form-group">
+        <label for="empleado">Empleado</label>
+          <input name="empleado" id="empleado" placeholder="Empleado" type="text" class="form-control">
+    </div>
+
+    <!--Descripcion-->
+    <div class="position-relative form-group">
+        <label for="descripcion">Descripcion</label>
+        <textarea name="descripcion" id="descripcion" class="form-control">
+        
+        </textarea>
+    </div>
+
+    <!--ESTADO-->
+    <div class="position-relative form-group">
+        <label for="estado">ESTADO</label>
+          <input name="estado" id="estado" placeholder="Estado" type="text" class="form-control">
+    </div>
+
+    <!--Precio Total-->
+    <div class="position-relative form-group">
+        <label for="costototal">Costo Total</label>
+          <input name="costototal" id="costototal" placeholder="Costo Total" type="number" class="form-control">
+    </div>
+    
+    <button class="mt-1 btn btn-primary" type="submit">Guardar</button>
+  </form>
+</div>
+

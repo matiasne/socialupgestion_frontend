@@ -17,6 +17,11 @@ import {LoginBoxedComponent} from './DemoPages/UserPages/login-boxed/login-boxed
 import {RegisterBoxedComponent} from './DemoPages/UserPages/register-boxed/register-boxed.component';
 import {LoginComponent} from './Pages/login/login.component';
 
+
+//Home
+import {HomeComponent} from './Pages/home/home.component';
+
+
 // Elements
 
 import {StandardComponent} from './DemoPages/Elements/Buttons/standard/standard.component';
@@ -53,11 +58,56 @@ import {LayoutComponent} from './DemoPages/Forms/Elements/layout/layout.componen
 
 import {ChartjsComponent} from './DemoPages/Charts/chartjs/chartjs.component';
 
+
+//Product
+
+import {ProductComponent} from './Pages/product/product.component';
+import {StoreComponent} from './Pages/product/store/store.component';
+import {UpdateComponent} from './Pages/product/update/update.component';
+import {ProductdeleteComponent} from './Pages/product/productdelete/productdelete.component';
+
+//Sale
+
+import {SaleComponent} from './Pages/sale/sale.component';
+import {SaleupdateComponent} from './Pages/sale/saleupdate/saleupdate.component';
+import {SalestoreComponent} from './Pages/sale/salestore/salestore.component';
+import {SaledeleteComponent} from './Pages/sale/saledelete/saledelete.component';
+
+//Subscription
+
+import {SubscriptionComponent} from './Pages/subscription/subscription.component';
+import {SubscriptionstoreComponent} from './Pages/subscription/subscriptionstore/subscriptionstore.component';
+import {SubscriptiondeleteComponent} from './Pages/subscription/subscriptiondelete/subscriptiondelete.component';
+
+
+//Payment
+
+import {PaymentComponent} from './Pages/payment/payment.component';
+import {PaymentstoreComponent} from './Pages/payment/paymentstore/paymentstore.component';
+import {PaymentdeleteComponent} from './Pages/payment/paymentdelete/paymentdelete.component';
+
+
+//Cliente
+import {ClientComponent} from './Pages/client/client.component';
+import {ClientstoreComponent} from './Pages/client/clientstore/clientstore.component';
+import {ClientupdateComponent} from './Pages/client/clientupdate/clientupdate.component';
+import {ClientdeleteComponent} from './Pages/client/clientdelete/clientdelete.component';
+
+//Employe
+import {EmployeComponent} from './Pages/employe/employe.component';
+import {EmployestoreComponent} from './Pages/employe/employestore/employestore.component';
+import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdate.component';
+import {EmployedeleteComponent} from './Pages/employe/employedelete/employedelete.component';
+
 const routes: Routes = [
   {
     path: '',
     component: BaseLayoutComponent,
     children: [
+
+      //home
+
+      {path: 'home' , component:HomeComponent, data:{extraParameter: 'dashboardsMenu'}},
 
       // Dashboads
 
@@ -99,8 +149,42 @@ const routes: Routes = [
 
       {path: 'charts/chartjs', component: ChartjsComponent, data: {extraParameter: ''}},
 
-    ]
+      //Product 
+      {path: 'producto', component:ProductComponent, data: {extraParameter: ''}},
+      {path: 'producto/guardar', component:StoreComponent, data: {extraParameter: ''}},
+      {path: 'producto/actualizar', component:UpdateComponent, data: {extraParameter: ''}},
+      {path: 'producto/borrar', component:ProductdeleteComponent, data: {extraParameter: ''}},
+      
+      //Sale 
+      {path: 'venta', component:SaleComponent, data: {extraParameter: ''}},
+      {path: 'venta/guardar', component:SalestoreComponent, data: {extraParameter: ''}},
+      {path: 'venta/actualizar', component:SaleupdateComponent, data: {extraParameter: ''}},
+      {path: 'venta/borrar', component:SaledeleteComponent, data: {extraParameter: ''}},
 
+      //Subscription 
+      {path: 'subscripcion', component:SubscriptionComponent, data: {extraParameter: ''}},
+      {path: 'subscripcion/guardar', component:SubscriptionstoreComponent, data: {extraParameter: ''}},
+      {path: 'subscripcion/borrar', component:SubscriptiondeleteComponent, data: {extraParameter: ''}},
+      
+      //Payment
+      {path: 'pagare', component:PaymentComponent, data:{extraParameter: ''} },
+      {path: 'pagare/guardar', component:PaymentstoreComponent, data:{extraParameter: ''} },
+      {path: 'pagare/borrar', component:PaymentdeleteComponent, data:{extraParameter: ''} },
+
+
+      //Client
+      {path: 'cliente', component:ClientComponent, data:{extraParameter: ''} },
+      {path: 'cliente/guardar', component:ClientstoreComponent, data:{extraParameter: ''} },
+      {path: 'cliente/actualizar', component:ClientupdateComponent, data:{extraParameter: ''} },
+      {path: 'cliente/borrar', component:ClientdeleteComponent, data:{extraParameter: ''} },
+
+      //Employe
+      {path: 'empleado', component:EmployeComponent, data:{extraParameter: ''} },
+      {path: 'empleado/guardar', component:EmployestoreComponent, data:{extraParameter: ''} },
+      {path: 'empleado/actualizar', component:EmployeupdateComponent, data:{extraParameter: ''} },
+      {path: 'empleado/borrar', component:EmployedeleteComponent, data:{extraParameter: ''} },
+
+    ]
   },
   {
     path: '',
