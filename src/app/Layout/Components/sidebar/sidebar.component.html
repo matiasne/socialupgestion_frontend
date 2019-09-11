@@ -24,9 +24,9 @@
               </ngb-panel>
 
               <!--Ventas-->
-              <ngb-panel id="dashboardsMenu">
+              <ngb-panel id="saleMenu">
                 <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link" routerLink="/venta">
+                  <button ngbPanelToggle class="vsm-link" routerLink="/venta" routerLinkActive="active-item">
                     <i class="vsm-icon pe-7s-news-paper"></i>
                     <span class="vsm-title">Ventas</span>
                   </button>
@@ -34,26 +34,26 @@
               </ngb-panel>
 
               <!--SUBSCRIPCION-->
-              <ngb-panel id="subscripcionMenu">
+              <ngb-panel id="subscriptionMenu">
                 <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link" routerLink="/subscripcion">
+                  <button ngbPanelToggle class="vsm-link" routerLink="/subscripcion" routerLinkActive="active-item">
                     <i class="vsm-icon pe-7s-news-paper"></i>
                     <span class="vsm-title">Subscripciones</span>
                   </button>
                 </ng-template>
               </ngb-panel>
 
-              <!--Administracion-->
+<!-------------------------------------------Administracion--------------------------------------------->
               <ngb-panel>
-                  <ng-template ngbPanelHeader>
-                    <div class="vsm-header">Administracion</div>
-                  </ng-template>
-                </ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div class="vsm-header">Administracion</div>
+                </ng-template>
+              </ngb-panel>
 
                <!--Pagare-->
-              <ngb-panel id="pagareMenu">
+              <ngb-panel id="paymentMenu">
                 <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link" routerLink="/pagare">
+                  <button ngbPanelToggle class="vsm-link" routerLink="/pagare" routerLinkActive="active-item">
                     <i class="vsm-icon pe-7s-note2"></i>
                     <span class="vsm-title">Pagares</span>
                   </button>
@@ -61,19 +61,30 @@
               </ngb-panel>
               
               <!--Productos-->
-              <ngb-panel id="pagesMenu">
+              <ngb-panel id="productMenu">
                   <ng-template ngbPanelHeader>
-                    <button ngbPanelToggle class="vsm-link"  routerLink="/producto">
+                    <button ngbPanelToggle class="vsm-link"  routerLink="/producto" routerLinkActive="active-item">
                       <i class="vsm-icon pe-7s-browser"></i>
                       <span class="vsm-title">Productos</span>
                     </button>
                   </ng-template>
               </ngb-panel>
 
+
+              <!--Servicios-->
+              <ngb-panel id="serviceMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link"  routerLink="/servicio" routerLinkActive="active-item">
+                    <i class="vsm-icon pe-7s-browser"></i>
+                    <span class="vsm-title">Servicios</span>
+                  </button>
+                </ng-template>
+              </ngb-panel>
+
               <!--Cliente-->
-              <ngb-panel id="clienteMenu">
+              <ngb-panel id="clientMenu">
                   <ng-template ngbPanelHeader>
-                    <button ngbPanelToggle class="vsm-link"  routerLink="/cliente">
+                    <button ngbPanelToggle class="vsm-link"  routerLink="/cliente" routerLinkActive="active-item">
                       <i class="vsm-icon pe-7s-note2"></i>
                       <span class="vsm-title">Clientes</span>
                     </button>
@@ -81,17 +92,36 @@
               </ngb-panel>
 
 
-
-              <!--Emplaedo-->
-              <ngb-panel id="empleadoMenu">
+              <!--Proveedores-->
+              <ngb-panel id="providerMenu">
                   <ng-template ngbPanelHeader>
-                    <button ngbPanelToggle class="vsm-link" routerLink="/empleado">
+                    <button ngbPanelToggle class="vsm-link"  routerLink="/proveedor" routerLinkActive="active-item">
+                      <i class="vsm-icon pe-7s-note2"></i>
+                      <span class="vsm-title">Proveedores</span>
+                    </button>
+                  </ng-template>
+              </ngb-panel>
+
+              <!--Empleados-->
+              <ngb-panel id="employeMenu">
+                  <ng-template ngbPanelHeader>
+                    <button ngbPanelToggle class="vsm-link" routerLink="/empleado" routerLinkActive="active-item">
                       <i class="vsm-icon pe-7s-note2"></i>
                       <span class="vsm-title">Empleados</span>
                     </button>
                   </ng-template>
               </ngb-panel>
 
+
+              <!--Cajas-->
+              <ngb-panel id="cajaMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link" routerLink="/caja" routerLinkActive="active-item">
+                    <i class="vsm-icon pe-7s-note2"></i>
+                    <span class="vsm-title">Cajas</span>
+                  </button>
+                </ng-template>
+              </ngb-panel>
 <!------------------------------------------------------------------------------------------------------------>
 
               <!--OTROS-->

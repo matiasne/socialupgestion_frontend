@@ -113,23 +113,26 @@ import { UpdateComponent } from './Pages/product/update/update.component';
 import { SaleupdateComponent } from './Pages/sale/saleupdate/saleupdate.component';
 import { SalestoreComponent } from './Pages/sale/salestore/salestore.component';
 import { SubscriptionstoreComponent } from './Pages/subscription/subscriptionstore/subscriptionstore.component';
-import { SubscriptiondeleteComponent } from './Pages/subscription/subscriptiondelete/subscriptiondelete.component';
-import { SaledeleteComponent } from './Pages/sale/saledelete/saledelete.component';
-import { ProductdeleteComponent } from './Pages/product/productdelete/productdelete.component';
 import { PaymentComponent } from './Pages/payment/payment.component';
 import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
-import { PaymentdeleteComponent } from './Pages/payment/paymentdelete/paymentdelete.component';
 import { ClientComponent } from './Pages/client/client.component';
 import { ClientstoreComponent } from './Pages/client/clientstore/clientstore.component';
 import { ClientupdateComponent } from './Pages/client/clientupdate/clientupdate.component';
-import { ClientdeleteComponent } from './Pages/client/clientdelete/clientdelete.component';
 import { EmployeComponent } from './Pages/employe/employe.component';
 import { EmployestoreComponent } from './Pages/employe/employestore/employestore.component';
 import { EmployeupdateComponent } from './Pages/employe/employeupdate/employeupdate.component';
-import { EmployedeleteComponent } from './Pages/employe/employedelete/employedelete.component';
 import { SingleModalComponent } from './DemoPages/Components/single-modal/single-modal.component';
 import { ModalComponent } from './Components/modal/modal.component';
 import { ModalaboutComponent } from './Components/modalabout/modalabout.component';
+import { ProviderComponent } from './Pages/provider/provider.component';
+import { ProviderStoreComponent } from './Pages/provider/provider-store/provider-store.component';
+import { ProviderUpdateComponent } from './Pages/provider/provider-update/provider-update.component';
+import { ServiceComponent } from './Pages/service/service.component';
+import { ServiceStoreComponent } from './Pages/service/service-store/service-store.component';
+import { ServiceUpdateComponent } from './Pages/service/service-update/service-update.component';
+import { CajaComponent } from './Pages/caja/caja.component';
+import { CajaStoreComponent } from './Pages/caja/caja-store/caja-store.component';
+import { CajaUpdateComponent } from './Pages/caja/caja-update/caja-update.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -230,23 +233,26 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SaleupdateComponent,
     SalestoreComponent,
     SubscriptionstoreComponent,
-    SubscriptiondeleteComponent,
-    SaledeleteComponent,
-    ProductdeleteComponent,
     PaymentComponent,
     PaymentstoreComponent,
-    PaymentdeleteComponent,
     ClientComponent,
     ClientstoreComponent,
     ClientupdateComponent,
-    ClientdeleteComponent,
     EmployeComponent,
     EmployestoreComponent,
     EmployeupdateComponent,
-    EmployedeleteComponent,
     SingleModalComponent,
     ModalComponent,
     ModalaboutComponent,
+    ProviderComponent,
+    ProviderStoreComponent,
+    ProviderUpdateComponent,
+    ServiceComponent,
+    ServiceStoreComponent,
+    ServiceUpdateComponent,
+    CajaComponent,
+    CajaStoreComponent,
+    CajaUpdateComponent,
   ],
   imports: [
     BrowserModule,
