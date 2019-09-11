@@ -5,31 +5,31 @@
       <thead>
       <tr>
         <th class="text-center">Nro</th>
-        <th class="text-center">Cliente</th>
-        <th class="text-center">Commercio</th>
-        <th class="text-center">Empleado</th>
-        <th class="text-center">Fecha de Inicio</th>
-        <th class="text-center">Periodo</th>
-        <th class="text-center">Estado de Pago</th>
-        <th class="text-center">Estado</th>
-        <th class="text-center">Costo Total</th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Comercio</th>
+        <th class="text-center">Categoria</th>
+        <th class="text-center">Descricion</th>
+        <th class="text-center">Precio</th>
+        <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">Jose</td>
-        <td class="text-center">GYM</td>
-        <td class="text-center">Jorge</td>
-        <td class="text-center">05/01/2019</td>
-        <td class="text-center">1</td>
-        <td class="text-center">ANTICIPADO</td>
-        <td class="text-center">ACTIVO</td>
-        <td class="text-center">$900</td>
+        <td class="text-center">chicle</td>
+        <td class="text-center">Caracol</td>
+        <td class="text-center">Dulces</td>
+        <td class="text-center">Son ricos</td>
+        <td class="text-center">$50</td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" >Borrar</button>
+            <button class="btn-shadow btn btn-primary" routerLink="/servicio/actualizar">Editar</button>
+          </div>
+        </td>
+        <td class="text-center">
+          <div role="group" class="btn-group-sm btn-group">
+            <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
           </div>
         </td>
       </tr>
@@ -37,6 +37,7 @@
       </tbody>
     </table>
   </div>
+
   <div class="d-block p-4 text-center card-footer">
     <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
       <span class="mr-2 opacity-7">

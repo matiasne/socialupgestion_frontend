@@ -60,44 +60,50 @@ import {ChartjsComponent} from './DemoPages/Charts/chartjs/chartjs.component';
 
 
 //Product
-
 import {ProductComponent} from './Pages/product/product.component';
 import {StoreComponent} from './Pages/product/store/store.component';
 import {UpdateComponent} from './Pages/product/update/update.component';
-import {ProductdeleteComponent} from './Pages/product/productdelete/productdelete.component';
 
 //Sale
-
 import {SaleComponent} from './Pages/sale/sale.component';
 import {SaleupdateComponent} from './Pages/sale/saleupdate/saleupdate.component';
 import {SalestoreComponent} from './Pages/sale/salestore/salestore.component';
-import {SaledeleteComponent} from './Pages/sale/saledelete/saledelete.component';
 
 //Subscription
-
 import {SubscriptionComponent} from './Pages/subscription/subscription.component';
 import {SubscriptionstoreComponent} from './Pages/subscription/subscriptionstore/subscriptionstore.component';
-import {SubscriptiondeleteComponent} from './Pages/subscription/subscriptiondelete/subscriptiondelete.component';
 
 
 //Payment
-
 import {PaymentComponent} from './Pages/payment/payment.component';
 import {PaymentstoreComponent} from './Pages/payment/paymentstore/paymentstore.component';
-import {PaymentdeleteComponent} from './Pages/payment/paymentdelete/paymentdelete.component';
 
 
 //Cliente
 import {ClientComponent} from './Pages/client/client.component';
 import {ClientstoreComponent} from './Pages/client/clientstore/clientstore.component';
 import {ClientupdateComponent} from './Pages/client/clientupdate/clientupdate.component';
-import {ClientdeleteComponent} from './Pages/client/clientdelete/clientdelete.component';
 
 //Employe
 import {EmployeComponent} from './Pages/employe/employe.component';
 import {EmployestoreComponent} from './Pages/employe/employestore/employestore.component';
 import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdate.component';
-import {EmployedeleteComponent} from './Pages/employe/employedelete/employedelete.component';
+
+//Provider
+import {ProviderComponent} from './Pages/provider/provider.component';
+import {ProviderStoreComponent} from './Pages/provider/provider-store/provider-store.component';
+import {ProviderUpdateComponent} from './Pages/provider/provider-update/provider-update.component';
+
+//Caja 
+import {CajaComponent} from './Pages/caja/caja.component';
+import {CajaStoreComponent} from './Pages/caja/caja-store/caja-store.component';
+import {CajaUpdateComponent} from './Pages/caja/caja-update/caja-update.component';
+
+//Service
+import {ServiceComponent} from './Pages/service/service.component';
+import {ServiceStoreComponent} from './Pages/service/service-store/service-store.component';
+import {ServiceUpdateComponent} from './Pages/service/service-update/service-update.component';
+
 
 const routes: Routes = [
   {path: '', component: LoginComponent, data: {extraParameter: 'dashboardsMenu'}},
@@ -154,36 +160,45 @@ const routes: Routes = [
       {path: 'producto', component:ProductComponent, data: {extraParameter: ''}},
       {path: 'producto/guardar', component:StoreComponent, data: {extraParameter: ''}},
       {path: 'producto/actualizar', component:UpdateComponent, data: {extraParameter: ''}},
-      {path: 'producto/borrar', component:ProductdeleteComponent, data: {extraParameter: ''}},
       
       //Sale 
       {path: 'venta', component:SaleComponent, data: {extraParameter: ''}},
       {path: 'venta/guardar', component:SalestoreComponent, data: {extraParameter: ''}},
       {path: 'venta/actualizar', component:SaleupdateComponent, data: {extraParameter: ''}},
-      {path: 'venta/borrar', component:SaledeleteComponent, data: {extraParameter: ''}},
 
       //Subscription 
       {path: 'subscripcion', component:SubscriptionComponent, data: {extraParameter: ''}},
       {path: 'subscripcion/guardar', component:SubscriptionstoreComponent, data: {extraParameter: ''}},
-      {path: 'subscripcion/borrar', component:SubscriptiondeleteComponent, data: {extraParameter: ''}},
       
       //Payment
       {path: 'pagare', component:PaymentComponent, data:{extraParameter: ''} },
       {path: 'pagare/guardar', component:PaymentstoreComponent, data:{extraParameter: ''} },
-      {path: 'pagare/borrar', component:PaymentdeleteComponent, data:{extraParameter: ''} },
 
 
       //Client
       {path: 'cliente', component:ClientComponent, data:{extraParameter: ''} },
       {path: 'cliente/guardar', component:ClientstoreComponent, data:{extraParameter: ''} },
       {path: 'cliente/actualizar', component:ClientupdateComponent, data:{extraParameter: ''} },
-      {path: 'cliente/borrar', component:ClientdeleteComponent, data:{extraParameter: ''} },
 
       //Employe
       {path: 'empleado', component:EmployeComponent, data:{extraParameter: ''} },
       {path: 'empleado/guardar', component:EmployestoreComponent, data:{extraParameter: ''} },
       {path: 'empleado/actualizar', component:EmployeupdateComponent, data:{extraParameter: ''} },
-      {path: 'empleado/borrar', component:EmployedeleteComponent, data:{extraParameter: ''} },
+
+      //Provider
+      {path: 'proveedor', component:ProviderComponent, data:{extraParameter: ''} },
+      {path: 'proveedor/guardar', component:ProviderStoreComponent, data:{extraParameter: ''} },
+      {path: 'proveedor/actualizar', component:ProviderUpdateComponent, data:{extraParameter: ''} },
+
+      //Caja
+      {path: 'caja', component:CajaComponent, data:{extraParameter: ''} },
+      {path: 'caja/guardar', component:CajaStoreComponent, data:{extraParameter: ''} },
+      {path: 'caja/actualizar', component:CajaUpdateComponent, data:{extraParameter: ''} },
+
+      //Service
+      {path: 'servicio', component:ServiceComponent, data:{extraParameter: ''} },
+      {path: 'servicio/guardar', component:ServiceStoreComponent, data:{extraParameter: ''} },
+      {path: 'servicio/actualizar', component:ServiceUpdateComponent, data:{extraParameter: ''} },
 
     ]
   },

@@ -1,0 +1,25 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form>
+
+    <!--Nombre-->
+    <div class="position-relative form-group">
+      <label for="nameproduct">Nombre</label>
+        <input name="nameproduct" id="nameproduct" placeholder="Nombre" type="text" class="form-control">
+    </div>
+
+    <!--Comercio-->
+    <div class="position-relative form-group">
+        <label for="commercio">Commercio</label>
+          <input name="commercio" id="commercio" placeholder="Comercio" type="text" class="form-control">
+    </div>
+
+    <!--Total-->
+    <div class="position-relative form-group">
+      <label for="total">Total</label>
+        <input name="total" id="total" placeholder="Total" type="number" class="form-control">
+    </div>
+
+    <button class="mt-1 btn btn-primary" type="submit">Guardar</button>
+  </form>
+</div>
