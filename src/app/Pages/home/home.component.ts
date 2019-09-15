@@ -3,6 +3,7 @@ import { UserService } from 'src/app/Services/user.service';
 import { Router } from '@angular/router';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Commerce } from 'src/app/Models/Commerce';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private _userService:UserService,
     private _commercesSerivce:CommercesService,
-    public router: Router
+    public router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(
@@ -42,6 +44,12 @@ export class HomeComponent implements OnInit {
       (resp:any)=>{
         console.log(resp);
         this.commerces = resp;
+
+        if(this.commerces.length == 0){
+          this.toastr.error('Para comenzar debes crear tu primer comercio!','Crea un comercio', {
+            timeOut: 5000,
+          });
+        }
       },
       error=>{
         alert(error);

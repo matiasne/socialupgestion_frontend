@@ -81,8 +81,6 @@ import {PaymentstoreComponent} from './Pages/payment/paymentstore/paymentstore.c
 
 //Cliente
 import {ClientComponent} from './Pages/client/client.component';
-import {ClientstoreComponent} from './Pages/client/clientstore/clientstore.component';
-import {ClientupdateComponent} from './Pages/client/clientupdate/clientupdate.component';
 
 //Employe
 import {EmployeComponent} from './Pages/employe/employe.component';
@@ -91,8 +89,6 @@ import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdat
 
 //Provider
 import {ProviderComponent} from './Pages/provider/provider.component';
-import {ProviderStoreComponent} from './Pages/provider/provider-store/provider-store.component';
-import {ProviderUpdateComponent} from './Pages/provider/provider-update/provider-update.component';
 
 //Caja 
 import {CajaComponent} from './Pages/caja/caja.component';
@@ -101,8 +97,10 @@ import {CajaUpdateComponent} from './Pages/caja/caja-update/caja-update.componen
 
 //Service
 import {ServiceComponent} from './Pages/service/service.component';
-import {ServiceStoreComponent} from './Pages/service/service-store/service-store.component';
-import {ServiceUpdateComponent} from './Pages/service/service-update/service-update.component';
+import { EditServiceComponent } from './Pages/service/edit-service/edit-service.component';
+import { EditClientComponent } from './Pages/client/edit-client/edit-client.component';
+import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
+import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
 
 
 const routes: Routes = [
@@ -115,6 +113,7 @@ const routes: Routes = [
       //home
 
       {path: 'home' , component:HomeComponent, data:{extraParameter: ''}},
+      {path: 'commerce' , component:EditCommerceComponent, data:{extraParameter: ''}},
 
       // Dashboads
 
@@ -176,9 +175,8 @@ const routes: Routes = [
 
 
       //Client
-      {path: 'cliente', component:ClientComponent, data:{extraParameter: ''} },
-      {path: 'cliente/guardar', component:ClientstoreComponent, data:{extraParameter: ''} },
-      {path: 'cliente/actualizar', component:ClientupdateComponent, data:{extraParameter: ''} },
+      {path: 'clients', component:ClientComponent, data:{extraParameter: ''} },
+      {path: 'client', component:EditClientComponent, data:{extraParameter: ''} },
 
       //Employe
       {path: 'empleado', component:EmployeComponent, data:{extraParameter: ''} },
@@ -186,9 +184,8 @@ const routes: Routes = [
       {path: 'empleado/actualizar', component:EmployeupdateComponent, data:{extraParameter: ''} },
 
       //Provider
-      {path: 'proveedor', component:ProviderComponent, data:{extraParameter: ''} },
-      {path: 'proveedor/guardar', component:ProviderStoreComponent, data:{extraParameter: ''} },
-      {path: 'proveedor/actualizar', component:ProviderUpdateComponent, data:{extraParameter: ''} },
+      {path: 'providers', component:ProviderComponent, data:{extraParameter: ''} },
+      {path: 'provider', component:EditProviderComponent, data:{extraParameter: ''} },
 
       //Caja
       {path: 'caja', component:CajaComponent, data:{extraParameter: ''} },
@@ -196,9 +193,8 @@ const routes: Routes = [
       {path: 'caja/actualizar', component:CajaUpdateComponent, data:{extraParameter: ''} },
 
       //Service
-      {path: 'servicio', component:ServiceComponent, data:{extraParameter: ''} },
-      {path: 'servicio/guardar', component:ServiceStoreComponent, data:{extraParameter: ''} },
-      {path: 'servicio/actualizar', component:ServiceUpdateComponent, data:{extraParameter: ''} },
+      {path: 'services', component:ServiceComponent, data:{extraParameter: ''} },
+      {path: 'service', component:EditServiceComponent, data:{extraParameter: ''} },
 
     ]
   },

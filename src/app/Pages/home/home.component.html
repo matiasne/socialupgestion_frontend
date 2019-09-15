@@ -14,11 +14,21 @@
       </thead>
       <tbody>
       <tr *ngFor="let commerce of commerces" (click)="selecionarComercio(commerce)">
-        <td class="text-center text-muted" style="width: 80px;">{{commerce.id}}</td>
+        <td class="text-center text-muted" style="width: 80px;" >{{commerce.id}}</td>
         <td class="text-center" style="width: 80px;">
           <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
         </td>
-        <td class="text-center"><a [routerLink]="">{{commerce.name}}</a></td>       
+        <td class="text-center">{{commerce.name}}</td>  
+        <td class="text-center">
+          <div role="group" class="btn-group-sm btn-group">
+            <button class="btn-shadow btn btn-primary" [routerLink]="['/commerce',commerce]" >Editar</button>
+          </div>
+        </td>
+        <td class="text-center">
+          <div role="group" class="btn-group-sm btn-group">
+            <button class="btn-shadow btn btn-primary" (click)="deleteClient(client)" >Borrar</button>
+          </div>
+        </td>     
       </tr>      
       </tbody>
     </table>
@@ -28,7 +38,7 @@
       <span class="mr-2 opacity-7">
           <i class="fa fa-cog fa-spin"></i>
       </span>
-      <span class="mr-1">Crear Nuevo Comercio</span>
+      <span class="mr-1" [routerLink]="['/commerce']">Crear Nuevo Comercio</span>
     </button>
   </div>
 </div>

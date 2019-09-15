@@ -8,48 +8,30 @@
         <th class="text-center">Nro</th>
         <th class="text-center">Imagen</th>
         <th class="text-center">Nombre</th>
-        <th class="text-center">Comercio</th>
-        <th class="text-center">Direccion</th>
-        <th class="text-center">Telefono</th>
-        <th class="text-center">Email</th>
         <th class="text-center">Saldo Favor</th>
+        <th class="text-center">Teléfono</th>
         <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center" style="width: 80px;">
-          <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
-        </td>
-        <td class="text-center">Jose</td>
-        <td class="text-center">Caracol</td>
-        <td class="text-center">Esperanza 1250</td>
-        <td class="text-center">3571-325845</td>
-        <td class="text-center">jose50@gmail.com</td>
-        <td class="text-center">$0</td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/cliente/actualizar">Editar</button>
-          </div>
-        </td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" >Borrar</button>
-          </div>
-        </td>
-      </tr>
-  
+        <tr *ngFor="let client of clients" >        
+          <td class="text-center" [routerLink]="['/client',client]">{{client.id}}</td>
+          <td class="text-center" style="width: 80px;">
+            <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
+          </td>
+          <td class="text-center" [routerLink]="['/client',client]">{{client.name}}</td>
+          <td class="text-center" [routerLink]="['/client',client]">{{client.positive_credit}}</td>
+          <td class="text-center" [routerLink]="['/client',client]">{{client.phone_number}}</td>
+          <td class="text-center">
+            <a href="whatsapp://send?abid={{client.phone_number}}&text=Hello%2C%20World!">whatsapp</a>
+          </td>
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" (click)="deleteClient(client)" >Borrar</button>
+            </div>
+          </td>
+        </tr>  
       </tbody>
     </table>
-  </div>
-
-  <div class="d-block p-4 text-center card-footer">
-    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
-      <span class="mr-2 opacity-7">
-          <i class="fa fa-cog fa-spin"></i>
-      </span>
-      <span class="mr-1">Actualizar</span>
-    </button>
   </div>

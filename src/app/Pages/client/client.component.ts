@@ -5,6 +5,8 @@ import { ModalaboutComponent } from 'src/app/Components/modalabout/modalabout.co
 import { Subscription } from 'rxjs';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
+import { ClientsService } from 'src/app/Services/clients.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -18,20 +20,21 @@ export class ClientComponent implements OnInit {
   subheading = 'Listado de todos los clientes del comercio.';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
   buttons = [{
-    href:"/cliente/guardar",
+    href:"/client",
     icon:"plus",
     title:"Agregar Cliente"
   }]
 
 
-
+  public clients:any;
   public commerce:any;
   private commerceSubscription: Subscription;
   
   constructor(
-    private modalService: NgbModal,
     public _commerceService:CommercesService,
     public router: Router,
+    public _clientsService:ClientsService,
+    private toastr: ToastrService
   ) {
   
     this.commerce = "";
@@ -45,17 +48,35 @@ export class ClientComponent implements OnInit {
     });
   }
 
+  
+
   ngOnDestroy() {
     this.commerceSubscription.unsubscribe();
   }
 
   
   ngOnInit() {
+    this.obtenerClientes();
   }
 
-  open() {
-    // const modalRef = this.modalService.open(ModalComponent);
-    const modalRef = this.modalService.open(ModalaboutComponent);
-    modalRef.componentInstance.title = 'About';
+  obtenerClientes(){
+    this.commerceSubscription =  this._clientsService.getClients().subscribe(data=>{
+      this.clients = data;
+      console.log(this.clients);
+      if(this.clients == "0"){
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  deleteClient(client){
+    this._clientsService.deleteClient(client).subscribe(
+      response=>{
+        this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
+          timeOut: 5000,
+        });
+        this.obtenerClientes();
+      }
+    )
   }
 }

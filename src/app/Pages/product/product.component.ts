@@ -50,7 +50,6 @@ export class ProductComponent implements OnInit {
 
   }
 
-  
 
 
   open(content) {

@@ -116,8 +116,6 @@ import { SubscriptionstoreComponent } from './Pages/subscription/subscriptionsto
 import { PaymentComponent } from './Pages/payment/payment.component';
 import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
 import { ClientComponent } from './Pages/client/client.component';
-import { ClientstoreComponent } from './Pages/client/clientstore/clientstore.component';
-import { ClientupdateComponent } from './Pages/client/clientupdate/clientupdate.component';
 import { EmployeComponent } from './Pages/employe/employe.component';
 import { EmployestoreComponent } from './Pages/employe/employestore/employestore.component';
 import { EmployeupdateComponent } from './Pages/employe/employeupdate/employeupdate.component';
@@ -125,15 +123,15 @@ import { SingleModalComponent } from './DemoPages/Components/single-modal/single
 import { ModalComponent } from './Components/modal/modal.component';
 import { ModalaboutComponent } from './Components/modalabout/modalabout.component';
 import { ProviderComponent } from './Pages/provider/provider.component';
-import { ProviderStoreComponent } from './Pages/provider/provider-store/provider-store.component';
-import { ProviderUpdateComponent } from './Pages/provider/provider-update/provider-update.component';
 import { ServiceComponent } from './Pages/service/service.component';
-import { ServiceStoreComponent } from './Pages/service/service-store/service-store.component';
-import { ServiceUpdateComponent } from './Pages/service/service-update/service-update.component';
 import { CajaComponent } from './Pages/caja/caja.component';
 import { CajaStoreComponent } from './Pages/caja/caja-store/caja-store.component';
 import { CajaUpdateComponent } from './Pages/caja/caja-update/caja-update.component';
-
+import { EditServiceComponent } from './Pages/service/edit-service/edit-service.component';
+import { ToastrModule } from 'ngx-toastr';
+import { EditClientComponent } from './Pages/client/edit-client/edit-client.component';
+import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
+import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -238,8 +236,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PaymentComponent,
     PaymentstoreComponent,
     ClientComponent,
-    ClientstoreComponent,
-    ClientupdateComponent,
     EmployeComponent,
     EmployestoreComponent,
     EmployeupdateComponent,
@@ -247,14 +243,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ModalComponent,
     ModalaboutComponent,
     ProviderComponent,
-    ProviderStoreComponent,
-    ProviderUpdateComponent,
     ServiceComponent,
-    ServiceStoreComponent,
-    ServiceUpdateComponent,
     CajaComponent,
     CajaStoreComponent,
     CajaUpdateComponent,
+    EditServiceComponent,
+    EditClientComponent,
+    EditProviderComponent,
+    EditCommerceComponent,
   ],
   imports: [
     BrowserModule,
@@ -276,6 +272,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // Charts
 
     ChartsModule,
+
+    ToastrModule.forRoot()
   ],
   providers: [
     {

@@ -6,44 +6,29 @@
       <tr>
         <th class="text-center">Nro</th>
         <th class="text-center">Nombre</th>
-        <th class="text-center">Comercio</th>
-        <th class="text-center">Categoria</th>
-        <th class="text-center">Descricion</th>
-        <th class="text-center">Precio</th>
-        <th class="text-center"></th>
+        <th class="text-center">Precio Mensual</th>
         <th class="text-center"></th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">chicle</td>
-        <td class="text-center">Caracol</td>
-        <td class="text-center">Dulces</td>
-        <td class="text-center">Son ricos</td>
-        <td class="text-center">$50</td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/servicio/actualizar">Editar</button>
-          </div>
-        </td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
-          </div>
-        </td>
-      </tr>
+        <tr *ngFor="let service of services" >
+          <td class="text-center" [routerLink]="['/service',service]">{{service.id}}</td>
+          <td class="text-center" [routerLink]="['/service',service]">{{service.name}}</td>
+          <td class="text-center" [routerLink]="['/service',service]">{{service.price}}</td>
+          
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" (click)="deleteService(service)" >Borrar</button>
+            </div>
+          </td>
+        </tr>
   
       </tbody>
     </table>
   </div>
 
-  <div class="d-block p-4 text-center card-footer">
-    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
-      <span class="mr-2 opacity-7">
-          <i class="fa fa-cog fa-spin"></i>
-      </span>
-      <span class="mr-1">Actualizar</span>
-    </button>
-  </div>
+  
+
+  
+
 </div>

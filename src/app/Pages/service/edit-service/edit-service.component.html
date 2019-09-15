@@ -1,0 +1,46 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form [formGroup]="registerForm">
+    <!--Nombre-->
+    <div class="position-relative form-group">
+      <label for="nameservice">Nombre</label>
+        <input formControlName="name" name="name" id="name" placeholder="Ingrese el nombre del servicio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+        </div>
+      </div>
+    <!--Categoria-->
+    <div class="position-relative form-group">
+      <label for="category_id">Categoria</label>
+      <select formControlName="category_id" name="category_id" id="category_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }">
+        <option *ngFor="let category of categoryes" [value]="category.id">{{category.name}}</option>
+        <div *ngIf="submitted && f.category_id.errors" class="invalid-feedback">
+            <div *ngIf="f.category_id.errors.required">Seleccione una categoria o cree una nueva (link)</div>
+        </div>
+      </select>
+    </div>
+    <!--Precio-->
+    <div class="position-relative form-group">
+      <label for="price">Precio mensual</label>
+      <input formControlName="price" type="number" min="0" name="price" id="price"  placeholder="Ingrese el precio del servicio"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+      <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+          <div *ngIf="f.price.errors.required">ingrese el precio mensual</div>
+      </div>
+    </div>
+    <!--Descripcion-->
+    <div class="position-relative form-group">
+      <label for="descripcion">Descripcion</label>
+      <textarea formControlName="description" name="description" id="description"  class="form-control" placeholder="Ingrese descripción del servicio" [ngClass]="{ 'is-invalid': submitted && f.description.errors }">      
+      </textarea>
+      <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+          <div *ngIf="f.description.errors.required">ingrese una breve descripción</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="mt-1 btn btn-primary" type="submit" (click)="Cancelar()">Cancelar</button>
+      <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
+    </div>
+  </form>
+
+    
+</div>

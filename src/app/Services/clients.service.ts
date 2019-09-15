@@ -1,32 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { GLOBAL } from './global';
+import { CommercesService } from './commerces.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommercesService {
+export class ClientsService {
 
   public url:string;
   public httpHeaders:HttpHeaders;
+  private commerceSubscription: Subscription;
+  public commerce:any;
 
-  
-  public commerceSubject = new BehaviorSubject <any>("");
   constructor(
     private httpClient: HttpClient,
-  ) { 
+    public _commerceService:CommercesService,
+  ) {
+
     this.url = GLOBAL.url;	
 
-    if(localStorage.getItem('commerce')){
-      console.log("!!!!!!");
-      var commerce = JSON.parse(localStorage.getItem('commerce'));
-      this.commerceSubject.next(commerce);
-    }    
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      this.commerce = data;      
+    });
   }
 
-  getUserCommerces(){
+  getClients(){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -38,7 +39,7 @@ export class CommercesService {
       headers: this.httpHeaders
     };
 
-    return this.httpClient.get(this.url+'commerces', options).pipe(
+    return this.httpClient.get(this.url+'commerces/'+this.commerce.id+'/clients', options).pipe(
       map(response =>{
         return response;
       }),
@@ -47,40 +48,7 @@ export class CommercesService {
     );
   }
 
-  getSelectedCommerce(): Observable<any>{
-    return this.commerceSubject.asObservable();
-  }
-
-  setSelectedCommerce(commerce){
-    this.getCommerceData(commerce.id).subscribe(
-      (resp:any)=>{
-        console.log(resp);
-        localStorage.setItem('commerce',JSON.stringify(resp));
-        this.commerceSubject.next(resp);
-      }
-    )   
-  }
-
-  getCommerceData(id){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
-    let options = {
-      headers: this.httpHeaders
-    };
-
-    return this.httpClient.get(this.url+'commerces/'+id, options).pipe(      
-      retry(1),
-      catchError(this.handleError)
-    );
-  }
-
-
-  addCommerce(data){
+  addClient(data){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -96,7 +64,7 @@ export class CommercesService {
 
     console.log(body);
 
-    return this.httpClient.post(this.url+'commerces', body, options).pipe(
+    return this.httpClient.post(this.url+'commerces/'+this.commerce.id+'/clients', body, options).pipe(
       map(response =>{
         return response;
       }),
@@ -106,7 +74,7 @@ export class CommercesService {
 
   }
 
-  updateCommerce(data){
+  updateClient(data){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -122,7 +90,7 @@ export class CommercesService {
 
     console.log(body);
 
-    return this.httpClient.patch(this.url+'commerces/'+data.id, body, options).pipe(
+    return this.httpClient.patch(this.url+'commerces/'+this.commerce.id+'/clients/'+data.id, body, options).pipe(
       map(response =>{
         return response;
       }),
@@ -132,7 +100,7 @@ export class CommercesService {
 
   }
 
-  deleteCommerce(data){
+  deleteClient(data){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -144,7 +112,7 @@ export class CommercesService {
       headers: this.httpHeaders
     };
     
-    return this.httpClient.delete(this.url+'commerces/'+data.id,  options).pipe(
+    return this.httpClient.delete(this.url+'commerces/'+this.commerce.id+'/clients/'+data.id,  options).pipe(
       map(response =>{
         return response;
       }),
@@ -153,6 +121,8 @@ export class CommercesService {
     );
 
   }
+
+  
   // Error handling 
   handleError(error) {
     let errorMessage = '';
@@ -163,6 +133,7 @@ export class CommercesService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+
     //window.alert(errorMessage);
     return throwError(error.status);
   }
