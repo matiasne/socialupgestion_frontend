@@ -131,11 +131,6 @@ import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.
 import { EditSubscriptionComponent } from './Pages/subscription/edit-subscription/edit-subscription.component';
 import { CategoryComponent } from './Pages/category/category.component';
 import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
-import { CategoryStoreComponent } from './Pages/category/category-store/category-store.component';
-import { CategoryUpdateComponent } from './Pages/category/category-update/category-update.component';
-import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
-import { ToastrModule } from 'ngx-toastr';
-import { EditSubscriptionComponent } from './Pages/subscription/edit-subscription/edit-subscription.component';
 import { FilterPipe } from './filter.pipe';
 
 
@@ -244,6 +239,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ModalaboutComponent,
     ProviderComponent,
     ServiceComponent,
+    CategoryComponent ,
     CajaComponent,
     CajaStoreComponent,
     CajaUpdateComponent,

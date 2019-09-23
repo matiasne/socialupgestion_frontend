@@ -103,8 +103,6 @@ import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.
 
 //Category
 import {CategoryComponent} from './Pages/category/category.component';
-import {CategoryStoreComponent} from './Pages/category/category-store/category-store.component';
-import {CategoryUpdateComponent} from './Pages/category/category-update/category-update.component';
 
 
 const routes: Routes = [
@@ -200,8 +198,6 @@ const routes: Routes = [
 
       //Category
       {path: 'categoria', component:CategoryComponent, data:{extraParameter: ''} },
-      {path: 'categoria/guardar', component:CategoryStoreComponent, data:{extraParameter: ''} },
-      {path: 'categoria/actualizar', component:CategoryUpdateComponent, data:{extraParameter: ''} },
 
     ]
   },
