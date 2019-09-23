@@ -40,9 +40,7 @@ export class EditSaleComponent implements OnInit {
 
   j:any=[];
   k:any=[];
-
-  porc= 0;
-
+  
   totalprev:number=0;
 
   constructor(private modalService: NgbModal,
@@ -260,10 +258,6 @@ export class EditSaleComponent implements OnInit {
       return;
     }
 
-    this.toastr.success('El metodo de pago ha sido agregado!','Metodo pago Agregado', {
-      timeOut: 5000,
-    });
-
     this.totalprev = this.totalprev + parseInt(this.registerFormPaymentMethod.controls['subtotal'].value);
 
     if(this.totalprev <= this.registerForm.controls['total'].value){
@@ -273,14 +267,22 @@ export class EditSaleComponent implements OnInit {
           porciento:(this.registerFormPaymentMethod.controls['subtotal'].value)/this.registerForm.controls['total'].value,
           subtotal:this.registerFormPaymentMethod.controls['subtotal'].value,
         });
-        
+
+        this.toastr.success('El metodo de pago ha sido agregado!','Metodo pago Agregado', {
+          timeOut: 5000,
+        });
+            
         this.registerFormPaymentMethod.patchValue({
           methodname: '',
           subtotal: ''
         });
         
     }else{
-      console.log("Maximo ingresado");
+
+      this.toastr.error('Error al ingresar cantidad de pago! Limite Superado!','Metodo Pago', {
+        timeOut: 5000,
+      });
+
       this.totalprev = this.totalprev - parseInt(this.registerFormPaymentMethod.controls['subtotal'].value);
     }
   }
@@ -294,6 +296,10 @@ export class EditSaleComponent implements OnInit {
           total: String(parseInt(this.registerForm.controls['total'].value) - parseInt(product.priceTotal)),
         });
         this.products.splice(position,1);
+        
+        this.toastr.success(' El Producto ha sido borrado!','Producto Borrado', {
+          timeOut: 5000,
+        });
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -310,6 +316,10 @@ export class EditSaleComponent implements OnInit {
           total: String(parseInt(this.registerForm.controls['total'].value) - parseInt(service.price)),
         });
         this.services.splice(position2,1);
+      
+        this.toastr.success(' El Servicio ha sido borrado!','Servicio Borrado', {
+          timeOut: 5000,
+        });
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -325,6 +335,10 @@ export class EditSaleComponent implements OnInit {
         this.totalprev = this.totalprev - parseInt(method.subtotal);
 
         this.methodlist.splice(position2,1);
+
+        this.toastr.success(' La Forma de pago ha sido borrado!','Forma de pago Borrada', {
+          timeOut: 5000,
+        });
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

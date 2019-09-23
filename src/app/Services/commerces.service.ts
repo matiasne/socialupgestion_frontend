@@ -20,7 +20,6 @@ export class CommercesService {
     this.url = GLOBAL.url;	
 
     if(localStorage.getItem('commerce')){
-      console.log("!!!!!!");
       var commerce = JSON.parse(localStorage.getItem('commerce'));
       this.commerceSubject.next(commerce);
     }    

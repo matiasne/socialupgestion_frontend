@@ -1,9 +1,27 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Cliente</label>
+        <input [(ngModel)]="clienteValue" class="form-control" type="text" placeholder="Nombre">
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Pago</label>
+        <input [(ngModel)]="estadoValue" class="form-control" type="text" placeholder="Estado pago">
+      </div>
+    </div>
+  </div>
+
+
+<!--
+<div id="filtere" class="content">
   <form [formGroup]="registerFormFilter">
     <div class="row">
-      <!--<div class="col-md-2">
+      <div class="col-md-2">
           <label>Desde</label>
           <input type="date" class="form-control">
       </div>
@@ -11,12 +29,7 @@
           <label>Hasta</label>
           <input type="date" class="form-control">
       </div>
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label>Cliente</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>-->
+
 
       <div class="col-md-2">
         <div class="position-relative form-group">
@@ -45,7 +58,7 @@
       </div>
     </div>
   </form>
-</div>
+</div>-->
 
 <div class="main-card mb-3 card">
   <div class="table-responsive">
@@ -63,7 +76,7 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let sale of sales" [routerLink]="['/sale',sale]" >
+        <tr *ngFor="let sale of sales | filter:{clienteText:clienteValue,estadoText:estadoValue}" [routerLink]="['/sale',sale]" >
           <td class="text-center text-muted" style="width: 80px;">{{sale.id}}</td>
           <td class="text-center" >{{sale.cliente}}</td>
           <td class="text-center">{{sale.empleado}}</td>

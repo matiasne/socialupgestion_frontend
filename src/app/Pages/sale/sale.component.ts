@@ -33,6 +33,8 @@ export class SaleComponent implements OnInit {
   closeResult: string;
  
   registerFormFilter: FormGroup;
+
+  result: any[] = [];
   
 constructor(
   private modalService: NgbModal, 
@@ -51,9 +53,11 @@ constructor(
     },{
       name: "Debito"
     }]
+    
   }
  
   ngOnInit() {
+
     this.sales = [{
       id: "1",
       cliente: "Pedro",
@@ -78,7 +82,7 @@ constructor(
       empleado: "Hola",
       fecha: "12-02-2019",
       pago: "Efectivo",
-      estado:"Pagado",
+      estado:"Pendiente",
       total: 1600,
       productos:JSON.stringify({
         "name": "Jugo",
@@ -128,6 +132,12 @@ constructor(
     }
   }
 
+  public salesFilter(sales: any[]): any[] {
+
+      this.result = sales/*.filter(item => item.pago == "Efectivo")*/;
+
+      return this.result;
+  }
 
   /**
    * search
@@ -136,8 +146,16 @@ constructor(
 
     this.submitted = true;
 
-    let approved = this.sales.filter(sale => sale.pago == (this.registerFormFilter.controls['methodpayment'].value));
+    //let approved = this.sales.filter(sale => sale.pago == (this.registerFormFilter.controls['methodpayment'].value));
 
+    this.result= this.sales.filter(sale => sale.pago == (this.registerFormFilter.controls['methodpayment'].value));
+
+    /*this.sales = this.sales.slice();
+
+    this.sales.push(approved);*/
+
+   
+    /*
     for (let i = 0; i <= this.sales.length; i++) {
       this.sales.pop(i);
     }
@@ -173,7 +191,7 @@ constructor(
         }),
         descripcion:d
       });
-    }
+    }*/
     
   }
 

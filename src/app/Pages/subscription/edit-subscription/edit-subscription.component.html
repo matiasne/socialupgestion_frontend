@@ -105,6 +105,32 @@
 
       </div>
     </div>
+
+     <!--Payment Method-->
+     <div  class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Forma de pago</th>
+              <th scope="col">Porcentaje</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let met of methodlist; let m = index" [attr.data-index]="e" class="table-light text-center">
+              <td>{{met.namee}}</td>
+              <td>{{met.porciento|percent}}</td>
+              <td>{{met.subtotal}}</td>
+              <td><button  type="button" class="btn btn-primary" (click)="deleteMethod(contentDeleteMethod,met,m)" >Borrar</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button  class="btn btn-primary col-md-text-center" (click)="open(contentpayment)">Nueva Forma de Pago</button>
+
+      </div>
+    </div>
     
     <!--Guardar-->
     <div class="form-row">
@@ -155,6 +181,48 @@
       <button type="button" class="btn btn-primary"  (click)="c('si')" >Salir</button>
     </div>
   </ng-template>
+
+
+   <!--Payment Method Modal-->
+   <ng-template #contentpayment let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Forma de pago</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="registerFormPaymentMethod">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Metodo de Pago</label>
+            <select  formControlName="methodname" class="form-control" [ngClass]="{ 'is-invalid': submittedMethod && meth.methodname.errors }">
+              <option *ngFor="let m of methodpay" [ngValue]="m.name">
+                {{m.name}}
+              </option>
+            </select>
+            <div *ngIf="submittedMethod && meth.methodname.errors" class="invalid-feedback">
+              <div *ngIf="meth.methodname.errors.required">Forma de pago requerida</div>
+            </div>
+          </div> 
+          <div class="form-group col-md-4">
+            <label>SubTotal</label>
+            <input formControlName="subtotal" class="form-control"  [ngClass]="{ 'is-invalid': submittedMethod && meth.subtotal.errors }">
+              <div *ngIf="submittedMethod && meth.subtotal.errors" class="invalid-feedback">
+                <div *ngIf="meth.subtotal.errors.required">El SubTotal es requerido</div>
+             </div>
+          </div>
+          <div class="form-group col-md-4">
+            <button class="btn btn-primary" type="submit" (click)="agregarMethod()" style="margin-top: 2.1em">Agregar Metodo</button>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Salir</button>
+    </div>
+  </ng-template>
   
  <!--Detele Service-->
 <ng-template #contentDeleteService let-c="close" let-d="dismiss">
@@ -171,4 +239,21 @@
     <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
     <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
   </div>
-</ng-template> 
+</ng-template>
+
+<!--Detele Method-->
+<ng-template #contentDeleteMethod let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Metodo de pago</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar Metodo de Pago?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>
