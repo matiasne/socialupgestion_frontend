@@ -81,7 +81,7 @@ export class EditSaleComponent implements OnInit {
  
     this.registerForm = this.formBuilder.group({
       nombrecliente: [this.route.snapshot.params.cliente, Validators.required],
-      empleado: [this.route.snapshot.params.empleado], //Si soy administrador puedo selecionar empleado y si soy empleado toma mi id
+      //empleado: [this.route.snapshot.params.empleado], //Si soy administrador puedo selecionar empleado y si soy empleado toma mi id
       salestatus:[this.route.snapshot.params.estado],
       paymentform:[this.route.snapshot.params.pago],
       total:[ this.route.snapshot.params.total,Validators.compose([

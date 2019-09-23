@@ -14,7 +14,6 @@ export class EditSubscriptionComponent implements OnInit {
   closeResult: string;
   registerForm: FormGroup;
   registerFormService: FormGroup;
-  registerFormPaymentMethod: FormGroup;
   submitted = false;
   submittedprod = false;
   submittedserv = false;
@@ -78,7 +77,7 @@ export class EditSubscriptionComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       nombrecliente: [this.route.snapshot.params.cliente, Validators.required],
-      empleado: [this.route.snapshot.params.empleado], //Si soy administrador puedo selecionar empleado y si soy empleado toma mi id
+      //empleado: [this.route.snapshot.params.empleado], //Si soy administrador puedo selecionar empleado y si soy empleado toma mi id
       dateIni: [this.currentDate() ,Validators.required],
       period: [this.route.snapshot.params.periodo],
       status:[this.route.snapshot.params.estado],
@@ -100,7 +99,7 @@ export class EditSubscriptionComponent implements OnInit {
       });
 
     }else{
-      this.heading = 'Generar Suscription';
+      this.heading = 'Generar Suscripcion';
       this.subheading = 'Completar los campos para generar la nueva suscripcion.';
       this.icon = 'pe-7s-phone icon-gradient bg-premium-dark';
 
@@ -118,20 +117,12 @@ export class EditSubscriptionComponent implements OnInit {
       ])],
     });
 
-    this.registerFormPaymentMethod = this.formBuilder.group({
-      methodname:['', Validators.required],
-      subtotal:['', Validators.required]
-    });
   }
 
   get f() { return this.registerForm.controls; }
 
   get serv(){
     return this.registerFormService.controls;
-  }
-
-  get meth(){
-    return this.registerFormPaymentMethod.controls;
   }
 
   onServiceChange() {
@@ -178,61 +169,6 @@ export class EditSubscriptionComponent implements OnInit {
     });
   }
   
-
-  agregarMethod(){
-    
-    this.submittedMethod=true;
-
-    if (this.registerFormPaymentMethod.invalid) {
-      return;
-    }
-
-    this.totalprev = this.totalprev + parseInt(this.registerFormPaymentMethod.controls['subtotal'].value);
-
-    if(this.totalprev <= this.registerForm.controls['total'].value){
-        
-        this.methodlist.push({
-          namee:this.registerFormPaymentMethod.controls['methodname'].value,
-          porciento:(this.registerFormPaymentMethod.controls['subtotal'].value)/this.registerForm.controls['total'].value,
-          subtotal:this.registerFormPaymentMethod.controls['subtotal'].value,
-        });
-
-        this.toastr.success('El metodo de pago ha sido agregado!','Metodo pago Agregado', {
-          timeOut: 5000,
-        });
-        
-        this.registerFormPaymentMethod.patchValue({
-          methodname: '',
-          subtotal: ''
-        });
-        
-    }else{
-      
-      this.toastr.error('Error al ingresar cantidad de pago! Limite Superado!','Metodo Pago', {
-        timeOut: 5000,
-      });
-      this.totalprev = this.totalprev - parseInt(this.registerFormPaymentMethod.controls['subtotal'].value);
-    }
-  }
-
-
-  deleteMethod(content,method,position2){
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){
-        
-        this.totalprev = this.totalprev - parseInt(method.subtotal);
-
-        this.methodlist.splice(position2,1);
-
-        this.toastr.success(' La Forma de pago ha sido borrado!','Forma de pago Borrada', {
-          timeOut: 5000,
-        });
-      }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
   deleteService(content,service,position2){
 
