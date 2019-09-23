@@ -131,6 +131,8 @@ import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.
 import { EditSubscriptionComponent } from './Pages/subscription/edit-subscription/edit-subscription.component';
 import { CategoryComponent } from './Pages/category/category.component';
 import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
+import { CategoryStoreComponent } from './Pages/category/category-store/category-store.component';
+import { CategoryUpdateComponent } from './Pages/category/category-update/category-update.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -249,6 +251,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditSaleComponent,
     EditSubscriptionComponent,
     CategoryComponent,
+    CategoryStoreComponent,
+    CategoryUpdateComponent 
   ],
   imports: [
     BrowserModule,
