@@ -66,12 +66,11 @@ import {UpdateComponent} from './Pages/product/update/update.component';
 
 //Sale
 import {SaleComponent} from './Pages/sale/sale.component';
-import {SaleupdateComponent} from './Pages/sale/saleupdate/saleupdate.component';
-import {SalestoreComponent} from './Pages/sale/salestore/salestore.component';
+import {EditSaleComponent} from './Pages/sale/edit-sale/edit-sale.component';
 
 //Subscription
 import {SubscriptionComponent} from './Pages/subscription/subscription.component';
-import {SubscriptionstoreComponent} from './Pages/subscription/subscriptionstore/subscriptionstore.component';
+import {EditSubscriptionComponent} from './Pages/subscription/edit-subscription/edit-subscription.component';
 
 
 //Payment
@@ -103,6 +102,12 @@ import {CajaUpdateComponent} from './Pages/caja/caja-update/caja-update.componen
 import {ServiceComponent} from './Pages/service/service.component';
 import {ServiceStoreComponent} from './Pages/service/service-store/service-store.component';
 import {ServiceUpdateComponent} from './Pages/service/service-update/service-update.component';
+
+
+//Category
+import {CategoryComponent} from './Pages/category/category.component';
+import {CategoryStoreComponent} from './Pages/category/category-store/category-store.component';
+import {CategoryUpdateComponent} from './Pages/category/category-update/category-update.component';
 
 
 const routes: Routes = [
@@ -162,13 +167,12 @@ const routes: Routes = [
       {path: 'producto/actualizar', component:UpdateComponent, data: {extraParameter: ''}},
       
       //Sale 
-      {path: 'venta', component:SaleComponent, data: {extraParameter: ''}},
-      {path: 'venta/guardar', component:SalestoreComponent, data: {extraParameter: ''}},
-      {path: 'venta/actualizar', component:SaleupdateComponent, data: {extraParameter: ''}},
+      {path: 'sales', component:SaleComponent, data: {extraParameter: ''}},
+      {path: 'sale', component:EditSaleComponent, data: {extraParameter: ''}},
 
       //Subscription 
-      {path: 'subscripcion', component:SubscriptionComponent, data: {extraParameter: ''}},
-      {path: 'subscripcion/guardar', component:SubscriptionstoreComponent, data: {extraParameter: ''}},
+      {path: 'subscriptions', component:SubscriptionComponent, data: {extraParameter: ''}},
+      {path: 'subscription', component:EditSubscriptionComponent, data: {extraParameter: ''}},
       
       //Payment
       {path: 'pagare', component:PaymentComponent, data:{extraParameter: ''} },
@@ -199,6 +203,11 @@ const routes: Routes = [
       {path: 'servicio', component:ServiceComponent, data:{extraParameter: ''} },
       {path: 'servicio/guardar', component:ServiceStoreComponent, data:{extraParameter: ''} },
       {path: 'servicio/actualizar', component:ServiceUpdateComponent, data:{extraParameter: ''} },
+
+      //Category
+      {path: 'categoria', component:CategoryComponent, data:{extraParameter: ''} },
+      {path: 'categoria/guardar', component:CategoryStoreComponent, data:{extraParameter: ''} },
+      {path: 'categoria/actualizar', component:CategoryUpdateComponent, data:{extraParameter: ''} },
 
     ]
   },

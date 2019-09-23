@@ -26,7 +26,7 @@
               <!--Ventas-->
               <ngb-panel id="saleMenu">
                 <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link" routerLinkActive="active-item" routerLink="/venta">
+                  <button ngbPanelToggle class="vsm-link" routerLinkActive="active-item" routerLink="/sales">
                     <i class="vsm-icon pe-7s-news-paper"></i>
                     <span class="vsm-title">Ventas</span>
                   </button>
@@ -36,9 +36,9 @@
               <!--SUBSCRIPCION-->
               <ngb-panel id="subscriptionMenu">
                 <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link"  routerLinkActive="active-item" routerLink="/subscripcion">
+                  <button ngbPanelToggle class="vsm-link"  routerLinkActive="active-item" routerLink="/subscriptions">
                     <i class="vsm-icon pe-7s-news-paper"></i>
-                    <span class="vsm-title">Subscripciones</span>
+                    <span class="vsm-title">Suscripciones</span>
                   </button>
                 </ng-template>
               </ngb-panel>
@@ -49,37 +49,7 @@
                   <div class="vsm-header">Administracion</div>
                 </ng-template>
               </ngb-panel>
-
-               <!--Pagare-->
-              <ngb-panel id="paymentMenu">
-                <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link"  routerLinkActive="active-item" routerLink="/pagare">
-                    <i class="vsm-icon pe-7s-note2"></i>
-                    <span class="vsm-title">Pagares</span>
-                  </button>
-                </ng-template>
-              </ngb-panel>
               
-              <!--Productos-->
-              <ngb-panel id="productMenu">
-                  <ng-template ngbPanelHeader>
-                    <button ngbPanelToggle class="vsm-link"  routerLinkActive="active-item" routerLink="/producto">
-                      <i class="vsm-icon pe-7s-browser"></i>
-                      <span class="vsm-title">Productos</span>
-                    </button>
-                  </ng-template>
-              </ngb-panel>
-
-
-              <!--Servicios-->
-              <ngb-panel id="serviceMenu">
-                <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link"  routerLink="/servicio" routerLinkActive="active-item">
-                    <i class="vsm-icon pe-7s-browser"></i>
-                    <span class="vsm-title">Servicios</span>
-                  </button>
-                </ng-template>
-              </ngb-panel>
 
               <!--Cliente-->
               <ngb-panel id="clientMenu">
@@ -122,9 +92,64 @@
                   </button>
                 </ng-template>
               </ngb-panel>
+
+
+              <ngb-panel id="productMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link" routerLink="/producto" routerLinkActive="active-item">
+                    <i class="vsm-icon pe-7s-diamond"></i>
+                    <span class="vsm-title">Productos</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      
+                      <div class="vsm-item">
+                        <a routerLinkActive="active-item" routerLink="/categoria"
+                           class="vsm-link"> <span
+                          class="vsm-title">Categorias</span></a>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+
+              
+
+              <ngb-panel id="serviceMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link"  routerLink="/servicio" routerLinkActive="active-item">
+                    <i class="vsm-icon pe-7s-diamond"></i>
+                    <span class="vsm-title">Servicios</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      
+                      <div class="vsm-item">
+                        <a routerLinkActive="active-item" routerLink="/categoria"
+                           class="vsm-link"> <span
+                          class="vsm-title">Categorias</span></a>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+
+
+
 <!------------------------------------------------------------------------------------------------------------>
 
               <!--OTROS-->
+
+
+<!--              
               <ngb-panel>
                 <ng-template ngbPanelHeader>
                   <div class="vsm-header">Bootstrap Components</div>
@@ -293,4 +318,5 @@
       </perfect-scrollbar>
     </div>
   </div>
-</div>
+</div>-->
+

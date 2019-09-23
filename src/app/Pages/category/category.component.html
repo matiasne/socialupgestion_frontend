@@ -4,19 +4,13 @@
   <form>
     <div class="row">
       <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Servicio</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
           <div class="position-relative form-group">
             <label>Categoria</label>
             <input class="form-control" type="text" placeholder="Nombre">
           </div>
         </div>
       <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;">Buscar</button>
       </div>
     </div>
   </form>
@@ -29,10 +23,6 @@
       <tr>
         <th class="text-center">Nro</th>
         <th class="text-center">Nombre</th>
-        <th class="text-center">Comercio</th>
-        <th class="text-center">Categoria</th>
-        <th class="text-center">Descricion</th>
-        <th class="text-center">Precio</th>
         <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
@@ -40,19 +30,15 @@
       <tbody>
       <tr>
         <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">chicle</td>
-        <td class="text-center">Caracol</td>
         <td class="text-center">Dulces</td>
-        <td class="text-center">Son ricos</td>
-        <td class="text-center">$50</td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/servicio/actualizar">Editar</button>
+            <button class="btn-shadow btn btn-primary" routerLink="/categoria/actualizar">Editar</button>
           </div>
         </td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
+            <button class="btn-shadow btn btn-primary">Borrar</button>
           </div>
         </td>
       </tr>

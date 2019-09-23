@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     
     this._userService.validate().subscribe(
       data=>{
-        console.log(data);
+        
         this.getCommerces();
       },
       error=>{
@@ -40,7 +40,6 @@ export class HomeComponent implements OnInit {
   getCommerces(){
     this._commercesSerivce.getUserCommerces().subscribe(
       (resp:any)=>{
-        console.log(resp);
         this.commerces = resp;
       },
       error=>{
@@ -53,8 +52,8 @@ export class HomeComponent implements OnInit {
 
   selecionarComercio(commerce){
     this._commercesSerivce.setSelectedCommerce(commerce);
-    localStorage.setItem('commerce',JSON.stringify(commerce));
-    this.router.navigate(['/venta']);
+    
+    this.router.navigate(['/sales']);
   }
 
 }

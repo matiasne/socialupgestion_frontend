@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommercesService } from 'src/app/Services/commerces.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-service',
@@ -16,9 +19,27 @@ export class ServiceComponent implements OnInit {
     title:"Agregar Servicio"
   }]
 
-  constructor() { }
+  public commerce:any;
+  commerceSubscription: Subscription;
+
+  constructor(
+    private _commerceService:CommercesService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      this.commerce = data;
+      console.log(this.commerce);
+
+      if(this.commerce == "0"){
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.commerceSubscription.unsubscribe();
   }
 
 }

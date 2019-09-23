@@ -12,6 +12,7 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class UserBoxComponent implements OnInit {
 
+  public user:any;
   public commerceName:string;
   private commerceSubscription: Subscription;
 
@@ -22,12 +23,19 @@ export class UserBoxComponent implements OnInit {
     public _userService:UserService
     ) {
       this.commerceName="";
+      this.user="";
   }
 
   ngOnInit() {
    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
       this.commerceName = data.name;
     });
+
+    this._userService.validate().subscribe(
+      data=>{
+        this.user= data;
+      }
+    );
   }
 
   cerrarSesion(){

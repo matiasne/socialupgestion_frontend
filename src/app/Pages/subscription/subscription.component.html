@@ -1,4 +1,58 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+
+<div id="filter" class="content">
+  <form>
+    <div class="row">
+      <div class="col-md-2">
+          <label>Desde</label>
+          <input type="date" class="form-control">
+      </div>
+      <div  class="col-md-2">
+          <label>Hasta</label>
+          <input type="date" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label>Cliente</label>
+          <input class="form-control" type="text" placeholder="Nombre">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label for="selectsale">Estado</label>
+          <select name="selectsale" id="selectsale" class="form-control">
+            <option></option>
+            <option>Anticipado</option>
+            <option>Vencido</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label for="selectperiodo">Periodo</label>
+          <select name="selectperiodo" id="selectperiodo" class="form-control">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <div class="main-card mb-3 card">
   <div class="table-responsive">
     <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
@@ -6,7 +60,6 @@
       <tr>
         <th class="text-center">Nro</th>
         <th class="text-center">Cliente</th>
-        <th class="text-center">Commercio</th>
         <th class="text-center">Empleado</th>
         <th class="text-center">Fecha de Inicio</th>
         <th class="text-center">Periodo</th>
@@ -17,22 +70,21 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">Jose</td>
-        <td class="text-center">GYM</td>
-        <td class="text-center">Jorge</td>
-        <td class="text-center">05/01/2019</td>
-        <td class="text-center">1</td>
-        <td class="text-center">ANTICIPADO</td>
-        <td class="text-center">ACTIVO</td>
-        <td class="text-center">$900</td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" >Borrar</button>
-          </div>
-        </td>
-      </tr>
+        <tr *ngFor="let sub of subscription" [routerLink]="['/subscription',sub]" >
+          <td class="text-center text-muted" style="width: 80px;">{{sub.id}}</td>
+          <td class="text-center">{{sub.cliente}}</td>
+          <td class="text-center">{{sub.empleado}}</td>
+          <td class="text-center">{{sub.fecha}}</td>
+          <td class="text-center">{{sub.periodo}}</td>
+          <td class="text-center">{{sub.estadopago}}</td>
+          <td class="text-center">{{sub.estado}}</td>
+          <td class="text-center">{{sub.total}}</td>
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" (click)="open(content,$event)" >Borrar</button>
+            </div>
+          </td>
+        </tr>
   
       </tbody>
     </table>
@@ -46,3 +98,21 @@
     </button>
   </div>
 </div>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Suscripcion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar esta suscripcion?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>
