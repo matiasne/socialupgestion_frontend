@@ -101,7 +101,7 @@
             <tr *ngFor="let service of services; let e = index" [attr.data-index]="e" class="table-light text-center">
               <td>{{service.name}}</td>
               <td>{{service.price}}</td>
-              <td><button  type="button" class="btn btn-primary" (click)="deleteMethpd(contentDeleteService,service,e)" >Borrar</button></td>
+              <td><button  type="button" class="btn btn-primary" (click)="deleteService(contentDeleteService,service,e)" >Borrar</button></td>
             </tr>
           </tbody>
         </table>
@@ -112,7 +112,7 @@
 
 
      <!--Payment Method-->
-     <div  class="form-row">
+    <div  class="form-row">
       <div class="form-group col-md-12 text-center">
         <table class="table">
           <thead class="thead-dark">
