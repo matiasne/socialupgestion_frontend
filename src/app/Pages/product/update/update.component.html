@@ -5,51 +5,55 @@
     <!--Nombre-->
     <div class="position-relative form-group">
       <label for="nameproduct">Nombre</label>
-        <input name="nameproduct" id="nameproduct" placeholder="Nombre" type="text" class="form-control">
+      <input name="nameproduct" id="nameproduct" placeholder="Nombre" type="text" class="form-control" value="{{name}}">
     </div>
-
 
     <!--Comercio-->
     <div class="position-relative form-group">
-        <label for="commercio">Commercio</label>
-          <input name="commercio" id="commercio" placeholder="Comercio" type="text" class="form-control">
+      <label for="commercio">Commercio</label>
+      <input name="commercio" id="commercio" placeholder="Comercio" type="text" class="form-control" value="{{commerce_id}}">
     </div>
 
     <!--Proveedor-->
     <div class="position-relative form-group">
-        <label for="proveedor">Proveedor</label>
-          <input name="proveedor" id="proveedor" placeholder="Proveedor" type="text" class="form-control">
+      <label for="proveedor">Proveedor</label>
+      <input name="proveedor" id="proveedor" placeholder="Proveedor" type="text" class="form-control" value="{{provider_id}}">
     </div>
 
     <!--Categoria-->
     <div class="position-relative form-group">
       <label for="categoriaSelect">Categoria</label>
       <select name="categoriaSelect" id="categoriaSelect" class="form-control">
-        <option>Golosinas</option>
+        <option>{{category_id}}</option>
         <option>Verduras</option>
         <option>Frutas</option>
       </select>
     </div>
 
-    <!--precio-->
+    <!--Code-->
     <div class="position-relative form-group">
         <label for="codigo">Codigo</label>
-          <input name="codigo" id="codigo" placeholder="Codigo" type="number" class="form-control">
+          <input name="codigo" id="codigo" placeholder="Codigo" type="number" class="form-control" value="{{code}}">
     </div>
     
 
     <!--Descripcion-->
     <div class="position-relative form-group">
       <label for="descripcion">Descripcion</label>
-      <textarea name="descripcion" id="descripcion" class="form-control">
-      
-      </textarea>
+      <textarea name="descripcion" id="descripcion" class="form-control" >{{description}}</textarea>
     </div>
 
     <!--Precio-->
     <div class="position-relative form-group">
         <label for="precio">Precio</label>
-          <input name="precio" id="precio" placeholder="Precio" type="number" class="form-control">
+          <input name="precio" id="precio" placeholder="Precio" type="number" class="form-control" value="{{price}}">
+    </div>
+
+
+    <!--Stock-->
+    <div class="position-relative form-group">
+      <label for="stock">Stock</label>
+        <input name="stock" id="stock" placeholder="Stock" type="number" class="form-control" value="{{stock}}">
     </div>
     
 

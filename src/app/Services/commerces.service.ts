@@ -40,6 +40,7 @@ export class CommercesService {
 
     return this.httpClient.get(this.url+'commerces', options).pipe(
       map(response =>{
+
         return response;
       }),
       retry(1),
@@ -52,6 +53,7 @@ export class CommercesService {
   }
 
   setSelectedCommerce(commerce){
+    
     this.getCommerceData(commerce.id).subscribe(
       (resp:any)=>{
         console.log(resp);

@@ -1,17 +1,16 @@
-
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
 <div id="filter" class="content">
   <form>
     <div class="row">
       <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label> Caja</label>
-          <input class="form-control" type="text" placeholder="Nombre">
+          <div class="position-relative form-group">
+            <label>Categoria</label>
+            <input class="form-control" type="text" placeholder="Nombre">
+          </div>
         </div>
-      </div>
       <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;">Buscar</button>
       </div>
     </div>
   </form>
@@ -24,8 +23,6 @@
       <tr>
         <th class="text-center">Nro</th>
         <th class="text-center">Nombre</th>
-        <th class="text-center">Comercio</th>
-        <th class="text-center">Total</th>
         <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
@@ -33,12 +30,10 @@
       <tbody>
       <tr>
         <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">Caja1</td>
-        <td class="text-center">Caracol</td>
-        <td class="text-center">$1500</td>
+        <td class="text-center">Dulces</td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/caja/actualizar">Editar</button>
+            <button class="btn-shadow btn btn-primary" routerLink="/categoria/actualizar">Editar</button>
           </div>
         </td>
         <td class="text-center">
@@ -60,5 +55,4 @@
       <span class="mr-1">Actualizar</span>
     </button>
   </div>
-
 </div>

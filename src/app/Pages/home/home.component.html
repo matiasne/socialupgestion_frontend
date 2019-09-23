@@ -16,7 +16,7 @@
       <tr *ngFor="let commerce of commerces" (click)="selecionarComercio(commerce)">
         <td class="text-center text-muted" style="width: 80px;" >{{commerce.id}}</td>
         <td class="text-center" style="width: 80px;">
-          <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
+          <img width="40" class="rounded-circle" src="{{commerce.imgcommerce}}" alt="">
         </td>
         <td class="text-center">{{commerce.name}}</td>  
         <td class="text-center">

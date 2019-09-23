@@ -15,7 +15,7 @@
           </div>
         </div>
       <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2em;"> Buscar</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
       </div>
     </div>
   </form>
@@ -46,13 +46,12 @@
           <td class="text-center text-muted" style="width: 80px;">{{product.category}}</td>
           <td class="text-center text-muted" style="width: 80px;">{{product.code}}</td>
           <td class="text-center" style="width: 80px;">
-            <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
+            <img width="40" class="rounded-circle" src="{{product.imgproduct}}" alt="">
           </td>
           <td class="text-center">{{product.name}}</td>
           <td class="text-center">{{product.description}}</td>
           <td class="text-center">{{product.price}}</td>
           <td class="text-center">{{product.stock}}</td> 
-            
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
               <button class="btn-shadow btn btn-primary" routerLink="/producto/actualizar">Editar</button>
@@ -60,11 +59,10 @@
           </td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="open(content)">Borrar</button>
+              <button class="btn-shadow btn btn-primary" (click)="open(content,$event)" >Borrar</button>
             </div>
           </td>
         </tr>
-  
       </tbody>
     </table>
   </div>

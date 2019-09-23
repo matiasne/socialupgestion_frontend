@@ -1,0 +1,174 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+
+<div class="card-body">
+  <form [formGroup]="registerForm" >
+        <div class="form-row">
+          
+          <!--Cliente--> 
+          <div class="form-group col-md-6 text-center">
+            <label for="nombrecliente">Cliente</label>
+            <input formControlName="nombrecliente" name="nombrecliente" id="nombrecliente"  placeholder="Nombre del cliente" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nombrecliente.errors }">
+            <div *ngIf="submitted && f.nombrecliente.errors" class="invalid-feedback">
+              <div *ngIf="f.nombrecliente.errors.required">El nombre del cliente es requerido</div>
+            </div>
+          </div> 
+    
+           <!--Empleado-->
+           <div class="form-group col-md-6 text-center">
+              <label for="empleado">Empleado</label>
+              <input formControlName="empleado" name="empleado" id="empleado" placeholder="Empleado" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.empleado.errors }">
+              <div *ngIf="submitted && f.empleado.errors" class="invalid-feedback">
+                <div *ngIf="f.empleado.errors.required">El nombre del empleado es requerido</div>
+              </div>
+          </div>
+    
+        </div>
+
+        <div class="form-row">
+            <!--Fecha Inicio-->
+            <div class="form-group col-md-4 text-center">
+              <label for="start">Fecha Inicio</label>
+              <div> 
+                <input formControlName="dateIni" type="date" id="dateIni" name="dateIni" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateIni.errors }">
+                <div *ngIf="submitted && f.dateIni.errors" class="invalid-feedback">
+                  <div *ngIf="f.dateIni.errors.required">Fecha de inicio es requerida</div>
+                </div>
+              </div>
+            </div>
+
+              <!--Periodo-->
+            <div class="form-group col-md-4 text-center">
+              <label for="periodoselect">Periodo</label>
+              <select formControlName="period" name="periodoselect" id="periodoselect" class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+            </div>
+        </div>
+         
+        <div class="form-row">
+      
+          <!--ESTADO-->
+          <div class="form-group col-md-4 text-center">
+            <label for="categoriaSelect">Estado</label>
+            <select formControlName="status" name="status" id="status" class="form-control">
+              <option>Activo</option>
+              <option>Cancelado</option>
+            </select>
+          </div>
+    
+          <!--FORMA DE PAGO-->
+          <div class="form-group col-md-4 text-center">
+            <label for="statuspayment">Forma de Pago</label>
+            <select formControlName="statuspayment" name="statuspayment" id="statuspayment" class="form-control">
+              <option>Anticipado</option>
+              <option>Vencido</option>
+            </select>
+          </div>
+    
+          <!--Precio Total-->
+          <div class="form-group col-md-4 text-center">
+            <label for="costototal">Total</label>
+            <input formControlName="total" disabled name="total" id="total" placeholder="$0" type="text" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.total.errors }">
+            <div *ngIf="submitted && f.total.errors" class="invalid-feedback">
+              <div *ngIf="f.total.errors.min">Cargue un servicio</div>
+            </div>
+          </div>
+    
+        </div>
+
+
+    <!--Servicios-->
+    <div  class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Servicio</th>
+              <th scope="col">Precio</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let service of services; let e = index" [attr.data-index]="e" class="table-light text-center">
+              <td>{{service.name}}</td>
+              <td>{{service.price}}</td>
+              <td><button  type="button" class="btn btn-primary" (click)="deleteService(contentDeleteService,service,e)" >Borrar</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button  class="btn btn-primary col-md-text-center" (click)="open(content2)" >Nuevo Servicio</button>
+
+      </div>
+    </div>
+    
+    <!--Guardar-->
+    <div class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <button class="mt-1 btn btn-primary" type="submit"  (click)="Guardar()" >Guardar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!--Service Modal-->
+<ng-template #content2 let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Servicio</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="registerFormService">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Servicio</label>
+            <select  formControlName="nameserv" (change)="onServiceChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedserv && serv.nameserv.errors }">
+              <option *ngFor="let s of servs" [ngValue]="s">
+                {{s.name}}
+              </option>
+            </select>
+            <div *ngIf="submittedserv && serv.nameserv.errors" class="invalid-feedback">
+              <div *ngIf="serv.nameserv.errors.required">Servicio requerido</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Precio</label>
+            <input formControlName="priceserv" disabled class="form-control"  [ngClass]="{ 'is-invalid': submittedserv && serv.priceserv.errors }">
+              <div *ngIf="submitted && f.priceserv.errors" class="invalid-feedback">
+                <div *ngIf="serv.priceserv.errors.required">El precio es requerido</div>
+             </div>
+          </div>
+          <div class="form-group col-md-4">
+            <button class="btn btn-primary" type="submit" (click)="agregarService()" style="margin-top: 2.1em">Agregar</button>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Salir</button>
+    </div>
+  </ng-template>
+  
+ <!--Detele Service-->
+<ng-template #contentDeleteService let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Servico</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar este servicio?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template> 

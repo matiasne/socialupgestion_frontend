@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubscriptionstoreComponent } from './subscriptionstore.component';
+import { EditSubscriptionComponent } from './edit-subscription.component';
 
-describe('SubscriptionstoreComponent', () => {
-  let component: SubscriptionstoreComponent;
-  let fixture: ComponentFixture<SubscriptionstoreComponent>;
+describe('EditSubscriptionComponent', () => {
+  let component: EditSubscriptionComponent;
+  let fixture: ComponentFixture<EditSubscriptionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubscriptionstoreComponent ]
+      declarations: [ EditSubscriptionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubscriptionstoreComponent);
+    fixture = TestBed.createComponent(EditSubscriptionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

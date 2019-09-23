@@ -66,12 +66,11 @@ import {UpdateComponent} from './Pages/product/update/update.component';
 
 //Sale
 import {SaleComponent} from './Pages/sale/sale.component';
-import {SaleupdateComponent} from './Pages/sale/saleupdate/saleupdate.component';
-import {SalestoreComponent} from './Pages/sale/salestore/salestore.component';
+import {EditSaleComponent} from './Pages/sale/edit-sale/edit-sale.component';
 
 //Subscription
 import {SubscriptionComponent} from './Pages/subscription/subscription.component';
-import {SubscriptionstoreComponent} from './Pages/subscription/subscriptionstore/subscriptionstore.component';
+import {EditSubscriptionComponent} from './Pages/subscription/edit-subscription/edit-subscription.component';
 
 
 //Payment
@@ -100,6 +99,12 @@ import { EditClientComponent } from './Pages/client/edit-client/edit-client.comp
 import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
 import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
 import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.component';
+
+
+//Category
+import {CategoryComponent} from './Pages/category/category.component';
+import {CategoryStoreComponent} from './Pages/category/category-store/category-store.component';
+import {CategoryUpdateComponent} from './Pages/category/category-update/category-update.component';
 
 
 const routes: Routes = [
@@ -160,13 +165,12 @@ const routes: Routes = [
       {path: 'producto/actualizar', component:UpdateComponent, data: {extraParameter: ''}},
       
       //Sale 
-      {path: 'venta', component:SaleComponent, data: {extraParameter: ''}},
-      {path: 'venta/guardar', component:SalestoreComponent, data: {extraParameter: ''}},
-      {path: 'venta/actualizar', component:SaleupdateComponent, data: {extraParameter: ''}},
+      {path: 'sales', component:SaleComponent, data: {extraParameter: ''}},
+      {path: 'sale', component:EditSaleComponent, data: {extraParameter: ''}},
 
       //Subscription 
-      {path: 'subscripcion', component:SubscriptionComponent, data: {extraParameter: ''}},
-      {path: 'subscripcion/guardar', component:SubscriptionstoreComponent, data: {extraParameter: ''}},
+      {path: 'subscriptions', component:SubscriptionComponent, data: {extraParameter: ''}},
+      {path: 'subscription', component:EditSubscriptionComponent, data: {extraParameter: ''}},
       
       //Payment
       {path: 'pagare', component:PaymentComponent, data:{extraParameter: ''} },
@@ -193,6 +197,11 @@ const routes: Routes = [
       //Service
       {path: 'services', component:ServiceComponent, data:{extraParameter: ''} },
       {path: 'service', component:EditServiceComponent, data:{extraParameter: ''} },
+
+      //Category
+      {path: 'categoria', component:CategoryComponent, data:{extraParameter: ''} },
+      {path: 'categoria/guardar', component:CategoryStoreComponent, data:{extraParameter: ''} },
+      {path: 'categoria/actualizar', component:CategoryUpdateComponent, data:{extraParameter: ''} },
 
     ]
   },

@@ -110,9 +110,6 @@ import { SaleComponent } from './Pages/sale/sale.component';
 import { SubscriptionComponent } from './Pages/subscription/subscription.component';
 import { StoreComponent } from './Pages/product/store/store.component';
 import { UpdateComponent } from './Pages/product/update/update.component';
-import { SaleupdateComponent } from './Pages/sale/saleupdate/saleupdate.component';
-import { SalestoreComponent } from './Pages/sale/salestore/salestore.component';
-import { SubscriptionstoreComponent } from './Pages/subscription/subscriptionstore/subscriptionstore.component';
 import { PaymentComponent } from './Pages/payment/payment.component';
 import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
 import { ClientComponent } from './Pages/client/client.component';
@@ -131,6 +128,9 @@ import { EditClientComponent } from './Pages/client/edit-client/edit-client.comp
 import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
 import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
 import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.component';
+import { EditSubscriptionComponent } from './Pages/subscription/edit-subscription/edit-subscription.component';
+import { CategoryComponent } from './Pages/category/category.component';
+import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -229,9 +229,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SubscriptionComponent,
     StoreComponent,
     UpdateComponent,
-    SaleupdateComponent,
-    SalestoreComponent,
-    SubscriptionstoreComponent,
     PaymentComponent,
     PaymentstoreComponent,
     ClientComponent,
@@ -249,6 +246,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditProviderComponent,
     EditCommerceComponent,
     AddEmployeeComponent,
+    EditSaleComponent,
+    EditSubscriptionComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -270,8 +270,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // Charts
 
     ChartsModule,
-
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   providers: [
     {

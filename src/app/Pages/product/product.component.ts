@@ -73,4 +73,19 @@ export class ProductComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+
+  selecionarProduct(product){
+    this.router.navigate(['/producto/actualizar'], { state: { 
+      name: product.name,
+      commerce_id:product.commerce_id,
+      provider_id:product.provider_id,
+      category_id:product.category_id,
+      code:product.code,
+      description:product.description,
+      price:product.price,
+      stock:product.stock,
+    } });
+  }
+
 }
