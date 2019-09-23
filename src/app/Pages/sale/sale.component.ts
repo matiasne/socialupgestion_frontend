@@ -19,6 +19,11 @@ export class SaleComponent implements OnInit {
     title:"Agregar Venta",
   }]
 
+   
+  registerFormFilter: FormGroup;
+
+  submitted= false;
+
   sales:any=[];
   productos:any=[];
 
@@ -26,13 +31,9 @@ export class SaleComponent implements OnInit {
   serv:any=[];
   
   paymethod:any=[];
-
-  submitted= false;
-
+  status:any=[];
 
   closeResult: string;
- 
-  registerFormFilter: FormGroup;
 
   result: any[] = [];
   
@@ -52,7 +53,9 @@ constructor(
       name: "Credito"
     },{
       name: "Debito"
-    }]
+    }];
+
+    this.status=["Pagado","Pendiente","Cancelado"];
     
   }
  
