@@ -84,8 +84,6 @@ import {ClientComponent} from './Pages/client/client.component';
 
 //Employe
 import {EmployeComponent} from './Pages/employe/employe.component';
-import {EmployestoreComponent} from './Pages/employe/employestore/employestore.component';
-import {EmployeupdateComponent} from './Pages/employe/employeupdate/employeupdate.component';
 
 //Provider
 import {ProviderComponent} from './Pages/provider/provider.component';
@@ -101,6 +99,7 @@ import { EditServiceComponent } from './Pages/service/edit-service/edit-service.
 import { EditClientComponent } from './Pages/client/edit-client/edit-client.component';
 import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
 import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
+import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.component';
 
 
 const routes: Routes = [
@@ -179,9 +178,8 @@ const routes: Routes = [
       {path: 'client', component:EditClientComponent, data:{extraParameter: ''} },
 
       //Employe
-      {path: 'empleado', component:EmployeComponent, data:{extraParameter: ''} },
-      {path: 'empleado/guardar', component:EmployestoreComponent, data:{extraParameter: ''} },
-      {path: 'empleado/actualizar', component:EmployeupdateComponent, data:{extraParameter: ''} },
+      {path: 'employees', component:EmployeComponent, data:{extraParameter: ''} },
+      {path: 'employee', component:AddEmployeeComponent, data:{extraParameter: ''} },
 
       //Provider
       {path: 'providers', component:ProviderComponent, data:{extraParameter: ''} },

@@ -33,8 +33,8 @@ import {PageTitleComponent} from './Layout/Components/page-title/page-title.comp
 import {HeaderComponent} from './Layout/Components/header/header.component';
 import {SearchBoxComponent} from './Layout/Components/header/elements/search-box/search-box.component';
 import {UserBoxComponent} from './Layout/Components/header/elements/user-box/user-box.component';
-
 // SIDEBAR
+
 
 import {SidebarComponent} from './Layout/Components/sidebar/sidebar.component';
 import {LogoComponent} from './Layout/Components/sidebar/elements/logo/logo.component';
@@ -117,8 +117,6 @@ import { PaymentComponent } from './Pages/payment/payment.component';
 import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
 import { ClientComponent } from './Pages/client/client.component';
 import { EmployeComponent } from './Pages/employe/employe.component';
-import { EmployestoreComponent } from './Pages/employe/employestore/employestore.component';
-import { EmployeupdateComponent } from './Pages/employe/employeupdate/employeupdate.component';
 import { SingleModalComponent } from './DemoPages/Components/single-modal/single-modal.component';
 import { ModalComponent } from './Components/modal/modal.component';
 import { ModalaboutComponent } from './Components/modalabout/modalabout.component';
@@ -132,6 +130,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { EditClientComponent } from './Pages/client/edit-client/edit-client.component';
 import { EditProviderComponent } from './Pages/provider/edit-provider/edit-provider.component';
 import { EditCommerceComponent } from './Pages/commerce/edit-commerce/edit-commerce.component';
+import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -237,8 +236,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PaymentstoreComponent,
     ClientComponent,
     EmployeComponent,
-    EmployestoreComponent,
-    EmployeupdateComponent,
     SingleModalComponent,
     ModalComponent,
     ModalaboutComponent,
@@ -251,6 +248,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditClientComponent,
     EditProviderComponent,
     EditCommerceComponent,
+    AddEmployeeComponent,
   ],
   imports: [
     BrowserModule,

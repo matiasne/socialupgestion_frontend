@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { Observable, throwError, Subject, BehaviorSubject, Subscription } from 'rxjs';
+import { map, retry, catchError } from 'rxjs/operators';
+import { CommercesService } from './commerces.service';
 
 import { GLOBAL } from './global';
 
@@ -33,7 +34,7 @@ export class UserService {
     );
   }	
 
-  validate(){
+  public validate(){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -51,10 +52,36 @@ export class UserService {
     );
   }
 
-  logout(){
+  public logout(){
     localStorage.setItem('commerce','0');
     localStorage.setItem('token','0');
   }
+
+  public search(data){
+
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    });
+
+    let options = {
+      headers: this.httpHeaders
+    };    
+
+    let body = JSON.stringify(data);
+
+    console.log(body);
+
+    return this.httpClient.post(this.url+'users/search', body, options).pipe(
+      map(response =>{
+        return response;
+      }),
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
   
   // Error handling 
   handleError(error) {

@@ -15,7 +15,7 @@ export class EmployeComponent implements OnInit {
   subheading = 'Listado de todos los empleados del comercio.';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
   buttons = [{
-    href:"/empleado/guardar",
+    href:"/employee",
     icon:"plus",
     title:"Agregar Empleado"
   }]

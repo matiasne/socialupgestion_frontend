@@ -1,0 +1,53 @@
+<div class="app-page-title">
+  <div class="page-title-wrapper">
+    <div class="page-title-heading">
+      <div class="page-title-icon">
+        <i class="icon {{icon}}"></i>
+      </div>
+      <div>
+        Buscar Usuario
+        <div class="search-wrapper" [class.active]="true">
+          <div class="input-holder">
+            <input type="email [(ngModel)]="busqueda" placeholder="Type to search" class="search-input">
+            <button class="search-icon" (click)="buscarUsuario()"><span></span></button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="page-title-actions">
+    <button *ngFor="let button of buttons" routerLink="{{button.href}}" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+        <fa class="mr-2" name="{{button.icon}}"></fa>
+        {{button.title}}
+    </button>
+  </div>
+</div>
+
+  <div class="main-card mb-3 card">
+    <div class="table-responsive">
+      <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
+        <thead>
+        <tr>
+          <th class="text-center">Imagen</th>
+          <th class="text-center">Nombre</th>
+          <th class="text-center">Email</th>
+          <th class="text-center"></th>
+          <th class="text-center"></th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" >        
+            <td class="text-center" style="width: 80px;">
+              <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
+            </td>
+            <td class="text-center">{{user.name}}</td>
+            <td class="text-center">{{user.email}}</td>
+            <td class="text-center">
+              <div role="group" class="btn-group-sm btn-group">
+                <button class="btn-shadow btn btn-primary" (click)="asignar(user)" >Asignar Como empleado</button>
+              </div>
+            </td>
+          </tr>  
+        </tbody>
+      </table>
+    </div>
