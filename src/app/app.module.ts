@@ -132,6 +132,7 @@ import { EditSubscriptionComponent } from './Pages/subscription/edit-subscriptio
 import { CategoryComponent } from './Pages/category/category.component';
 import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
 import { FilterPipe } from './filter.pipe';
+import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -251,6 +252,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditSaleComponent,
     EditSubscriptionComponent,
     FilterPipe,
+    EditCategoryComponent,
   ],
   imports: [
     BrowserModule,

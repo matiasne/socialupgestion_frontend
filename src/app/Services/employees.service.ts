@@ -9,7 +9,7 @@ import { GLOBAL } from './global';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class EmployeesService {
 
   public url:string;
   public httpHeaders:HttpHeaders;
@@ -28,21 +28,7 @@ export class UserService {
 
   }
 
-  public login(_email:string,_password:string,_recordar:boolean){
-
-    let body = {
-      email:_email,
-      password:_password
-    }	      
-
-		return this.httpClient.post(this.url+'auth/login', body) .pipe(
-      retry(1),
-      catchError(this.handleError)
-    );
-  }	
-
-  public validate(){
-
+  get(){
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
       'Accept': 'application/json',
@@ -51,20 +37,15 @@ export class UserService {
 
     let options = {
       headers: this.httpHeaders
-    };
+    };  
 
-    return this.httpClient.get(this.url+'auth/user', options) .pipe(
+    return this.httpClient.get(this.url+'commerces/'+this.commerce.id+'/employees',options).pipe(      
       retry(1),
       catchError(this.handleError)
     );
   }
 
-  public logout(){
-    localStorage.setItem('commerce','0');
-    localStorage.setItem('token','0');
-  }
-
-  public search(data){
+  public asignarRolEmpleado(user){
 
     this.httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -76,17 +57,36 @@ export class UserService {
       headers: this.httpHeaders
     };    
 
-    let body = {
-      search: data
-    };
 
-    console.log(body);
-
-    return this.httpClient.post(this.url+'users/search', body, options).pipe(      
+    return this.httpClient.post(this.url+'commerces/'+this.commerce.id+'/employees/'+user.id, "", options).pipe(      
       retry(1),
       catchError(this.handleError)
     );
+
   }
+
+  public desasignarRolEmpleado(user){
+
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    });
+
+    let options = {
+      headers: this.httpHeaders
+    };    
+
+ 
+
+    return this.httpClient.delete(this.url+'commerces/'+this.commerce.id+'/employees/'+user.id, options).pipe(      
+      retry(1),
+      catchError(this.handleError)
+    );
+
+  }
+
+
 
   
   // Error handling 

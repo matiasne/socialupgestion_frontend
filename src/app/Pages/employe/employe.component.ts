@@ -3,6 +3,10 @@ import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
+import { EmployeesService } from 'src/app/Services/employees.service';
+import { UserService } from 'src/app/Services/user.service';
+import { User } from 'src/app/Models/User';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employe',
@@ -21,19 +25,23 @@ export class EmployeComponent implements OnInit {
   }]
 
   public commerce:any;
+  public employees:any;
   private commerceSubscription: Subscription;
+  
   
   constructor(
     private modalService: NgbModal,
     public _commerceService:CommercesService,
     public router: Router,
+    public _employeeService:EmployeesService,
+    private toastr: ToastrService
   ) {
   
     this.commerce = "";
+    
     this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
       this.commerce = data;
       console.log(this.commerce);
-
       if(this.commerce == "0"){
         this.router.navigate(['/home']);
       }
@@ -45,6 +53,23 @@ export class EmployeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.obtenerEmpleados();
+  }
+
+  obtenerEmpleados(){
+    this._employeeService.get().subscribe(data=>{
+      this.employees = data;
+    })
+  }
+
+
+  desasignar(user){
+    this._employeeService.desasignarRolEmpleado(user).subscribe(data=>{
+      this.toastr.info('el empleado '+user.name+' ha sido removido','Empleado Borrado', {
+        timeOut: 5000,
+      });
+      this.obtenerEmpleados();
+    })
   }
 
 }
