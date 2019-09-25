@@ -1,0 +1,23 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form [formGroup]="registerFormCaja">
+    <div class="form-row">
+       <!--Nombre-->
+      <div class="form-group col-md-4 text-center">
+        <label>Caja</label>
+          <input formControlName="name" placeholder="Nombre" type="text" class="form-control">
+      </div>
+
+      <!--Total-->
+      <div class="form-group col-md-4 text-center">
+        <label>Total</label>
+          <input formControlName="total" placeholder="Total" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="mt-1 btn btn-primary" type="submit" (click)="Cancelar()">Cancelar</button>
+      <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
+    </div>
+  </form>
+</div>

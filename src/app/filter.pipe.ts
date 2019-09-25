@@ -5,20 +5,38 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(value: any[],colum:any): any {
+  transform(value: any[],name?:any,status?:any,payment?:any,
+    startdateValue?:any,enddateValue?:any,period?:any,category_id?:any
+    ): any {
     
-  if(colum['clienteText']){
-    let a = colum['clienteText'];
-    return value.filter((item)=> item.cliente.toLowerCase().includes((a.toLowerCase())));
-   }else if(colum['estadoText']){
-    let b =colum['estadoText'];
-    return value.filter((item)=> item.estado.toLowerCase().includes((b.toLowerCase())));
-   }else{
-     return value;
-   }
-  
 
+    
+  if(name){
+
+    return value.filter((item)=> item.name.toLowerCase().includes((name.toLowerCase())));
+
+  }else if(status){
+
+    return value.filter((item)=> item.status.toLowerCase().includes((status.toLowerCase())));
+
+  }else if(payment){
+
+    return value.filter((item)=> item.pago.toLowerCase().includes((payment.toLowerCase())));
+
+  }else if(startdateValue && enddateValue){
+
+    return value.filter((item)=> ((item.fecha>=startdateValue)&&(item.fecha<=enddateValue)));
+
+  }else if(period){
+  
+    return value.filter((item)=> item.period.toLowerCase().includes((period.toLowerCase())));
+
+  }else if(category_id){
+    return value.filter((item)=> item.category_id == category_id);
+  }else{
+    return value;
   }
 
   
+  }
 }

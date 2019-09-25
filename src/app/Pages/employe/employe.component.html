@@ -1,20 +1,13 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Empleado</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+<div class="row">
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Empleado</label>
+        <input [(ngModel)]="empleadoValue" class="form-control" type="text" placeholder="Nombre">
       </div>
     </div>
-  </form>
-</div>
+  </div>
 
 <div class="main-card mb-3 card">
   <div class="card-header">
@@ -58,17 +51,5 @@
       </span>
       <span class="mr-1">Actualizar</span>
     </button>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12 ">
-      <div class="card main-card mb-12">
-        <div class="card-body">
-          <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
-          <div class="divider"></div>
-          <!--<pre>{{page}}</pre>-->
-        </div>
-      </div>
-    </div>
   </div>
 </div>

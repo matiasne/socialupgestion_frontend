@@ -1,26 +1,21 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Producto</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
-          <div class="position-relative form-group">
-            <label>Proveedor</label>
-            <input class="form-control" type="text" placeholder="Nombre">
-          </div>
-        </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
-      </div>
-    </div>
-  </form>
-</div>
 
+<div class="row">
+  <div class="col-md-3">
+    <div class="position-relative form-group">
+      <label>Producto</label>
+      <input [(ngModel)]="productValue" class="form-control" type="text" placeholder="Nombre">
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="position-relative form-group">
+      <label>Categoria</label>
+      <input [(ngModel)]="categoryValue" class="form-control" type="text" placeholder="Nombre">
+    </div>
+  </div>
+
+</div>
 
 <div class="main-card mb-3 card">
   <div class="card-header">
@@ -37,10 +32,10 @@
         <th class="text-center">Stock</th>
         <th class="text-center">Código</th>
         <th class="text-center"></th>
-        <th class="text-center"></th>
       </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let product of commerce.products | filter: productValue:null:null:null:null:null:categoryValue" [routerLink]="['/product',product]">
         <tr *ngFor="let product of products">
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',product]">{{product.category}}</td>
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',product]">{{product.code}}</td>
@@ -80,7 +75,4 @@
     <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
     <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
   </div>
-
-  
-
 </ng-template>

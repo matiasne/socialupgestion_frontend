@@ -22,6 +22,9 @@ export class CategoryComponent implements OnInit {
     icon:"plus",
     title:"Agregar Categoria"
   }]
+  closeResult: string;
+
+  category:any=[];
 
   
   constructor(

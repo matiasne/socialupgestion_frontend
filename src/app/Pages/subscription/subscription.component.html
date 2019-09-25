@@ -1,57 +1,48 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-2">
-          <label>Desde</label>
-          <input type="date" class="form-control">
-      </div>
-      <div  class="col-md-2">
-          <label>Hasta</label>
-          <input type="date" class="form-control">
-      </div>
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label>Cliente</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label for="selectsale">Estado</label>
-          <select name="selectsale" id="selectsale" class="form-control">
-            <option></option>
-            <option>Anticipado</option>
-            <option>Vencido</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label for="selectperiodo">Periodo</label>
-          <select name="selectperiodo" id="selectperiodo" class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+   
+<div class="row">
+
+    <div class="col-md-2">
+        <label>Desde</label>
+        <input type="date" [(ngModel)]="startdateValue" (ngModelChange)="changeDate($event)" class="form-control">
+    </div>
+    <div  class="col-md-2">
+        <label>Hasta</label>
+        <input type="date" [(ngModel)]="enddateValue" (ngModelChange)="changeDate($event)" class="form-control">
+    </div>
+    
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Cliente</label>
+        <input [(ngModel)]="clienteValue" (ngModelChange)="changeCliente($event)" class="form-control" type="text" placeholder="Nombre">
       </div>
     </div>
-  </form>
-</div>
+
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Estado</label>
+        <select class="form-control" [(ngModel)]="estadoValue" (ngModelChange)="changeStatus($event)">
+          <option *ngFor="let sta of status" [ngValue]="sta">
+            {{sta}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Periodo</label>
+        <select class="form-control" [(ngModel)]="periodValue" (ngModelChange)="changePeriod($event)">
+          <option *ngFor="let op of perid" [ngValue]="op" >
+            {{op}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
 
 <div class="main-card mb-3 card">
   <div class="table-responsive">
@@ -70,14 +61,14 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let sub of subscription" [routerLink]="['/subscription',sub]" >
+        <tr *ngFor="let sub of subscription | filter: clienteValue:estadoValue:null:startdateValue:enddateValue:periodValue" [routerLink]="['/subscription',sub]" >
           <td class="text-center text-muted" style="width: 80px;">{{sub.id}}</td>
-          <td class="text-center">{{sub.cliente}}</td>
+          <td class="text-center">{{sub.name}}</td>
           <td class="text-center">{{sub.empleado}}</td>
           <td class="text-center">{{sub.fecha}}</td>
-          <td class="text-center">{{sub.periodo}}</td>
-          <td class="text-center">{{sub.estadopago}}</td>
-          <td class="text-center">{{sub.estado}}</td>
+          <td class="text-center">{{sub.period}}</td>
+          <td class="text-center">{{sub.status}}</td>
+          <td class="text-center">{{sub.statusSub}}</td>
           <td class="text-center">{{sub.total}}</td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
@@ -94,7 +85,7 @@
       <span class="mr-2 opacity-7">
           <i class="fa fa-cog fa-spin"></i>
       </span>
-      <span class="mr-1">Actualizar</span>
+      <span class="mr-1" (click)="updateTable()">Actualizar</span>
     </button>
   </div>
 </div>
@@ -116,3 +107,4 @@
     <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
   </div>
 </ng-template>
+  

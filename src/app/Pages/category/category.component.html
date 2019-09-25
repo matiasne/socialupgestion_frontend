@@ -1,19 +1,12 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-          <div class="position-relative form-group">
-            <label>Categoria</label>
-            <input class="form-control" type="text" placeholder="Nombre">
-          </div>
-        </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;">Buscar</button>
-      </div>
-    </div>
-  </form>
+<div class="row">
+  <div class="col-md-3">
+     <div class="position-relative form-group">
+       <label>Categoria</label>
+       <input [(ngModel)]="categoryValue" class="form-control" type="text" placeholder="Nombre">
+     </div>
+   </div>
 </div>
 
 <div class="main-card mb-3 card">
@@ -23,7 +16,6 @@
       <tr>
         <th class="text-center">Nro</th>
         <th class="text-center">Nombre</th>
-        <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
       </thead>
@@ -45,3 +37,19 @@
     
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Venta</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar esta venta?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>

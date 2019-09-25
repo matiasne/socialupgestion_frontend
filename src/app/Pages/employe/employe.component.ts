@@ -27,6 +27,7 @@ export class EmployeComponent implements OnInit {
   public commerce:any;
   public employees:any;
   private commerceSubscription: Subscription;
+  empleadoValue;
   
   
   constructor(
@@ -70,6 +71,10 @@ export class EmployeComponent implements OnInit {
       });
       this.obtenerEmpleados();
     })
+  }
+
+  public updateTable(){
+    this.empleadoValue="";
   }
 
 }
