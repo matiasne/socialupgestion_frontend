@@ -95,7 +95,7 @@ export class EditProviderComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.provider);
-      this._providersService.updateProvider(this.provider).subscribe(
+      this._providersService.update(this.provider).subscribe(
         response=>{
           console.log(response);
 
@@ -108,7 +108,7 @@ export class EditProviderComponent implements OnInit {
       )
     }
     else{
-      this._providersService.addProvider(this.provider).subscribe(
+      this._providersService.add(this.provider).subscribe(
         response=>{
           console.log(response);
           this.toastr.success(this.provider.name+' ha sido creado!','Proveedor Creado', {

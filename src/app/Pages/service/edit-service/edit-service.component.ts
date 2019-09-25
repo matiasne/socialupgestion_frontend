@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { ServicesService } from 'src/app/Services/services.service';
 import { Service } from 'src/app/Models/Service';
-import { CategoryesService } from 'src/app/Services/categoryes.service';
+import {  CategoriesService } from 'src/app/Services/categoryes.service';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Models/Category';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -32,7 +32,7 @@ export class EditServiceComponent implements OnInit {
     public router: Router,
     private _location: Location,
     public _servicesService:ServicesService,
-    public _categoryesService:CategoryesService,
+    public _categoriesService:CategoriesService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) { 
@@ -53,7 +53,7 @@ export class EditServiceComponent implements OnInit {
 
     
 
-    this.categoryesSubscription =  this._categoryesService.getCategoryes<Category>().subscribe(data=>{
+    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
       this.categoryes = data;
       console.log(this.categoryes);
      
@@ -102,7 +102,7 @@ export class EditServiceComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.service);
-      this._servicesService.updateService(this.service).subscribe(
+      this._servicesService.update(this.service).subscribe(
         response=>{
           console.log(response);
 
@@ -115,7 +115,7 @@ export class EditServiceComponent implements OnInit {
       )
     }
     else{
-      this._servicesService.addService(this.service).subscribe(
+      this._servicesService.add(this.service).subscribe(
         response=>{
           console.log(response);
           this.toastr.success(this.service.name+' ha sido creado!','Creado', {

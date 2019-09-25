@@ -1,0 +1,74 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form [formGroup]="registerForm">
+
+    <!--FOTO!!!!-->
+    <div class="position-relative form-group">
+      <label for="foto">Ingrese una imagen del producto</label>
+      <input formControlName="img" name="img" id="img" type="file" class="form-control-file">
+    </div>
+    <!--Nombre-->
+    <div class="position-relative form-group">
+      <label for="name">Nombre</label>
+      <input formControlName="name" name="name" id="name" placeholder="Ingrese el nombre del producto" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+      </div>
+    </div>
+    <!--Nombre-->
+    <div class="position-relative form-group">
+      <label for="stock">Stock</label>
+      <input formControlName="stock" name="stock" id="stock" placeholder="Ingrese la dirección del producto" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stock.errors }">
+      <div *ngIf="submitted && f.stock.errors" class="invalid-feedback">
+          <div *ngIf="f.stock.errors.required">La Dirección es requerido</div>
+      </div>
+    </div>
+
+    <div class="position-relative form-group">
+      <label for="price">Precio</label>
+      <input formControlName="price" name="price" id="price" placeholder="Ingrese el teléfono del producto" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+      <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+          <div *ngIf="f.price.errors.required">El teléfono es requerido</div>
+      </div>
+    </div>
+
+    <div class="position-relative form-group">
+      <label for="code">Código Único</label>
+      <input formControlName="code" name="code" id="code" placeholder="Ingrese el code del producto" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
+      <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+          <div *ngIf="f.code.errors.required">El código es requerido</div>
+      </div>
+    </div>
+    
+    <div class="position-relative form-group">
+      <label for="provider_id">Proveedor</label>
+      <input formControlName="provider_id" type="number" min="0" name="provider_id" id="provider_id"  placeholder="Ingrese el credito positivo inicial del producto"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.provider_id.errors }">
+      <div *ngIf="submitted && f.provider_id.errors" class="invalid-feedback">
+          <div *ngIf="f.provider_id.errors.required">ingrese el proveedor del producto</div>
+      </div>
+    </div>
+
+    <div class="position-relative form-group">
+        <label for="category_id">Categoria</label>
+        <input formControlName="category_id" type="number" min="0" name="category_id" id="category_id"  placeholder="Ingrese el credito positivo inicial del producto"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }">
+        <div *ngIf="submitted && f.category_id.errors" class="invalid-feedback">
+            <div *ngIf="f.category_id.errors.required">ingrese la categoria del producto</div>
+        </div>
+      </div>
+    <!--Descripcion-->
+    <div class="position-relative form-group">
+      <label for="descripcion">Descripcion</label>
+      <textarea formControlName="description" name="description" id="description"  class="form-control" placeholder="Ingrese una breve descripcion del producto" [ngClass]="{ 'is-invalid': submitted && f.description.errors }">      
+      </textarea>
+      <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+          <div *ngIf="f.description.errors.required">ingrese una breve descripción</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="mt-1 btn btn-primary" type="submit" (click)="Cancelar()">Cancelar</button>
+      <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
+    </div>
+  </form>
+
+    
+</div>

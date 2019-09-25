@@ -108,8 +108,6 @@ import { HomeComponent } from './Pages/home/home.component';
 import { ProductComponent } from './Pages/product/product.component';
 import { SaleComponent } from './Pages/sale/sale.component';
 import { SubscriptionComponent } from './Pages/subscription/subscription.component';
-import { StoreComponent } from './Pages/product/store/store.component';
-import { UpdateComponent } from './Pages/product/update/update.component';
 import { PaymentComponent } from './Pages/payment/payment.component';
 import { PaymentstoreComponent } from './Pages/payment/paymentstore/paymentstore.component';
 import { ClientComponent } from './Pages/client/client.component';
@@ -120,8 +118,6 @@ import { ModalaboutComponent } from './Components/modalabout/modalabout.componen
 import { ProviderComponent } from './Pages/provider/provider.component';
 import { ServiceComponent } from './Pages/service/service.component';
 import { CajaComponent } from './Pages/caja/caja.component';
-import { CajaStoreComponent } from './Pages/caja/caja-store/caja-store.component';
-import { CajaUpdateComponent } from './Pages/caja/caja-update/caja-update.component';
 import { EditServiceComponent } from './Pages/service/edit-service/edit-service.component';
 import { ToastrModule } from 'ngx-toastr';
 import { EditClientComponent } from './Pages/client/edit-client/edit-client.component';
@@ -133,6 +129,7 @@ import { CategoryComponent } from './Pages/category/category.component';
 import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
 import { FilterPipe } from './filter.pipe';
 import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
+import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -229,8 +226,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ProductComponent,
     SaleComponent,
     SubscriptionComponent,
-    StoreComponent,
-    UpdateComponent,
     PaymentComponent,
     PaymentstoreComponent,
     ClientComponent,
@@ -242,8 +237,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ServiceComponent,
     CategoryComponent ,
     CajaComponent,
-    CajaStoreComponent,
-    CajaUpdateComponent,
     EditServiceComponent,
     EditClientComponent,
     EditProviderComponent,
@@ -253,6 +246,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditSubscriptionComponent,
     FilterPipe,
     EditCategoryComponent,
+    EditProductComponent,
   ],
   imports: [
     BrowserModule,

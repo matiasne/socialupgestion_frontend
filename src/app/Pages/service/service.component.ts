@@ -42,29 +42,19 @@ export class ServiceComponent implements OnInit {
   ngOnInit() {
     this.obtenerServicios();
   }
-
   
   obtenerServicios(){
-    this.commerceSubscription =  this._servicesService.getServices().subscribe(data=>{
+    this.commerceSubscription =  this._servicesService.get().subscribe(data=>{
       this.services = data;
       console.log(this.services);
-      if(this.services == "0"){
-        this.router.navigate(['/home']);
-      }
+      
     });
   }
   
 
 
-  UpdateService(_service){
-
-   
-
-    
-  }
-
   deleteService(service){
-    this._servicesService.deleteService(service).subscribe(
+    this._servicesService.delete(service).subscribe(
       response=>{
         this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
           timeOut: 5000,

@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   getCommerces(){
-    this._commercesSerivce.getUserCommerces().subscribe(
+    this._commercesSerivce.get().subscribe(
       (resp:any)=>{
         this.commerces = resp;
 

@@ -7,7 +7,7 @@
       <label for="name">Nombre</label>
       <input formControlName="name" name="name" id="name" placeholder="Ingrese el nombre del cliente" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
       <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-          <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+        <div *ngIf="f.name.errors.required">El nombre es requerido</div>
       </div>
     </div>
     <!--Nombre-->

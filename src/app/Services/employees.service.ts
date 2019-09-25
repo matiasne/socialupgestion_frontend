@@ -5,104 +5,81 @@ import { map, retry, catchError } from 'rxjs/operators';
 import { CommercesService } from './commerces.service';
 
 import { GLOBAL } from './global';
+import { BaseCRUDService } from './base-crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesService {
 
-  public url:string;
-  public httpHeaders:HttpHeaders;
-  private commerceSubscription: Subscription;
-  public commerce:any;
-
+  private partialUrl:string;
   constructor(
-    private httpClient: HttpClient,
+    public http: BaseCRUDService,
     public _commerceService:CommercesService,
-  ) {
-    this.url = GLOBAL.url;
-
-    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
-      this.commerce = data;      
-    });
-
-  }
+  ) { 
+    this.partialUrl = '/employees';
+  } 
 
   get(){
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.get(); 
+  }
 
-    let options = {
-      headers: this.httpHeaders
-    };  
+  add(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.add(data); 
+  }
 
-    return this.httpClient.get(this.url+'commerces/'+this.commerce.id+'/employees',options).pipe(      
-      retry(1),
-      catchError(this.handleError)
-    );
+  update(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.update(data); 
+  }
+
+  delete(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.delete(data); 
   }
 
   public asignarRolEmpleado(user){
 
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
 
     let options = {
-      headers: this.httpHeaders
+      headers: this.http.httpHeaders
     };    
 
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
 
-    return this.httpClient.post(this.url+'commerces/'+this.commerce.id+'/employees/'+user.id, "", options).pipe(      
+    return this.http.httpClient.post(this.http.url+'/'+user.id, "", options).pipe(      
       retry(1),
-      catchError(this.handleError)
+      catchError(this.http.handleError)
     );
 
   }
 
   public desasignarRolEmpleado(user){
 
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
 
     let options = {
-      headers: this.httpHeaders
+      headers: this.http.httpHeaders
     };    
 
  
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
 
-    return this.httpClient.delete(this.url+'commerces/'+this.commerce.id+'/employees/'+user.id, options).pipe(      
+    return this.http.httpClient.delete(this.http.url+'/'+user.id, options).pipe(      
       retry(1),
-      catchError(this.handleError)
+      catchError(this.http.handleError)
     );
 
   }
 
 
-
-  
-  // Error handling 
-  handleError(error) {
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-
-    //window.alert(errorMessage);
-    return throwError(error.status);
- }
 
 
 }

@@ -100,7 +100,7 @@ export class EditClientComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.client);
-      this._clientsService.updateClient(this.client).subscribe(
+      this._clientsService.update(this.client).subscribe(
         response=>{
           console.log(response);
 
@@ -113,7 +113,7 @@ export class EditClientComponent implements OnInit {
       )
     }
     else{
-      this._clientsService.addClient(this.client).subscribe(
+      this._clientsService.add(this.client).subscribe(
         response=>{
           console.log(response);
           this.toastr.success(this.client.name+' ha sido creado!','Cliente Creado', {

@@ -45,7 +45,7 @@ export class ProviderComponent implements OnInit {
 
   
   obtenerProveedores(){
-    this.commerceSubscription =  this._providersService.getProviders().subscribe(data=>{
+    this.commerceSubscription =  this._providersService.get().subscribe(data=>{
       this.providers = data;
       console.log(this.providers);
       if(this.providers == "0"){
@@ -64,7 +64,7 @@ export class ProviderComponent implements OnInit {
   }
 
   deleteService(provider){
-    this._providersService.deleteProvider(provider).subscribe(
+    this._providersService.delete(provider).subscribe(
       response=>{
         this.toastr.info(provider.name+' ha sido borrado!','Servicio Borrado', {
           timeOut: 5000,

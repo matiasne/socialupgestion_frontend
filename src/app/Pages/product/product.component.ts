@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Commerce } from 'src/app/Models/Commerce';
 import { Router } from '@angular/router';
+import { ProductsService } from 'src/app/Services/products.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -17,47 +19,56 @@ export class ProductComponent implements OnInit {
   subheading = 'Listado de todos los productos del comercio.';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
   buttons = [{
-    href:"/producto/guardar",
+    href:"/product",
     icon:"plus",
     title:"Agregar Producto"
   }]
 
-  public commerce:any;
-  private commerceSubscription: Subscription;
-  
+  public products:any;
+  private productSubscription: Subscription;
   constructor(
-    private modalService: NgbModal,
-    public _commerceService:CommercesService,
+    public _productsServices:ProductsService,
     public router: Router,
+    private toastr: ToastrService,
+    private modalService: NgbModal, 
   ) {
-  
-    this.commerce = "";
-    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
-      this.commerce = data;
-      console.log(this.commerce);
-
-      if(this.commerce == "0"){
-        this.router.navigate(['/home']);
-      }
-    });
+    this.products = "";
+    
   }
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
+    this.productSubscription.unsubscribe();
   }
 
   ngOnInit() {
-
+    this.obtenerProductos();
+  }
+  
+  obtenerProductos(){
+    this.productSubscription =  this._productsServices.get().subscribe(data=>{
+      this.products = data;
+      
+    });
   }
 
+  deleteProducto(product){
+    this._productsServices.delete(product).subscribe(
+      response=>{
+        this.toastr.info(product.name+' ha sido borrado!','Producto Borrado', {
+          timeOut: 5000,
+        });
+        this.obtenerProductos();
+      }
+    )
+  }
 
-
-  open(content) {
+  open(content,product) {
+    console.log(product);
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       console.log(result);
       if(result == "si"){
-        alert("Borrado");
+        this.deleteProducto(product)
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -72,20 +83,6 @@ export class ProductComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
-  }
-
-
-  selecionarProduct(product){
-    this.router.navigate(['/producto/actualizar'], { state: { 
-      name: product.name,
-      commerce_id:product.commerce_id,
-      provider_id:product.provider_id,
-      category_id:product.category_id,
-      code:product.code,
-      description:product.description,
-      price:product.price,
-      stock:product.stock,
-    } });
   }
 
 }

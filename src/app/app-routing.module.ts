@@ -61,8 +61,6 @@ import {ChartjsComponent} from './DemoPages/Charts/chartjs/chartjs.component';
 
 //Product
 import {ProductComponent} from './Pages/product/product.component';
-import {StoreComponent} from './Pages/product/store/store.component';
-import {UpdateComponent} from './Pages/product/update/update.component';
 
 //Sale
 import {SaleComponent} from './Pages/sale/sale.component';
@@ -89,8 +87,6 @@ import {ProviderComponent} from './Pages/provider/provider.component';
 
 //Caja 
 import {CajaComponent} from './Pages/caja/caja.component';
-import {CajaStoreComponent} from './Pages/caja/caja-store/caja-store.component';
-import {CajaUpdateComponent} from './Pages/caja/caja-update/caja-update.component';
 
 //Service
 import {ServiceComponent} from './Pages/service/service.component';
@@ -103,6 +99,8 @@ import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.
 
 //Category
 import {CategoryComponent} from './Pages/category/category.component';
+import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
+import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
 
 
 const routes: Routes = [
@@ -158,9 +156,8 @@ const routes: Routes = [
       {path: 'charts/chartjs', component: ChartjsComponent, data: {extraParameter: ''}},
 
       //Product 
-      {path: 'producto', component:ProductComponent, data: {extraParameter: ''}},
-      {path: 'producto/guardar', component:StoreComponent, data: {extraParameter: ''}},
-      {path: 'producto/actualizar', component:UpdateComponent, data: {extraParameter: ''}},
+      {path: 'products', component:ProductComponent, data: {extraParameter: ''}},
+      {path: 'product', component:EditProductComponent, data: {extraParameter: ''}},
       
       //Sale 
       {path: 'sales', component:SaleComponent, data: {extraParameter: ''}},
@@ -189,15 +186,14 @@ const routes: Routes = [
 
       //Caja
       {path: 'caja', component:CajaComponent, data:{extraParameter: ''} },
-      {path: 'caja/guardar', component:CajaStoreComponent, data:{extraParameter: ''} },
-      {path: 'caja/actualizar', component:CajaUpdateComponent, data:{extraParameter: ''} },
 
       //Service
       {path: 'services', component:ServiceComponent, data:{extraParameter: ''} },
       {path: 'service', component:EditServiceComponent, data:{extraParameter: ''} },
 
       //Category
-      {path: 'categoria', component:CategoryComponent, data:{extraParameter: ''} },
+      {path: 'categories', component:CategoryComponent, data:{extraParameter: ''} },
+      {path: 'category', component:EditCategoryComponent, data:{extraParameter: ''} },
 
     ]
   },

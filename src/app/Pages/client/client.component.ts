@@ -60,7 +60,7 @@ export class ClientComponent implements OnInit {
   }
 
   obtenerClientes(){
-    this.commerceSubscription =  this._clientsService.getClients().subscribe(data=>{
+    this.commerceSubscription =  this._clientsService.get().subscribe(data=>{
       this.clients = data;
       console.log(this.clients);
       if(this.clients == "0"){
@@ -70,7 +70,7 @@ export class ClientComponent implements OnInit {
   }
 
   deleteClient(client){
-    this._clientsService.deleteClient(client).subscribe(
+    this._clientsService.delete(client).subscribe(
       response=>{
         this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
           timeOut: 5000,

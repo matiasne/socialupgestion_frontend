@@ -3,50 +3,55 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { GLOBAL } from './global';
+import { BaseCRUDService } from './base-crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommercesService {
 
-  public url:string;
-  public httpHeaders:HttpHeaders;
-
-  
+  public commerce:any;
   public commerceSubject = new BehaviorSubject <any>("");
+
+  private partialUrl:string;
   constructor(
-    private httpClient: HttpClient,
+    public http: BaseCRUDService,
+    public _commerceService:CommercesService,
   ) { 
-    this.url = GLOBAL.url;	
+    
 
     if(localStorage.getItem('commerce')){
       var commerce = JSON.parse(localStorage.getItem('commerce'));
       this.commerceSubject.next(commerce);
-    }    
+    }  
+
+  } 
+
+  get(){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.get(); 
   }
 
-  getUserCommerces(){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
-    let options = {
-      headers: this.httpHeaders
-    };
-
-    return this.httpClient.get(this.url+'commerces', options).pipe(
-      map(response =>{
-
-        return response;
-      }),
-      retry(1),
-      catchError(this.handleError)
-    );
+  add(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.add(data); 
   }
 
+  update(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.update(data); 
+  }
+
+  delete(data){
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    return this.http.delete(data); 
+  }
+
+  
   getSelectedCommerce(): Observable<any>{
     return this.commerceSubject.asObservable();
   }
@@ -63,108 +68,18 @@ export class CommercesService {
   }
 
   getCommerceData(id){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
     let options = {
-      headers: this.httpHeaders
+      headers: this.http.httpHeaders
     };
 
-    return this.httpClient.get(this.url+'commerces/'+id, options).pipe(      
+    var commerce = JSON.parse(localStorage.getItem('commerce'));
+    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+
+    return this.http.httpClient.get(this.http.url+'/'+id, options).pipe(      
       retry(1),
-      catchError(this.handleError)
+      catchError(this.http.handleError)
     );
   }
 
 
-  addCommerce(data){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
-    let options = {
-      headers: this.httpHeaders
-    };
-
-    let body = JSON.stringify(data);
-
-    console.log(body);
-
-    return this.httpClient.post(this.url+'commerces', body, options).pipe(
-      map(response =>{
-        return response;
-      }),
-      retry(1),
-      catchError(this.handleError)
-    );
-
-  }
-
-  updateCommerce(data){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
-    let options = {
-      headers: this.httpHeaders
-    };
-
-    let body = JSON.stringify(data);
-
-    console.log(body);
-
-    return this.httpClient.patch(this.url+'commerces/'+data.id, body, options).pipe(
-      map(response =>{
-        return response;
-      }),
-      retry(1),
-      catchError(this.handleError)
-    );
-
-  }
-
-  deleteCommerce(data){
-
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-
-    let options = {
-      headers: this.httpHeaders
-    };
-    
-    return this.httpClient.delete(this.url+'commerces/'+data.id,  options).pipe(
-      map(response =>{
-        return response;
-      }),
-      retry(1),
-      catchError(this.handleError)
-    );
-
-  }
-  // Error handling 
-  handleError(error) {
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    //window.alert(errorMessage);
-    return throwError(error.status);
-  }
 }

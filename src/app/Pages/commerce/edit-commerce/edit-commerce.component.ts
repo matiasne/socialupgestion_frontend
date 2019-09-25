@@ -92,7 +92,7 @@ export class EditCommerceComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.commerce);
-      this._commercesService.updateCommerce(this.commerce).subscribe(
+      this._commercesService.update(this.commerce).subscribe(
         response=>{
           console.log(response);
 
@@ -104,7 +104,7 @@ export class EditCommerceComponent implements OnInit {
       )
     }
     else{
-      this._commercesService.addCommerce(this.commerce).subscribe(
+      this._commercesService.add(this.commerce).subscribe(
         response=>{
           console.log(response);
           this.toastr.success(this.commerce.name+' ha sido creado!','Comercio Creado', {

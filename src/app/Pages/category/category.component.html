@@ -28,31 +28,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td class="text-center text-muted" style="width: 80px;">#1</td>
-        <td class="text-center">Dulces</td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" routerLink="/categoria/actualizar">Editar</button>
-          </div>
-        </td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary">Borrar</button>
-          </div>
-        </td>
-      </tr>
-  
+        <tr *ngFor="let category of categories" >
+          <td class="text-center" [routerLink]="['/category',category]">{{category.id}}</td>
+          <td class="text-center" [routerLink]="['/category',category]">{{category.name}}</td>          
+          <td class="text-center">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="btn-shadow btn btn-primary" (click)="delete(category)" >Borrar</button>
+            </div>
+          </td>
+        </tr>  
       </tbody>
     </table>
   </div>
 
   <div class="d-block p-4 text-center card-footer">
-    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
-      <span class="mr-2 opacity-7">
-          <i class="fa fa-cog fa-spin"></i>
-      </span>
-      <span class="mr-1">Actualizar</span>
-    </button>
+    
   </div>
 </div>
