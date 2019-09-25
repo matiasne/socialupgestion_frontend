@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
   subheading = 'Listado de todos los productos del comercio.';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
   buttons = [{
-    href:"/producto/guardar",
+    href:"/product",
     icon:"plus",
     title:"Agregar Producto"
   }]
@@ -51,8 +51,9 @@ export class ProductComponent implements OnInit {
   }
 
 
+  open(content,$event){
 
-  open(content) {
+    $event.stopPropagation();
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       console.log(result);
@@ -73,19 +74,4 @@ export class ProductComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
-
-  selecionarProduct(product){
-    this.router.navigate(['/producto/actualizar'], { state: { 
-      name: product.name,
-      commerce_id:product.commerce_id,
-      provider_id:product.provider_id,
-      category_id:product.category_id,
-      code:product.code,
-      description:product.description,
-      price:product.price,
-      stock:product.stock,
-    } });
-  }
-
 }

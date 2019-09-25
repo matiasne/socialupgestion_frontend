@@ -22,6 +22,7 @@ export class EmployeComponent implements OnInit {
 
   public commerce:any;
   private commerceSubscription: Subscription;
+  empleadoValue;
   
   constructor(
     private modalService: NgbModal,
@@ -45,6 +46,10 @@ export class EmployeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public updateTable(){
+    this.empleadoValue="";
   }
 
 }

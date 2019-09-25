@@ -1,0 +1,69 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+<div class="card-body">
+  <form  [formGroup]="registerFormProduct">
+
+    <div class="form-row">
+      <!--Nombre-->
+      <div class="form-group col-md-4 text-center">
+        <label>Nombre</label>
+          <input formControlName="name" placeholder="Nombre" type="text" class="form-control">
+      </div>
+
+      <!--Proveedor-->
+      <div class="form-group col-md-4 text-center">
+        <label >Proveedor</label>
+        <input formControlName="provider_id" placeholder="Proveedor" type="text" class="form-control">
+      </div>
+
+      <!--precio-->
+      <div  class="form-group col-md-4 text-center">
+        <label >Codigo</label>
+        <input formControlName="code" placeholder="Codigo" type="number" class="form-control">
+      </div>
+
+    </div>
+    
+    <div class="form-row">
+      
+      <!--Categoria-->
+      <div class="form-group col-md-4 text-center">
+        <label >Categoria</label>
+        <select formControlName="category_id" class="form-control">
+          <option>Golosinas</option>
+          
+        </select>
+      </div>
+
+
+       <!--Precio-->
+      <div class="form-group col-md-4 text-center">
+        <label >Precio</label>
+        <input formControlName="price" placeholder="Precio" type="number" class="form-control">
+      </div>
+
+      <!--Imagen-->
+      <div class="form-group col-md-4 text-center">
+      
+        <label>Imagen</label>
+        <input  type="file" class="form-control-file">
+        
+        <small class="form-text text-muted">
+          Seleccione la imagen del producto.
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <!--Descripcion-->
+    <div class="position-relative form-group">
+      <label for="descripcion">Descripcion</label>
+      <textarea class="form-control">
+      
+      </textarea>
+    </div>
+
+    <button class="mt-1 btn btn-primary" type="submit">Guardar</button>
+  </form>
+</div>

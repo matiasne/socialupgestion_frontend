@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbActiveModal ,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/Components/modal/modal.component';
 import { ModalaboutComponent } from 'src/app/Components/modalabout/modalabout.component';
 import { Subscription } from 'rxjs';
@@ -29,19 +29,22 @@ export class ClientComponent implements OnInit {
   public clients:any;
   public commerce:any;
   private commerceSubscription: Subscription;
+
+  clienteValue;
+  closeResult: string;
   
   constructor(
     public _commerceService:CommercesService,
     public router: Router,
     public _clientsService:ClientsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) {
   
     this.commerce = "";
     this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
       this.commerce = data;
-      console.log(this.commerce);
-
+    
       if(this.commerce == "0"){
         this.router.navigate(['/home']);
       }
@@ -69,14 +72,38 @@ export class ClientComponent implements OnInit {
     });
   }
 
-  deleteClient(client){
-    this._clientsService.deleteClient(client).subscribe(
-      response=>{
-        this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
-          timeOut: 5000,
-        });
-        this.obtenerClientes();
+  deleteClient(content,client,$event){
+    $event.stopPropagation();
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){
+        this._clientsService.deleteClient(client).subscribe(
+          response=>{
+            this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
+              timeOut: 5000,
+            });
+            this.obtenerClientes();
+          }
+        )
       }
-    )
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+ 
+  public updateTable(){
+    this.clienteValue="";
   }
 }

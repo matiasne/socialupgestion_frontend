@@ -1,21 +1,16 @@
 
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Cliente</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
-      </div>
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="position-relative form-group">
+      <label>Cliente</label>
+      <input [(ngModel)]="clienteValue" class="form-control" type="text" placeholder="Nombre">
     </div>
-  </form>
+  </div>
 </div>
+ 
 
 <div class="main-card mb-3 card">
   <div class="table-responsive">
@@ -30,25 +25,50 @@
         <th class="text-center"></th>
         <th class="text-center"></th>
       </tr>
-      </thead>
+      </thead> 
       <tbody>
-        <tr *ngFor="let client of clients" >        
-          <td class="text-center" [routerLink]="['/client',client]">{{client.id}}</td>
+        <tr *ngFor="let client of clients | filter: clienteValue" [routerLink]="['/client',client]">        
+          <td class="text-center">{{client.id}}</td>
           <td class="text-center" style="width: 80px;">
             <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
           </td>
-          <td class="text-center" [routerLink]="['/client',client]">{{client.name}}</td>
-          <td class="text-center" [routerLink]="['/client',client]">{{client.positive_credit}}</td>
-          <td class="text-center" [routerLink]="['/client',client]">{{client.phone_number}}</td>
+          <td class="text-center">{{client.name}}</td>
+          <td class="text-center">{{client.positive_credit}}</td>
+          <td class="text-center">{{client.phone_number}}</td>
           <td class="text-center">
             <a href="whatsapp://send?abid={{client.phone_number}}&text=Hello%2C%20World!">whatsapp</a>
           </td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteClient(client)" >Borrar</button>
+              <button class="btn-shadow btn btn-primary" (click)="deleteClient(content,cliente,$event)" >Borrar</button>
             </div>
           </td>
         </tr>  
       </tbody>
     </table>
   </div>
+  <div class="d-block p-4 text-center card-footer">
+    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
+      <span class="mr-2 opacity-7">
+          <i class="fa fa-cog fa-spin"></i>
+      </span>
+      <span class="mr-1" (click)="updateTable()">Actualizar</span>
+    </button>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Cliente</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este cliente?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>

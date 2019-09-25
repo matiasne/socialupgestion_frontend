@@ -21,6 +21,15 @@ export class SubscriptionComponent implements OnInit {
 
   closeResult: string;
   subscription:any=[];
+  startdateValue;
+  enddateValue;
+  estadoValue;
+  periodValue;
+  clienteValue;
+
+
+  status:any =[];
+  perid:any = [];
 
   currentDate() {
     const currentDate = new Date();
@@ -29,18 +38,21 @@ export class SubscriptionComponent implements OnInit {
 
 constructor(private modalService: NgbModal, public router: Router) {
     this.subscription=[];
+
+    this.status=["Anticipado","Vencido"];
+    this.perid=["1","2","3","4","5","6","7","8","9","10","11","12"];
     
 }
 
   ngOnInit() {
     this.subscription = [{
       id: "1",
-      cliente: "Pedro",
+      name: "Pedro",
       empleado: "Hola",
       fecha: this.currentDate(),
-      periodo: "1",
-      estadopago: "Anticipado",
-      estado:"Activo",
+      period: "1",
+      status: "Anticipado",
+      statusSub:"Activo",
       total: 1200,
       servicios: JSON.stringify({
         "name" : "Pizzas",
@@ -70,6 +82,42 @@ constructor(private modalService: NgbModal, public router: Router) {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+
+  public changeCliente(event){
+    this.estadoValue = "";
+    this.periodValue="";
+    this.startdateValue="";
+    this.enddateValue="";
+  }
+  
+  public changeStatus(event){
+    this.periodValue="";
+    this.clienteValue="";
+    this.startdateValue="";
+    this.enddateValue="";
+  }
+
+  public changePeriod(event){
+    this.estadoValue = "";
+    this.clienteValue="";
+    this.startdateValue="";
+    this.enddateValue="";
+  }
+
+  public changeDate(event){
+    this.estadoValue = "";
+    this.periodValue="";
+    this.clienteValue="";
+  }
+
+  public updateTable(){
+    this.startdateValue="";
+    this.enddateValue="";
+    this.estadoValue = "";
+    this.periodValue="";
+    this.clienteValue="";
   }
 
 }

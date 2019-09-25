@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
 import { viewAttached } from '@angular/core/src/render3/instructions';
@@ -25,9 +25,12 @@ export class ServiceComponent implements OnInit {
 
   public services:any;
   private commerceSubscription: Subscription;
+  serviceValue;
+  closeResult: string;
   
   constructor(
     public _servicesService:ServicesService,
+    private modalService: NgbModal,
     public router: Router,
     private toastr: ToastrService
   ) {  
@@ -63,14 +66,39 @@ export class ServiceComponent implements OnInit {
     
   }
 
-  deleteService(service){
-    this._servicesService.deleteService(service).subscribe(
-      response=>{
-        this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
-          timeOut: 5000,
-        });
-        this.obtenerServicios();
+  deleteService(content,service,$event){
+    $event.stopPropagation();
+
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){
+        this._servicesService.deleteService(service).subscribe(
+          response=>{
+            this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
+              timeOut: 5000,
+            });
+            this.obtenerServicios();
+          }
+        )
       }
-    )
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
+
+  public updateTable(){
+    this.serviceValue="";
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+
 }

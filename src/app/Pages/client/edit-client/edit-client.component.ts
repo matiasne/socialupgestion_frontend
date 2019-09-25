@@ -20,8 +20,7 @@ export class EditClientComponent implements OnInit {
   public isUpdate:boolean;
   registerForm: FormGroup;
   submitted = false;
-
-  heading = 'Servicios';
+  heading;
   subheading = '';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
  

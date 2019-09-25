@@ -1,26 +1,21 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Producto</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
-          <div class="position-relative form-group">
-            <label>Proveedor</label>
-            <input class="form-control" type="text" placeholder="Nombre">
-          </div>
-        </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
-      </div>
-    </div>
-  </form>
-</div>
 
+<div class="row">
+  <div class="col-md-3">
+    <div class="position-relative form-group">
+      <label>Producto</label>
+      <input [(ngModel)]="productValue" class="form-control" type="text" placeholder="Nombre">
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="position-relative form-group">
+      <label>Categoria</label>
+      <input [(ngModel)]="categoryValue" class="form-control" type="text" placeholder="Nombre">
+    </div>
+  </div>
+
+</div>
 
 <div class="main-card mb-3 card">
   <div class="card-header">
@@ -38,12 +33,11 @@
         <th class="text-center">Precio</th>
         <th class="text-center">Stock</th>
         <th class="text-center"></th>
-        <th class="text-center"></th>
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of commerce.products" (click)="selecionarProducto(product)">
-          <td class="text-center text-muted" style="width: 80px;">{{product.category}}</td>
+        <tr *ngFor="let product of commerce.products | filter: productValue:null:null:null:null:null:categoryValue" [routerLink]="['/product',product]">
+          <td class="text-center text-muted" style="width: 80px;">{{product.category_id}}</td>
           <td class="text-center text-muted" style="width: 80px;">{{product.code}}</td>
           <td class="text-center" style="width: 80px;">
             <img width="40" class="rounded-circle" src="{{product.imgproduct}}" alt="">
@@ -54,13 +48,8 @@
           <td class="text-center">{{product.stock}}</td> 
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" routerLink="/producto/actualizar">Editar</button>
-            </div>
-          </td>
-          <td class="text-center">
-            <div role="group" class="btn-group-sm btn-group">
               <button class="btn-shadow btn btn-primary" (click)="open(content,$event)" >Borrar</button>
-            </div>
+            </div> 
           </td>
         </tr>
       </tbody>
@@ -90,7 +79,4 @@
     <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
     <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
   </div>
-
-  
-
 </ng-template>

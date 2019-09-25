@@ -1,0 +1,12 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+
+<form [formGroup]="registerFormCategory">
+  <div  class="row">
+    <div class="col-md-4">
+      <label>Categoria</label>
+      <input formControlName="name" type="text" placeholder="Nombre" class="form-control">
+    </div>
+  </div>
+  <button class="mt-1 btn btn-primary" type="submit" >Cancelar</button>
+  <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
+</form>

@@ -36,6 +36,12 @@ export class SaleComponent implements OnInit {
   closeResult: string;
 
   result: any[] = [];
+
+  estadoValue;
+  paymentValue;
+  clienteValue;
+  startdateValue;
+  enddateValue;
   
 constructor(
   private modalService: NgbModal, 
@@ -47,13 +53,8 @@ constructor(
 
     this.prod=[];
     this.serv=[];
-    this.paymethod=[{
-      name: "Efectivo"
-    },{
-      name: "Credito"
-    },{
-      name: "Debito"
-    }];
+
+    this.paymethod=["Efectivo","Credito","Debito","Descuentos","Cuenta Corriente"];
 
     this.status=["Pagado","Pendiente","Cancelado"];
     
@@ -63,11 +64,11 @@ constructor(
 
     this.sales = [{
       id: "1",
-      cliente: "Pedro",
+      name: "Pedro",
       empleado: "Hola",
-      fecha: "12-02-2019",
+      fecha: "2019-12-02",
       pago: "Debito",
-      estado:"Pagado",
+      status:"Pagado",
       total: 1600,
       productos : JSON.stringify({
         "name": "Jugo",
@@ -81,11 +82,11 @@ constructor(
       descripcion: "sadfsadf"
     },{
       id: "2",
-      cliente: "Pedro2",
+      name: "Pedro2",
       empleado: "Hola",
-      fecha: "12-02-2019",
+      fecha: "2019-02-01",
       pago: "Efectivo",
-      estado:"Pendiente",
+      status:"Pendiente",
       total: 1600,
       productos:JSON.stringify({
         "name": "Jugo",
@@ -99,17 +100,6 @@ constructor(
       descripcion: "sadfsadf"
     }];
     
-
-    this.registerFormFilter = this.formBuilder.group({
-      methodpayment: ['', Validators.required],
-      
-    });
-    
-  }
-
-
-  filter(){
-    return this.registerFormFilter.controls;
   }
 
   open(content, $event) {
@@ -135,67 +125,39 @@ constructor(
     }
   }
 
-  public salesFilter(sales: any[]): any[] {
-
-      this.result = sales/*.filter(item => item.pago == "Efectivo")*/;
-
-      return this.result;
+  public changeCliente(event){
+    this.estadoValue = "";
+    this.paymentValue="";
+    this.startdateValue="";
+    this.enddateValue="";
+  }
+  
+  public changeStatus(event){
+    this.paymentValue="";
+    this.clienteValue="";
+    this.startdateValue="";
+    this.enddateValue="";
   }
 
-  /**
-   * search
-   */
-  public search() {
+  public changePayment(event){
+    this.estadoValue = "";
+    this.clienteValue="";
+    this.startdateValue="";
+    this.enddateValue="";
+  }
 
-    this.submitted = true;
+  public changeDate(event){
+    this.estadoValue = "";
+    this.paymentValue="";
+    this.clienteValue="";
+  }
 
-    //let approved = this.sales.filter(sale => sale.pago == (this.registerFormFilter.controls['methodpayment'].value));
-
-    this.result= this.sales.filter(sale => sale.pago == (this.registerFormFilter.controls['methodpayment'].value));
-
-    /*this.sales = this.sales.slice();
-
-    this.sales.push(approved);*/
-
-   
-    /*
-    for (let i = 0; i <= this.sales.length; i++) {
-      this.sales.pop(i);
-    }
-
-    for (let e = 0; e < approved.length; e++) {
-      this.prod = JSON.parse((approved[e].productos));
-      this.serv = JSON.parse((approved[e].servicios));
-      let i = approved[e].id;
-      let c = approved[e].cliente;
-      let em = approved[e].empleado;
-      let f = approved[e].fecha;
-      let es = approved[e].estado;
-      let p = approved[e].pago;
-      let t = approved[e].total;
-      let d = approved[e].descripcion
-
-      this.sales.push({
-        id: i,
-        cliente: c,
-        empleado: em,
-        fecha: f,
-        pago: p,
-        estado:es,
-        total:t,
-        productos:JSON.stringify({
-          "name": this.prod['name'],
-          "count":this.prod['count'] ,
-          "price" : this.prod['price']
-        }),
-        servicios: JSON.stringify({
-          "name": this.serv['name'],
-          "price": this.serv['price']
-        }),
-        descripcion:d
-      });
-    }*/
-    
+  public updateTable(){
+    this.startdateValue="";
+    this.enddateValue="";
+    this.estadoValue = "";
+    this.paymentValue="";
+    this.clienteValue="";
   }
 
 }

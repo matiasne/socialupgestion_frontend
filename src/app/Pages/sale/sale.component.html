@@ -1,69 +1,46 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
   <div class="row">
+
+    <div class="col-md-2">
+        <label>Desde</label>
+        <input type="date" [(ngModel)]="startdateValue" (ngModelChange)="changeDate($event)" class="form-control">
+    </div>
+    <div  class="col-md-2">
+        <label>Hasta</label>
+        <input type="date" [(ngModel)]="enddateValue" (ngModelChange)="changeDate($event)" class="form-control">
+    </div>
+    
     <div class="col-md-2">
       <div class="position-relative form-group">
         <label>Cliente</label>
-        <input [(ngModel)]="clienteValue" class="form-control" type="text" placeholder="Nombre">
+        <input [(ngModel)]="clienteValue" (ngModelChange)="changeCliente($event)" class="form-control" type="text" placeholder="Nombre">
       </div>
     </div>
 
     <div class="col-md-2">
       <div class="position-relative form-group">
         <label>Pago</label>
-        <!--<input [(ngModel)]="estadoValue" class="form-control" type="text" placeholder="Estado pago">-->
-        <select class="form-control" [(ngModel)]="estadoValue">
+        <select class="form-control" [(ngModel)]="estadoValue" (ngModelChange)="changeStatus($event)">
           <option *ngFor="let sta of status" [ngValue]="sta">
             {{sta}}
           </option>
         </select>
       </div>
     </div>
-  </div>
 
-
-<!--
-<div id="filtere" class="content">
-  <form [formGroup]="registerFormFilter">
-    <div class="row">
-      <div class="col-md-2">
-          <label>Desde</label>
-          <input type="date" class="form-control">
-      </div>
-      <div  class="col-md-2">
-          <label>Hasta</label>
-          <input type="date" class="form-control">
-      </div>
-
-
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label for="methodpayment">Forma de Pago</label>
-          <select formControlName="methodpayment" (change)="search()" name="methodpayment" id="methodpayment" class="form-control">
-            <option *ngFor="let op of paymethod" [ngValue]="op.name" >
-              {{op.name}}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-md-2">
-        <div class="position-relative form-group">
-          <label for="selectsale">Estado</label>
-          <select name="selectsale" id="selectsale" class="form-control">
-            <option></option>
-            <option>Pagado</option>
-            <option>Pendiente</option>
-            <option>Cancelado</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+    <div class="col-md-2">
+      <div class="position-relative form-group">
+        <label>Forma de Pago</label>
+        <select class="form-control" [(ngModel)]="paymentValue" (ngModelChange)="changePayment($event)">
+          <option *ngFor="let op of paymethod" [ngValue]="op" >
+            {{op}}
+          </option>
+        </select>
       </div>
     </div>
-  </form>
-</div>-->
+  </div>
+
 
 <div class="main-card mb-3 card">
   <div class="table-responsive">
@@ -81,13 +58,13 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let sale of sales | filter:{clienteText:clienteValue,estadoText:estadoValue}" [routerLink]="['/sale',sale]" >
+        <tr *ngFor="let sale of sales | filter: clienteValue:estadoValue:paymentValue:startdateValue:enddateValue" [routerLink]="['/sale',sale]" >
           <td class="text-center text-muted" style="width: 80px;">{{sale.id}}</td>
-          <td class="text-center" >{{sale.cliente}}</td>
+          <td class="text-center" >{{sale.name}}</td>
           <td class="text-center">{{sale.empleado}}</td>
           <td class="text-center">{{sale.fecha}}</td>
           <td class="text-center">{{sale.pago}}</td>
-          <td class="text-center">{{sale.estado}}</td>
+          <td class="text-center">{{sale.status}}</td>
           <td class="text-center">{{sale.total}}</td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
@@ -103,7 +80,7 @@
       <span class="mr-2 opacity-7">
           <i class="fa fa-cog fa-spin"></i>
       </span>
-      <span class="mr-1">Actualizar</span>
+      <span class="mr-1" (click)="updateTable()">Actualizar</span>
     </button>
   </div>
 

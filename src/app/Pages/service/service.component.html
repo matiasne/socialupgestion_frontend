@@ -1,26 +1,19 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div id="filter" class="content">
-  <form>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="position-relative form-group">
-          <label>Servicio</label>
-          <input class="form-control" type="text" placeholder="Nombre">
-        </div>
-      </div>
-      <div class="col-md-3">
-          <div class="position-relative form-group">
-            <label>Categoria</label>
-            <input class="form-control" type="text" placeholder="Nombre">
-          </div>
-        </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2.1em;"> Buscar</button>
+<div class="row">
+    <div class="col-md-4">
+      <div class="position-relative form-group">
+        <label>Servicio</label>
+        <input [(ngModel)]="serviceValue" class="form-control" type="text" placeholder="Nombre">
       </div>
     </div>
-  </form>
-</div>
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+          <label>Categoria</label>
+          <input [(ngModel)]="categoryValue" class="form-control" type="text" placeholder="Nombre">
+        </div>
+      </div>
+  </div>
 
 <div class="main-card mb-3 card">
   <div class="table-responsive">
@@ -34,24 +27,36 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let service of services" >
-          <td class="text-center" [routerLink]="['/service',service]">{{service.id}}</td>
-          <td class="text-center" [routerLink]="['/service',service]">{{service.name}}</td>
-          <td class="text-center" [routerLink]="['/service',service]">{{service.price}}</td>
+        <tr *ngFor="let service of services |filter: serviceValue:null:null:null:null:null:categoryValue" [routerLink]="['/service',service]">
+          <td class="text-center">{{service.id}}</td>
+          <td class="text-center">{{service.name}}</td>
+          <td class="text-center">{{service.price}}</td>
           
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteService(service)" >Borrar</button>
+              <button class="btn-shadow btn btn-primary" (click)="deleteService(content,service,$event)" >Borrar</button>
             </div>
           </td>
         </tr>
-  
+        
       </tbody>
     </table>
   </div>
 
-  
-
-  
-
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Servicio</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar este Servicio?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>
