@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/Models/Product';
+import { CategoriesService } from 'src/app/Services/categoryes.service';
+import { ProvidersService } from 'src/app/Services/providers.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -15,8 +17,13 @@ import { Product } from 'src/app/Models/Product';
 export class EditProductComponent implements OnInit {
 
   public product:Product;
+
   public categoryes:any;
   private categoryesSubscription: Subscription;
+
+  public providers:any;
+  private providerSubscription: Subscription;
+
   public isUpdate:boolean;
   registerForm: FormGroup;
   submitted = false;
@@ -31,12 +38,24 @@ export class EditProductComponent implements OnInit {
     private _location: Location,
     public _productsService:ProductsService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _categoriesService:CategoriesService,
+    private _providerService:ProvidersService
   ) {
     this.product = new Product();
    }
 
   ngOnInit() {
+
+    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
+      this.categoryes = data;
+      console.log(this.categoryes);     
+    });
+
+    this.providerSubscription =  this._providerService.get().subscribe(data=>{
+      this.providers = data;
+      console.log(this.providers);     
+    });
 
 
     this.registerForm = this.formBuilder.group({

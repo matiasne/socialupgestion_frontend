@@ -1,59 +1,57 @@
 
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-
-<div class="row">
-  <div class="col-md-2">
-    <div class="position-relative form-group">
-      <label>Cliente</label>
-      <input [(ngModel)]="clienteValue" class="form-control" type="text" placeholder="Nombre">
-    </div>
+<div class="search-wrapper" [class.active]="isActive">
+  <div class="input-holder">
+    <input type="text" [(ngModel)]="clienteValue" placeholder="busqueda" class="search-input">
+    <button class="search-icon" (click)="isActive = true"><span></span></button>
   </div>
+  <button class="close" (click)="isActive = false"></button>
 </div>
- 
-
+<br>
 <div class="main-card mb-3 card">
   <div class="table-responsive">
-    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-      <thead>
-      <tr>
-        <th class="text-center">Nro</th>
-        <th class="text-center">Imagen</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Saldo Favor</th>
-        <th class="text-center">Teléfono</th>
-        <th class="text-center"></th>
-        <th class="text-center"></th>
-      </tr>
-      </thead> 
+    <table class="align-middle text-truncate mb-0 table table-borderless table-striped table-hover">
+    
       <tbody>
         <tr *ngFor="let client of clients | filter: clienteValue" [routerLink]="['/client',client]">        
-          <td class="text-center">{{client.id}}</td>
-          <td class="text-center" style="width: 80px;">
-            <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
-          </td>
-          <td class="text-center">{{client.name}}</td>
-          <td class="text-center">{{client.positive_credit}}</td>
-          <td class="text-center">{{client.phone_number}}</td>
-          <td class="text-center">
-            <a href="whatsapp://send?abid={{client.phone_number}}&text=Hello%2C%20World!">whatsapp</a>
-          </td>
-          <td class="text-center">
-            <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteClient(content,cliente,$event)" >Borrar</button>
+          <td>
+            <div class="widget-content p-0">
+              <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-3">
+                  <div class="widget-content-left">
+                    <img width="40" class="rounded-circle" src="./assets/images/avatars/3.jpg" alt="">
+                  </div>
+                </div>
+                <div class="widget-content-left flex2">
+                  <div class="widget-heading">{{client.name}}</div>
+                  <div class="widget-subheading opacity-7">{{client.email}}</div>
+                </div>
+              </div>
             </div>
+          </td>
+          
+          <td class="text-center">
+              <button class="mb-2 mr-2 border-0 btn-transition btn btn-outline-info"  ngbTooltip="{{client.phone_number}}">
+                  <i class="pe-7s-phone btn-icon-wrapper"> </i>
+                </button>             
+          </td>
+          <td class="text-center">             
+              <button class="mb-2 mr-2 border-0 btn-transition btn btn-outline-info"  ngbTooltip="{{client.email}}">
+                <i class="pe-7s-mail btn-icon-wrapper"> </i>
+              </button>            
+          </td>
+          <td class="text-center">
+            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
+              <i class="pe-7s-trash btn-icon-wrapper"> </i>
+            </button>
           </td>
         </tr>  
       </tbody>
     </table>
   </div>
   <div class="d-block p-4 text-center card-footer">
-    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
-      <span class="mr-2 opacity-7">
-          <i class="fa fa-cog fa-spin"></i>
-      </span>
-      <span class="mr-1" (click)="updateTable()">Actualizar</span>
-    </button>
+      <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
   </div>
 
 

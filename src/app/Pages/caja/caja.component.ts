@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { PaydesksService } from 'src/app/Services/paydesks.service';
 
 @Component({
   selector: 'app-caja',
@@ -12,7 +13,7 @@ export class CajaComponent implements OnInit {
   subheading = 'Listado de todos las cajas del comercio.';
   icon = 'pe-7s-phone icon-gradient bg-premium-dark';
   buttons = [{
-    href:"/caja",
+    href:"/paydesk",
     icon:"plus",
     title:"Agregar Caja"
   }]
@@ -20,17 +21,17 @@ export class CajaComponent implements OnInit {
   cajas:any=[];
   closeResult: string;
 
-  constructor(private modalService: NgbModal,) { 
-    this.cajas=[{
-      name:"Caja uno",
-      total: 1500
-    },{
-      name: "Caja dos",
-      total: 1000
-    }];
+  constructor(
+    private modalService: NgbModal,
+    private _paydesksService:PaydesksService
+  ) { 
+    this._paydesksService.get().subscribe(data=>{
+      this.cajas = data;
+    })
   }
 
   ngOnInit() {
+    
   }
 
   open(content,caja,$event){

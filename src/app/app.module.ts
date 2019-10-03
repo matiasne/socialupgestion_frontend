@@ -130,6 +130,7 @@ import { EditSaleComponent } from './Pages/sale/edit-sale/edit-sale.component';
 import { FilterPipe } from './filter.pipe';
 import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
 import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
+import { EditCajaComponent } from './Pages/caja/edit-caja/edit-caja.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -247,6 +248,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FilterPipe,
     EditCategoryComponent,
     EditProductComponent,
+    EditCajaComponent
   ],
   imports: [
     BrowserModule,

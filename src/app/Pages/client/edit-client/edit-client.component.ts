@@ -46,7 +46,6 @@ export class EditClientComponent implements OnInit {
       address: [this.route.snapshot.params.address],
       phone_number: [this.route.snapshot.params.phone_number],
       email: [this.route.snapshot.params.email],
-      positive_credit: [this.route.snapshot.params.positive_credit, [Validators.required]],
       description: [this.route.snapshot.params.description],
       img: [this.route.snapshot.params.img],
     });
@@ -93,7 +92,6 @@ export class EditClientComponent implements OnInit {
     this.client.address = this.registerForm.controls.address.value;
     this.client.phone_number = this.registerForm.controls.phone_number.value;
     this.client.email = this.registerForm.controls.email.value;
-    this.client.positive_credit = this.registerForm.controls.positive_credit.value;
     this.client.description = this.registerForm.controls.description.value;
    
     if(this.isUpdate){

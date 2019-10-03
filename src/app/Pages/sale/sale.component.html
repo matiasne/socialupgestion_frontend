@@ -18,6 +18,8 @@
       </div>
     </div>
 
+   
+
     <div class="col-md-2">
       <div class="position-relative form-group">
         <label>Pago</label>
@@ -58,17 +60,17 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let sale of sales | filter: clienteValue:estadoValue:paymentValue:startdateValue:enddateValue" [routerLink]="['/sale',sale]" >
-          <td class="text-center text-muted" style="width: 80px;">{{sale.id}}</td>
-          <td class="text-center" >{{sale.name}}</td>
-          <td class="text-center">{{sale.empleado}}</td>
-          <td class="text-center">{{sale.fecha}}</td>
-          <td class="text-center">{{sale.pago}}</td>
-          <td class="text-center">{{sale.status}}</td>
-          <td class="text-center">{{sale.total}}</td>
-          <td class="text-center">
+        <tr *ngFor="let sale of sales | filter: clienteValue:estadoValue:paymentValue:startdateValue:enddateValue"  >
+          <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/sale',sale]">{{sale.id}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.name}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.empleado}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.fecha}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.pago}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.status}}</td>
+          <td class="text-center" [routerLink]="['/sale',sale]">{{sale.total}}</td>
+          <td class="text-center" >
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="open(content,$event)">Borrar</button>
+              <button class="btn-shadow btn btn-primary" (click)="open(content,sale)">Borrar</button>
             </div>
           </td>
         </tr>

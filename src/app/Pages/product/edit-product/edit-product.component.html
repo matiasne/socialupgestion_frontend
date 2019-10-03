@@ -38,23 +38,27 @@
       <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
           <div *ngIf="f.code.errors.required">El código es requerido</div>
       </div>
-    </div>
-    
+    </div>   
+
     <div class="position-relative form-group">
       <label for="provider_id">Proveedor</label>
-      <input formControlName="provider_id" type="number" min="0" name="provider_id" id="provider_id"  placeholder="Ingrese el credito positivo inicial del producto"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.provider_id.errors }">
-      <div *ngIf="submitted && f.provider_id.errors" class="invalid-feedback">
-          <div *ngIf="f.provider_id.errors.required">ingrese el proveedor del producto</div>
-      </div>
+      <select formControlName="provider_id" name="provider_id" id="provider_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.provider_id.errors }">
+        <option *ngFor="let provider of providers" [value]="provider.id">{{provider.name}}</option>
+        <div *ngIf="submitted && f.provider_id.errors" class="invalid-feedback">
+            <div *ngIf="f.provider_id.errors.required">Seleccione un proveedor o cree una nuevo (link)</div>
+        </div>
+      </select>
     </div>
 
     <div class="position-relative form-group">
-        <label for="category_id">Categoria</label>
-        <input formControlName="category_id" type="number" min="0" name="category_id" id="category_id"  placeholder="Ingrese el credito positivo inicial del producto"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }">
+      <label for="category_id">Categoria</label>
+      <select formControlName="category_id" name="category_id" id="category_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }">
+        <option *ngFor="let category of categoryes" [value]="category.id">{{category.name}}</option>
         <div *ngIf="submitted && f.category_id.errors" class="invalid-feedback">
-            <div *ngIf="f.category_id.errors.required">ingrese la categoria del producto</div>
+            <div *ngIf="f.category_id.errors.required">Seleccione una categoria o cree una nueva (link)</div>
         </div>
-      </div>
+      </select>
+    </div>
     <!--Descripcion-->
     <div class="position-relative form-group">
       <label for="descripcion">Descripcion</label>

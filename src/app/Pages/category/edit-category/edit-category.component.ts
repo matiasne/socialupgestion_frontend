@@ -15,7 +15,6 @@ import { Category } from 'src/app/Models/Category';
 export class EditCategoryComponent implements OnInit {
 
   public category:Category;
-  public categories:any;
   private categoryesSubscription: Subscription;
   public isUpdate:boolean;
   registerForm: FormGroup;
@@ -34,7 +33,6 @@ export class EditCategoryComponent implements OnInit {
     private toastr: ToastrService
 
   ) { 
-    this.categories = "";
     this.category = new Category();
   }
 

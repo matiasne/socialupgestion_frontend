@@ -101,6 +101,7 @@ import { AddEmployeeComponent } from './Pages/employe/add-employee/add-employee.
 import {CategoryComponent} from './Pages/category/category.component';
 import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
 import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
+import { EditCajaComponent } from './Pages/caja/edit-caja/edit-caja.component';
 
 
 const routes: Routes = [
@@ -185,7 +186,8 @@ const routes: Routes = [
       {path: 'provider', component:EditProviderComponent, data:{extraParameter: ''} },
 
       //Caja
-      {path: 'caja', component:CajaComponent, data:{extraParameter: ''} },
+      {path: 'paydesks', component:CajaComponent, data:{extraParameter: ''} },
+      {path: 'paydesk', component:EditCajaComponent, data:{extraParameter: ''} },
 
       //Service
       {path: 'services', component:ServiceComponent, data:{extraParameter: ''} },

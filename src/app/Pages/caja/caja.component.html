@@ -21,7 +21,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr  *ngFor="let caja of cajas | filter: cajaValue" [routerLink]="['/caja',caja]">
+      <tr  *ngFor="let caja of cajas | filter: cajaValue" [routerLink]="['/paydesk',caja]">
         <td class="text-center">{{caja.name}}</td>
         <td class="text-center">{{caja.total}}</td>
         <td class="text-center">

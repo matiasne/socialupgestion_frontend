@@ -1,18 +1,15 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 <div class="card-body">
-  <form [formGroup]="registerFormCaja">
+  <form [formGroup]="registerForm">
     <div class="form-row">
        <!--Nombre-->
-      <div class="form-group col-md-4 text-center">
-        <label>Caja</label>
-          <input formControlName="name" placeholder="Nombre" type="text" class="form-control">
-      </div>
-
-      <!--Total-->
-      <div class="form-group col-md-4 text-center">
-        <label>Total</label>
-          <input formControlName="total" placeholder="Total" type="number" class="form-control">
-      </div>
+       <div class="position-relative form-group">
+          <label for="names">Nombre</label>
+          <input formControlName="name" name="name" id="name" placeholder="Ingrese el nombre de la categoría" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+          </div>
+        </div>
     </div>
 
     <div class="modal-footer">

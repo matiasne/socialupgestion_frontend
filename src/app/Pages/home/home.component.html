@@ -13,12 +13,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let commerce of commerces" (click)="selecionarComercio(commerce)">
-        <td class="text-center text-muted" style="width: 80px;" >{{commerce.id}}</td>
+      <tr *ngFor="let commerce of commerces">
+        <td class="text-center text-muted" style="width: 80px;"  (click)="selecionarComercio(commerce)" >{{commerce.id}}</td>
         <td class="text-center" style="width: 80px;">
-          <img width="40" class="rounded-circle" src="{{commerce.imgcommerce}}" alt="">
+          <img width="40" class="rounded-circle" src="{{commerce.imgcommerce}}" alt=""  (click)="selecionarComercio(commerce)">
         </td>
-        <td class="text-center">{{commerce.name}}</td>  
+        <td class="text-center"  (click)="selecionarComercio(commerce)">{{commerce.name}}</td>  
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
             <button class="btn-shadow btn btn-primary" [routerLink]="['/commerce',commerce]" >Editar</button>
@@ -26,7 +26,7 @@
         </td>
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" (click)="deleteClient(client)" >Borrar</button>
+            <button class="btn-shadow btn btn-primary" (click)="deleteCommerce(content,commerce)" >Borrar</button>
           </div>
         </td>     
       </tr>      
@@ -41,4 +41,21 @@
       <span class="mr-1" [routerLink]="['/commerce']">Crear Nuevo Comercio</span>
     </button>
   </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Borrar Comercio</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este comercio?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>
+
 </div>

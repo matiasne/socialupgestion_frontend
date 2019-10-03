@@ -29,25 +29,25 @@ export class CommercesService {
 
   get(){
     var commerce = JSON.parse(localStorage.getItem('commerce'));
-    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    this.http.url = GLOBAL.url+'commerces';
     return this.http.get(); 
   }
 
   add(data){
     var commerce = JSON.parse(localStorage.getItem('commerce'));
-    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    this.http.url = GLOBAL.url+'commerces';
     return this.http.add(data); 
   }
 
   update(data){
     var commerce = JSON.parse(localStorage.getItem('commerce'));
-    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    this.http.url = GLOBAL.url+'commerces';
     return this.http.update(data); 
   }
 
   delete(data){
     var commerce = JSON.parse(localStorage.getItem('commerce'));
-    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    this.http.url = GLOBAL.url+'commerces';
     return this.http.delete(data); 
   }
 
@@ -57,14 +57,20 @@ export class CommercesService {
   }
 
   setSelectedCommerce(commerce){
-    
-    this.getCommerceData(commerce.id).subscribe(
-      (resp:any)=>{
-        console.log(resp);
-        localStorage.setItem('commerce',JSON.stringify(resp));
-        this.commerceSubject.next(resp);
-      }
-    )   
+    if(commerce){
+      this.getCommerceData(commerce.id).subscribe(
+        (resp:any)=>{
+          console.log(resp);
+          localStorage.setItem('commerce',JSON.stringify(resp));
+          this.commerceSubject.next(resp);
+        }
+      )  
+    }
+    else{
+      localStorage.setItem('commerce',"0");
+      this.commerceSubject.next(undefined);
+    }
+     
   }
 
   getCommerceData(id){
@@ -73,9 +79,9 @@ export class CommercesService {
     };
 
     var commerce = JSON.parse(localStorage.getItem('commerce'));
-    this.http.url = GLOBAL.url+'commerces/'+commerce.id+this.partialUrl;
+    this.http.url = GLOBAL.url+'commerces/'+id;
 
-    return this.http.httpClient.get(this.http.url+'/'+id, options).pipe(      
+    return this.http.httpClient.get(this.http.url, options).pipe(      
       retry(1),
       catchError(this.http.handleError)
     );

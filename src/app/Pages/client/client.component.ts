@@ -25,6 +25,7 @@ export class ClientComponent implements OnInit {
     title:"Agregar Cliente"
   }]
 
+  isActive:any;
 
   public clients:any;
   public commerce:any;
@@ -77,7 +78,7 @@ export class ClientComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
-        this._clientsService.deleteClient(client).subscribe(
+        this._clientsService.delete(client).subscribe(
           response=>{
             this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
               timeOut: 5000,

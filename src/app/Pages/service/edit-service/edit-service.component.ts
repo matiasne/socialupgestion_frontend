@@ -55,8 +55,7 @@ export class EditServiceComponent implements OnInit {
 
     this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
       this.categoryes = data;
-      console.log(this.categoryes);
-     
+      console.log(this.categoryes);     
     });
 
   

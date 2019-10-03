@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { SalesService } from 'src/app/Services/sales.service';
 
 @Component({
   selector: 'app-sale',
@@ -46,7 +47,8 @@ export class SaleComponent implements OnInit {
 constructor(
   private modalService: NgbModal, 
   public router: Router,
-  private formBuilder: FormBuilder
+  private formBuilder: FormBuilder,
+  private _salesService:SalesService
   ) {
     this.sales=[];
     this.productos=[];
@@ -62,53 +64,28 @@ constructor(
  
   ngOnInit() {
 
-    this.sales = [{
-      id: "1",
-      name: "Pedro",
-      empleado: "Hola",
-      fecha: "2019-12-02",
-      pago: "Debito",
-      status:"Pagado",
-      total: 1600,
-      productos : JSON.stringify({
-        "name": "Jugo",
-        "count": "2",
-        "price" : 200
-      }),
-      servicios: JSON.stringify({
-        "name": "Pizzas",
-        "price": 1200
-      }),
-      descripcion: "sadfsadf"
-    },{
-      id: "2",
-      name: "Pedro2",
-      empleado: "Hola",
-      fecha: "2019-02-01",
-      pago: "Efectivo",
-      status:"Pendiente",
-      total: 1600,
-      productos:JSON.stringify({
-        "name": "Jugo",
-        "count": "2",
-        "price" : 200
-      }),
-      servicios: JSON.stringify({
-        "name" : "Pizzas",
-        "price" : 1200
-      }),
-      descripcion: "sadfsadf"
-    }];
+    this.obtenerSales();
+
+    
     
   }
 
-  open(content, $event) {
-    $event.stopPropagation();
+  obtenerSales(){
+    this._salesService.get().subscribe(data=>{
+      this.sales = data;
+      console.log(data);
+    });
+  }
+
+  open(content,sale) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       
       if(result == "si"){
-        alert("Borrado");
+        this._salesService.delete(sale).subscribe(data=>{
+          console.log(data);
+          this.obtenerSales();
+        })
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

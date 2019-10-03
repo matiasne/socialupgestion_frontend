@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { viewAttached } from '@angular/core/src/render3/instructions';
 import { ServicesService } from 'src/app/Services/services.service';
 import { ToastrService } from 'ngx-toastr';
+import { CategoriesService } from 'src/app/Services/categoryes.service';
 
 @Component({
   selector: 'app-service',
@@ -25,16 +26,22 @@ export class ServiceComponent implements OnInit {
 
   public services:any;
   private commerceSubscription: Subscription;
+
   serviceValue;
   closeResult: string;
   
+  public categoryes:any;
+  private categoryesSubscription: Subscription;
+
   constructor(
     public _servicesService:ServicesService,
     private modalService: NgbModal,
     public router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _categoriesService:CategoriesService
   ) {  
     this.services = "";
+    this.categoryes = [];
   }
 
 
@@ -49,8 +56,12 @@ export class ServiceComponent implements OnInit {
   obtenerServicios(){
     this.commerceSubscription =  this._servicesService.get().subscribe(data=>{
       this.services = data;
-      console.log(this.services);
-      
+      console.log(this.services);      
+    });
+
+    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
+      this.categoryes = data;
+      console.log(this.categoryes);     
     });
   }
   
@@ -69,7 +80,7 @@ export class ServiceComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
-        this._servicesService.deleteService(service).subscribe(
+        this._servicesService.delete(service).subscribe(
           response=>{
             this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
               timeOut: 5000,

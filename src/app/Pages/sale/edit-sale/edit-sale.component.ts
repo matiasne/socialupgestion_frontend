@@ -3,6 +3,12 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
+import { ClientsService } from 'src/app/Services/clients.service';
+import { ProductsService } from 'src/app/Services/products.service';
+import { ServicesService } from 'src/app/Services/services.service';
+import { UserService } from 'src/app/Services/user.service';
+import { PaydesksService } from 'src/app/Services/paydesks.service';
+import { SalesService } from 'src/app/Services/sales.service';
 
 @Component({
   selector: 'app-edit-sale',
@@ -21,16 +27,25 @@ export class EditSaleComponent implements OnInit {
   submittedserv = false;
   submittedMethod = false;
 
-  products:any[];
-  services:any[];
-  prods:any[];
-  prod2:any[];
+  productosAgregados:any[];
+  serviciosAgregados:any[];
 
-  servs:any[];
-  serv2:any[];
+  user:any; 
 
-  methodlist:any[];
+  commerce;any;
+
+  clientes:any;
+
+  productos:any;
+  productoSeleccionado:any;
+
+  servicios:any;
+  servicioSeleccionado:any;
+
+  entries:any[];
   methodpay:any[];
+
+  cajas:any;
 
   heading;
   subheading;
@@ -47,22 +62,51 @@ export class EditSaleComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService){
+    private toastr: ToastrService,
+    private _clientService:ClientsService,
+    private _productService:ProductsService,
+    private _servicesService:ServicesService,
+    private _userService:UserService,
+    private _paydeksService:PaydesksService,
+    private _salesService:SalesService
+    ){
 
-      var commerce = JSON.parse(localStorage.getItem('commerce'));
-      this.prods=commerce.products;
-      this.servs=commerce.services;
+      this.commerce = JSON.parse(localStorage.getItem('commerce'));
 
-      this.products = [];
-      this.services = [];
+      this._productService.get().subscribe(data =>{
+        this.productos = data;
+      });
 
-      this.prod2= [];
-      this.serv2= [];
+      this._servicesService.get().subscribe(data =>{
+        this.servicios = data;
+      });
+
+      this._clientService.get().subscribe(data =>{
+        this.clientes = data;
+      });
+
+      this._paydeksService.get().subscribe(data =>{
+        this.cajas = data;
+      });
+
+      this._userService.validate().subscribe(
+        data=>{
+          this.user= data;
+        }
+      );
+
+
+
+      this.productosAgregados = [];
+      this.serviciosAgregados = [];
+
+      this.productoSeleccionado= "";
+      this.servicioSeleccionado= "";
 
       this.j=[];
       this.k=[];
 
-      this.methodlist = [];
+      this.entries = [];
 
       this.methodpay=[{
         name: "Efectivo"
@@ -80,9 +124,10 @@ export class EditSaleComponent implements OnInit {
   ngOnInit() {
  
     this.registerForm = this.formBuilder.group({
-      nombrecliente: [this.route.snapshot.params.name, Validators.required],
+      caja_id: [this.route.snapshot.params.name, Validators.required],
+      cliente_id: [this.route.snapshot.params.name, Validators.required],
       //empleado: [this.route.snapshot.params.empleado], //Si soy administrador puedo selecionar empleado y si soy empleado toma mi id
-      salestatus:[this.route.snapshot.params.estado],
+      enum_status:[this.route.snapshot.params.estado],
       paymentform:[this.route.snapshot.params.pago],
       total:[ this.route.snapshot.params.total,Validators.compose([
         Validators.required,
@@ -99,7 +144,7 @@ export class EditSaleComponent implements OnInit {
 
       this.j = JSON.parse(this.route.snapshot.params['productos']);
 
-      this.products.push({
+      this.productosAgregados.push({
         name: this.j['name'],
         count: this.j['count'],
         price: this.j['price'],
@@ -108,7 +153,7 @@ export class EditSaleComponent implements OnInit {
 
       this.k = JSON.parse(this.route.snapshot.params['servicios']);
 
-      this.services.push({
+      this.serviciosAgregados.push({
         name: this.k['name'],
         price: this.k['price'],
       });
@@ -126,16 +171,16 @@ export class EditSaleComponent implements OnInit {
 
 
     this.registerFormProduct = this.formBuilder.group({
-      nameprod: ['', Validators.required],
-      cantprod: [1,[Validators.required]],
-      priceprod: ['',Validators.compose([
+      producto: ['', Validators.required],
+      cantidad: [1,[Validators.required]],
+      precio: ['',Validators.compose([
         Validators.required,
         Validators.min(1)
       ])]
     });
 
     this.registerFormService = this.formBuilder.group({
-      nameserv: ['', Validators.required],
+      servicio: ['', Validators.required],
       priceserv: ['' , Validators.compose([
         Validators.required,
         Validators.min(1)
@@ -143,7 +188,7 @@ export class EditSaleComponent implements OnInit {
     });
 
     this.registerFormPaymentMethod = this.formBuilder.group({
-      methodname:['', Validators.required],
+      method:['', Validators.required],
       subtotal:['', Validators.required]
     });
 
@@ -151,82 +196,78 @@ export class EditSaleComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  get prod(){
+  get fProd(){
     return this.registerFormProduct.controls;
   }
 
-  get serv(){
+  get fServ(){
     return this.registerFormService.controls;
   }
 
-  get meth(){
+  get fMeth(){
     return this.registerFormPaymentMethod.controls;
   }
 
   onProductChange() {
-   this.prod2=this.registerFormProduct.controls['nameprod'].value;
+   this.productoSeleccionado=this.registerFormProduct.controls['producto'].value;
+   this.productoSeleccionado.cantidad = this.registerFormProduct.controls['cantidad'].value;
    this.registerFormProduct.patchValue({
-    priceprod: this.prod2['price'],
-    });
+    precio: this.productoSeleccionado['price'],
+   });
   }
 
   onServiceChange() {
-    this.serv2 =this.registerFormService.controls['nameserv'].value;
+    this.servicioSeleccionado = this.registerFormService.controls['servicio'].value;
     this.registerFormService.patchValue({
-      priceserv: this.serv2['price'],
+      priceserv: this.servicioSeleccionado['price'],
     });
   } 
 
-  Guardar(){
+ 
 
-    this.submitted = true;
-
-    if (this.registerForm.invalid) {
-      return;
-    }
-  }
-
-  agregar(){
-
-    this.submittedprod = true;
+  agregarProducto(){    
     
     if (this.registerFormProduct.invalid) {
+      this.submittedprod = true;
       return;
+    }
+    else{
+      this.submittedprod = false;
     }
 
     this.toastr.success('El producto ha sido agregado!','Producto Agregado', {
       timeOut: 5000,
     });
 
-    let t : number= parseInt(this.registerFormProduct.controls['cantprod'].value) * parseInt(this.registerFormProduct.controls['priceprod'].value);
+    let t : number= parseInt(this.registerFormProduct.controls['cantidad'].value) * parseInt(this.registerFormProduct.controls['precio'].value);
 
     this.registerForm.patchValue({
       total: String(t + parseInt(this.registerForm.controls['total'].value)),
     });
-    this.products.push({
-      name: this.prod2['name'],
-      count: this.registerFormProduct.controls['cantprod'].value,
-      price: parseInt(this.registerFormProduct.controls['priceprod'].value),
-      priceTotal: parseInt(this.registerFormProduct.controls['cantprod'].value) * 
-      parseInt(this.registerFormProduct.controls['priceprod'].value),
+
+    this.productosAgregados.push( {
+      id: this.registerFormProduct.controls['producto'].value.id,
+      amount: this.registerFormProduct.controls['cantidad'].value,
+      price: this.registerFormProduct.controls['precio'].value
     });
 
 
     this.registerFormProduct.patchValue({
-      nameprod: '',
-      cantprod: '',
-      priceprod: ''
+      producto: '',
+      cantidad: '',
+      precio: ''
     });
   }
 
 
-  agregarService(){
-
-    
-    this.submittedserv = true;
+  agregarService(){  
 
     if (this.registerFormService.invalid) {
+      this.submittedserv = true;
       return;
+    }
+    else{
+      this.submittedserv = false;
     }
 
     this.toastr.success(' El servicio ha sido agregado!','Servicio Agregado', {
@@ -237,14 +278,13 @@ export class EditSaleComponent implements OnInit {
       total: String(parseInt(this.registerFormService.controls['priceserv'].value) + parseInt(this.registerForm.controls['total'].value)),
     });
 
-
-    this.services.push({
-      name: this.serv2['name'],
-      price: this.registerFormService.controls['priceserv'].value,
+    this.serviciosAgregados.push({
+      id: this.registerFormService.controls['servicio'].value.id,
+      price: this.registerFormService.controls['priceserv'].value
     });
 
     this.registerFormService.patchValue({
-      nameserv: '',
+      servicio: '',
       priceserv: '',
     });
   }
@@ -252,20 +292,24 @@ export class EditSaleComponent implements OnInit {
 
   agregarMethod(){
     
-    this.submittedMethod=true;
+    
 
     if (this.registerFormPaymentMethod.invalid) {
+      this.submittedMethod=true;
       return;
+    }
+    else{
+      this.submittedMethod=false;
     }
 
     this.totalprev = this.totalprev + parseInt(this.registerFormPaymentMethod.controls['subtotal'].value);
 
     if(this.totalprev <= this.registerForm.controls['total'].value){
         
-        this.methodlist.push({
-          namee:this.registerFormPaymentMethod.controls['methodname'].value,
+        this.entries.push({
+          enum_pay_with: this.registerFormPaymentMethod.controls['method'].value,
           porciento:(this.registerFormPaymentMethod.controls['subtotal'].value)/this.registerForm.controls['total'].value,
-          subtotal:this.registerFormPaymentMethod.controls['subtotal'].value,
+          amount:this.registerFormPaymentMethod.controls['subtotal'].value,
         });
 
         this.toastr.success('El metodo de pago ha sido agregado!','Metodo pago Agregado', {
@@ -273,7 +317,7 @@ export class EditSaleComponent implements OnInit {
         });
             
         this.registerFormPaymentMethod.patchValue({
-          methodname: '',
+          method: '',
           subtotal: ''
         });
         
@@ -295,7 +339,7 @@ export class EditSaleComponent implements OnInit {
         this.registerForm.patchValue({
           total: String(parseInt(this.registerForm.controls['total'].value) - parseInt(product.priceTotal)),
         });
-        this.products.splice(position,1);
+        this.productosAgregados.splice(position,1);
         
         this.toastr.success(' El Producto ha sido borrado!','Producto Borrado', {
           timeOut: 5000,
@@ -315,7 +359,7 @@ export class EditSaleComponent implements OnInit {
         this.registerForm.patchValue({
           total: String(parseInt(this.registerForm.controls['total'].value) - parseInt(service.price)),
         });
-        this.services.splice(position2,1);
+        this.serviciosAgregados.splice(position2,1);
       
         this.toastr.success(' El Servicio ha sido borrado!','Servicio Borrado', {
           timeOut: 5000,
@@ -332,9 +376,9 @@ export class EditSaleComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
         
-        this.totalprev = this.totalprev - parseInt(method.subtotal);
+        this.totalprev = this.totalprev - parseInt(method.amount);
 
-        this.methodlist.splice(position2,1);
+        this.entries.splice(position2,1);
 
         this.toastr.success(' La Forma de pago ha sido borrado!','Forma de pago Borrada', {
           timeOut: 5000,
@@ -352,13 +396,13 @@ export class EditSaleComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
         this.registerFormProduct.patchValue({
-          nameprod: '',
-          cantprod: 1,
-          priceprod: ''
+          producto: '',
+          cantidad: 1,
+          precio: ''
         });
         this.registerFormService.patchValue({
-              nameserv: '',
-              priceserv: '',
+          servicio: '',
+          priceserv: '',
         });
       }
     }, (reason) => {
@@ -375,4 +419,35 @@ export class EditSaleComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+
+  Guardar(){
+    console.log(this.registerForm.controls.enum_status.value);
+    this.submitted = true;
+    var venta = {
+      client_id : this.registerForm.controls.cliente_id.value,
+      description :  this.registerForm.controls.description.value,
+      total_cost :  this.registerForm.controls.total.value,     
+      products : this.productosAgregados,
+      services : this.serviciosAgregados,
+      payment:{
+        enum_status :  this.registerForm.controls.enum_status.value,
+        paydesk_id : this.registerForm.controls.caja_id.value,
+        entries : this.entries,
+        description : "Ingreso por Venta"
+      }        
+    }
+    
+    console.log(venta);
+
+    this._salesService.add(venta).subscribe(data =>{
+      console.log(data);
+    })
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+  }
+
+
 }

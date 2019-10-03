@@ -50,6 +50,7 @@ export class BaseCRUDService {
     };
 
     let body = JSON.stringify(data);
+
     return this.httpClient.post(this.url, body, options).pipe(
       retry(1),
       catchError(this.handleError)

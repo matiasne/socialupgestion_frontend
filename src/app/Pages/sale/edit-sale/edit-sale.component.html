@@ -5,24 +5,43 @@
   <form [formGroup]="registerForm" >
     <div class="form-row">
       
-      <!--Cliente--> 
       <div class="form-group col-md-4 text-center">
-        <label for="nombrecliente">Cliente</label>
-        <input formControlName="nombrecliente" name="nombrecliente" id="nombrecliente"  placeholder="Nombre del cliente" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nombrecliente.errors }">
-        <div *ngIf="submitted && f.nombrecliente.errors" class="invalid-feedback">
-          <div *ngIf="f.nombrecliente.errors.required">El nombre del cliente es requerido</div>
-        </div>
-      </div>
-
-       <!--ESTADO-->
-       <div class="form-group col-md-4 text-center">
-        <label for="categoriaSelect">Estado</label>
-        <select formControlName="salestatus" name="statusale" id="statusale" class="form-control">
-          <option selected >Pagado</option>
-          <option>Pendiente</option>
-          <option>Cancelado</option>
+        <label for="cliente">Cajas</label>
+        <select formControlName="caja_id" name="caja_id" id="caja_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.caja_id.errors }">
+          <option *ngFor="let caja of cajas" [value]="caja.id">{{caja.name}}</option>
+          <div *ngIf="submitted && f.caja_id.errors" class="invalid-feedback">
+              <div *ngIf="f.caja_id.errors.required">Seleccione una caja o genere una nueva: link</div>
+          </div>
         </select>
       </div>
+
+      
+      <div class="form-group col-md-4 text-center">
+        <label for="cliente">Cliente</label>
+        <select formControlName="cliente_id" name="cliente_id" id="cliente_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cliente_id.errors }">
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">{{cliente.name}}</option>
+          <div *ngIf="submitted && f.cliente_id.errors" class="invalid-feedback">
+              <div *ngIf="f.cliente_id.errors.required">Seleccione un cliente o genere uno nuevo: link</div>
+          </div>
+        </select>
+      </div>
+
+
+      <div class="form-group col-md-4 text-center">
+          <label for="enum_status">Estado</label>
+          <select formControlName="enum_status" name="enum_status" id="enum_status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enum_status.errors }">
+            <option selected >PAGADO</option>
+            <option >PENDIENTE</option>
+            <option >CANCELADO</option>
+            <div *ngIf="submitted && f.enum_status.errors" class="invalid-feedback">
+                <div *ngIf="f.enum_status.errors.required">Seleccione un Estado o genere uno nuevo: link</div>
+            </div>
+          </select>
+        </div>
+     
+
+
+       
 
        <!--Precio Total-->
        <div class="form-group col-md-4 text-center">
@@ -49,7 +68,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of products; let i = index" [attr.data-index]="i" class="table-light text-center">
+            <tr *ngFor="let product of productosAgregados; let i = index" [attr.data-index]="i" class="table-light text-center">
               <td>{{product.name}}</td>
               <td>{{product.count}}</td>
               <td>{{product.price}}</td>
@@ -75,7 +94,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let service of services; let e = index" [attr.data-index]="e" class="table-light text-center">
+            <tr *ngFor="let service of serviciosAgregados; let e = index" [attr.data-index]="e" class="table-light text-center">
               <td>{{service.name}}</td>
               <td>{{service.price}}</td>
               <td><button  type="button" class="btn btn-primary" (click)="deleteService(contentDeleteService,service,e)" >Borrar</button></td>
@@ -101,11 +120,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let met of methodlist; let m = index" [attr.data-index]="e" class="table-light text-center">
-              <td>{{met.namee}}</td>
-              <td>{{met.porciento|percent}}</td>
-              <td>{{met.subtotal}}</td>
-              <td><button  type="button" class="btn btn-primary" (click)="deleteMethod(contentDeleteMethod,met,m)" >Borrar</button></td>
+            <tr *ngFor="let entry of entries; let m = index" [attr.data-index]="e" class="table-light text-center">
+              <td>{{entry.enum_pay_with}}</td>
+              <td>{{entry.porciento|percent}}</td>
+              <td>{{entry.amount}}</td>
+              <td><button  type="button" class="btn btn-primary" (click)="deleteMethod(contentDeleteMethod,entry,m)" >Borrar</button></td>
             </tr>
           </tbody>
         </table>
@@ -154,33 +173,33 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label>Productos</label>
-            <select  formControlName="nameprod" (change)="onProductChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && prod.nameprod.errors }">
-              <option *ngFor="let p of prods" [ngValue]="p">
+            <select  formControlName="producto" (change)="onProductChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && fProd.producto.errors }">
+              <option *ngFor="let p of productos" [ngValue]="p">
                 {{p.name}}
               </option>
             </select>
-            <div *ngIf="submittedprod && prod.nameprod.errors" class="invalid-feedback">
-              <div *ngIf="prod.nameprod.errors.required">Seleccione un producto</div>
+            <div *ngIf="submittedprod && fProd.producto.errors" class="invalid-feedback">
+              <div *ngIf="fProd.producto.errors.required">Seleccione un producto</div>
             </div>
           </div>
           <div  class="form-group col-md-3">
             <label>Cantidad</label>
-            <input formControlName="cantprod" minlength="1" type="number" min="1" class="form-control"
+            <input formControlName="cantidad" minlength="1" type="number" min="1" class="form-control"
             onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
-            [ngClass]="{ 'is-invalid': submittedprod && prod.cantprod.errors }" >
-            <div *ngIf="submittedprod && prod.cantprod.errors" class="invalid-feedback">
-              <div *ngIf="prod.cantprod.errors.required">Cantidad Requerida</div>
+            [ngClass]="{ 'is-invalid': submittedprod && fProd.cantidad.errors }" >
+            <div *ngIf="submittedprod && fProd.cantidad.errors" class="invalid-feedback">
+              <div *ngIf="fProd.cantidad.errors.required">Cantidad Requerida</div>
             </div>
           </div>
           <div class="form-group col-md-3">
             <label>Precio Unit.</label>
-            <input formControlName="priceprod" disabled type="text" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && prod.priceprod.errors }" >
-            <div *ngIf="submittedprod && prod.priceprod.errors" class="invalid-feedback">
-              <div *ngIf="prod.priceprod.errors.required">Precio Requerido</div>
+            <input formControlName="precio" disabled type="text" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && fProd.precio.errors }" >
+            <div *ngIf="submittedprod && fProd.precio.errors" class="invalid-feedback">
+              <div *ngIf="fProd.precio.errors.required">Precio Requerido</div>
             </div>
           </div>
           <div class="form-group col-md-3">
-            <button class="btn btn-primary" type="submit" (click)="agregar()" style="margin-top: 2.1em">Agregar</button>
+            <button class="btn btn-primary" type="submit" (click)="agregarProducto()" style="margin-top: 2.1em">Agregar</button>
           </div>
         </div>
       </form>
@@ -205,20 +224,20 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label>Servicio</label>
-            <select  formControlName="nameserv" (change)="onServiceChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedserv && serv.nameserv.errors }">
-              <option *ngFor="let s of servs" [ngValue]="s">
+            <select  formControlName="servicio" (change)="onServiceChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedserv && fServ.servicio.errors }">
+              <option *ngFor="let s of servicios" [ngValue]="s">
                 {{s.name}}
               </option>
             </select>
-            <div *ngIf="submittedserv && serv.nameserv.errors" class="invalid-feedback">
-              <div *ngIf="serv.nameserv.errors.required">Servicio requerido</div>
+            <div *ngIf="submittedserv && fServ.servicio.errors" class="invalid-feedback">
+              <div *ngIf="fServ.servicio.errors.required">Servicio requerido</div>
             </div>
           </div> 
           <div class="form-group col-md-4">
             <label>Precio</label>
-            <input formControlName="priceserv" disabled class="form-control"  [ngClass]="{ 'is-invalid': submittedserv && serv.priceserv.errors }">
-              <div *ngIf="submitted && f.priceserv.errors" class="invalid-feedback">
-                <div *ngIf="serv.priceserv.errors.required || serv.priceserv.errors.min">El precio es requerido</div>
+            <input formControlName="priceserv" disabled class="form-control"  [ngClass]="{ 'is-invalid': submittedserv && fServ.priceserv.errors }">
+              <div *ngIf="submitted && fServ.priceserv.errors" class="invalid-feedback">
+                <div *ngIf="fServ.priceserv.errors.required || fServ.priceserv.errors.min">El precio es requerido</div>
              </div>
           </div>
           <div class="form-group col-md-4">
@@ -247,20 +266,20 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label>Metodo de Pago</label>
-            <select  formControlName="methodname" class="form-control" [ngClass]="{ 'is-invalid': submittedMethod && meth.methodname.errors }">
-              <option *ngFor="let m of methodpay" [ngValue]="m.name">
+            <select  formControlName="method" class="form-control" [ngClass]="{ 'is-invalid': submittedMethod && fMeth.method.errors }">
+              <option *ngFor="let m of methodpay" [ngValue]="m">
                 {{m.name}}
               </option>
             </select>
-            <div *ngIf="submittedMethod && meth.methodname.errors" class="invalid-feedback">
-              <div *ngIf="meth.methodname.errors.required">Forma de pago requerida</div>
+            <div *ngIf="submittedMethod && fMeth.method.errors" class="invalid-feedback">
+              <div *ngIf="fMeth.method.errors.required">Forma de pago requerida</div>
             </div>
           </div> 
           <div class="form-group col-md-4">
             <label>SubTotal</label>
-            <input formControlName="subtotal" class="form-control"  [ngClass]="{ 'is-invalid': submittedMethod && meth.subtotal.errors }">
-              <div *ngIf="submittedMethod && meth.subtotal.errors" class="invalid-feedback">
-                <div *ngIf="meth.subtotal.errors.required">El SubTotal es requerido</div>
+            <input formControlName="subtotal" class="form-control"  [ngClass]="{ 'is-invalid': submittedMethod && fMeth.subtotal.errors }">
+              <div *ngIf="submittedMethod && fMeth.subtotal.errors" class="invalid-feedback">
+                <div *ngIf="fMeth.subtotal.errors.required">El SubTotal es requerido</div>
              </div>
           </div>
           <div class="form-group col-md-4">

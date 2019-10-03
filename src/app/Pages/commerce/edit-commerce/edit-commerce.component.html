@@ -26,7 +26,7 @@
 
     <div class="position-relative form-group">
       <label for="phone_number">Teléfono</label>
-      <input formControlName="phone_number" name="phone_number" id="phone_number" placeholder="Ingrese el teléfono del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone_number.errors }">
+      <input formControlName="phone_number" type="number" name="phone_number" id="phone_number" placeholder="Ingrese el teléfono del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone_number.errors }">
       <div *ngIf="submitted && f.phone_number.errors" class="invalid-feedback">
           <div *ngIf="f.phone_number.errors.required">El teléfono es requerido</div>
       </div>
@@ -34,7 +34,7 @@
 
     <div class="position-relative form-group">
       <label for="email">EMail</label>
-      <input formControlName="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+      <input formControlName="email"  type="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
       <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
           <div *ngIf="f.email.errors.required">El email es requerido</div>
       </div>

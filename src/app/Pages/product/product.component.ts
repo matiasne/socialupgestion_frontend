@@ -6,6 +6,7 @@ import { Commerce } from 'src/app/Models/Commerce';
 import { Router } from '@angular/router';
 import { ProductsService } from 'src/app/Services/products.service';
 import { ToastrService } from 'ngx-toastr';
+import { CategoriesService } from 'src/app/Services/categoryes.service';
 
 @Component({
   selector: 'app-product',
@@ -26,18 +27,28 @@ export class ProductComponent implements OnInit {
 
   public products:any;
   private productSubscription: Subscription;
+  
+  
+  serviceValue;
+  
+  public categoryes:any;
+  private categoryesSubscription: Subscription;
+
+
   constructor(
     public _productsServices:ProductsService,
     public router: Router,
     private toastr: ToastrService,
     private modalService: NgbModal, 
+    private _categoriesService:CategoriesService
   ) {
     this.products = "";
-    
+    this.categoryes = [];
   }
 
   ngOnDestroy() {
     this.productSubscription.unsubscribe();
+    this.categoryesSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -46,8 +57,12 @@ export class ProductComponent implements OnInit {
   
   obtenerProductos(){
     this.productSubscription =  this._productsServices.get().subscribe(data=>{
-      this.products = data;
-      
+      this.products = data;      
+    });
+
+    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
+      this.categoryes = data;
+      console.log(this.categoryes);     
     });
   }
 

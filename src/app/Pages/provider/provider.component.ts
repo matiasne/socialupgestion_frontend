@@ -70,7 +70,7 @@ export class ProviderComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
-        this._providersService.deleteProvider(provider).subscribe(
+        this._providersService.delete(provider).subscribe(
           response=>{
             this.toastr.info(provider.name+' ha sido borrado!','Servicio Borrado', {
               timeOut: 5000,

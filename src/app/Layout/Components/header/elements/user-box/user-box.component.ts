@@ -28,7 +28,9 @@ export class UserBoxComponent implements OnInit {
 
   ngOnInit() {
    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
-      this.commerceName = data.name;
+      console.log(data);
+      if(data != undefined)
+        this.commerceName = data.name;
     });
 
     this._userService.validate().subscribe(
