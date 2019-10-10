@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { PaydesksService } from 'src/app/Services/paydesks.service';
+import { PaydesksService } from 'src/app/Services/Firestore/paydesks.service';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-caja',
@@ -18,30 +20,50 @@ export class CajaComponent implements OnInit {
     title:"Agregar Caja"
   }]
 
-  cajas:any=[];
+  paydesks:any=[];
   closeResult: string;
+
+  private paydesksSubscription: Subscription;
 
   constructor(
     private modalService: NgbModal,
-    private _paydesksService:PaydesksService
+    private _paydesksService:PaydesksService,
+    private toastr: ToastrService,
   ) { 
-    this._paydesksService.get().subscribe(data=>{
-      this.cajas = data;
-    })
+    this.paydesksSubscription = this._paydesksService.getAll().subscribe((snapshot) => {
+      this.paydesks = [];
+      snapshot.forEach((snap: any) => {
+        this.paydesks.push(snap.payload.doc.data());
+        this.paydesks[this.paydesks.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.paydesks);
+    });
   }
 
   ngOnInit() {
     
   }
 
-  open(content,caja,$event){
+  
+  ngOnDestroy() {
+    if(this.paydesksSubscription)
+      this.paydesksSubscription.unsubscribe();
+  }
 
-    $event.stopPropagation();
+  delete(content,paydesk){
+
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      console.log(result);
-      if(result == "si"){
-        
+      if(result == "si"){     
+        console.log(paydesk.id);
+        this.toastr.info(paydesk.name+' ha sido borrado!','Caja Borrada', {
+          timeOut: 5000,
+        });      
+        this._paydesksService.delete(paydesk.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });      
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

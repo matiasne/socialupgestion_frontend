@@ -22,6 +22,10 @@ import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {ChartsModule} from 'ng2-charts';
 
+//FIREBASE
+
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 // LAYOUT
 
 import {BaseLayoutComponent} from './Layout/base-layout/base-layout.component';
@@ -131,11 +135,28 @@ import { FilterPipe } from './filter.pipe';
 import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
 import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
 import { EditCajaComponent } from './Pages/caja/edit-caja/edit-caja.component';
+import { environment } from 'src/environments/environment';
+import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { SignupComponent } from './Pages/signup/signup.component';
+import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthenticationProvider } from './Services/Firestore/authentication/authentication';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDAhS48nSs-siVX7Cpf1dgSLOcM3F4mesc",
+  authDomain: "socialup-gestion.firebaseapp.com",
+  databaseURL: "https://socialup-gestion.firebaseio.com",
+  projectId: "socialup-gestion",
+  storageBucket: "socialup-gestion.appspot.com",
+  messagingSenderId: "420603724818",
+  appId: "1:420603724818:web:613185ef81f6f1b00604cb",
+  measurementId: "G-0Q1S00KMXP"
+}
 
 @NgModule({
   declarations: [
@@ -248,10 +269,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FilterPipe,
     EditCategoryComponent,
     EditProductComponent,
-    EditCajaComponent
+    EditCajaComponent,
+    SignupComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgReduxModule,
@@ -281,7 +308,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       DEFAULT_PERFECT_SCROLLBAR_CONFIG,
       // DEFAULT_DROPZONE_CONFIG,
     },
-    ConfigActions,
+    ConfigActions,    
+    AngularFirestore,
+    AuthenticationProvider
   ],
   bootstrap: [AppComponent]
 })

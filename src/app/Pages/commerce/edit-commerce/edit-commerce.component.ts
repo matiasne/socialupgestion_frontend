@@ -7,7 +7,8 @@ import { ClientsService } from 'src/app/Services/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { Commerce } from 'src/app/Models/Commerce';
-import { CommercesService } from 'src/app/Services/commerces.service';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
+
 
 @Component({
   selector: 'app-edit-commerce',
@@ -48,13 +49,26 @@ export class EditCommerceComponent implements OnInit {
     });  
 
   
-    if(this.route.snapshot.params.id == undefined){
-      this.isUpdate = false;
-      this.heading = "Nuevo Comercio";
+    if(this.route.snapshot.params.id){
+      let editSubscribe =  this._commercesService.get(this.route.snapshot.params.id).subscribe((commerce:any) => {
+        
+        this.isUpdate = true;
+        this.heading ="Editar Comercio";
+        
+        this.registerForm.setValue({
+          name: commerce.payload.data().name,
+          address: commerce.payload.data().address,
+          phone_number: commerce.payload.data().phone_number,
+          email: commerce.payload.data().email,
+          description: commerce.payload.data().description,
+          img: commerce.payload.data().img
+        });
+        editSubscribe.unsubscribe();
+      });
     }
     else{
-      this.isUpdate = true;
-      this.heading ="Editar Comercio";
+      this.isUpdate = false;
+      this.heading = "Nuevo Comercio";
     }
 
     
@@ -71,7 +85,51 @@ export class EditCommerceComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  Guardar(){
+  Guardar(){   
+
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
+
+    this.commerce.name = this.registerForm.controls.name.value;
+    this.commerce.img = this.registerForm.controls.img.value;
+    this.commerce.address = this.registerForm.controls.address.value;
+    this.commerce.phone_number = this.registerForm.controls.phone_number.value;
+    this.commerce.email = this.registerForm.controls.email.value;
+    this.commerce.description = this.registerForm.controls.description.value;
+   
+    if(this.isUpdate){
+      //Update
+      console.log(this.commerce);
+      this.toastr.success(this.commerce.name+' ha sido actualizado!','Comercio Actualizado', {
+        timeOut: 5000,
+      });    
+
+      this._commercesService.update(this.route.snapshot.params.id, this.commerce).then(() => {        
+            
+      }, (error) => {
+        console.log(error);
+      });
+      this._location.back();
+      
+    }
+    else{
+
+      this.toastr.success(this.commerce.name+' ha sido creado!','Comercio Creado', {
+        timeOut: 5000,
+      });
+      this._commercesService.create(this.commerce).then(() => {
+        
+      }, (error) => {
+        console.error(error);        
+      });  
+      this._location.back();
+    }
+  }
+
+  /*Guardar(){
     
 
     this.submitted = true;
@@ -114,7 +172,7 @@ export class EditCommerceComponent implements OnInit {
         }
       )     
     }
-  }
+  }*/
 
 
 }

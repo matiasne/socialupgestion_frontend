@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { PaydesksService } from 'src/app/Services/paydesks.service';
 import {Location} from '@angular/common';
 import { Paydesk } from 'src/app/Models/Paydesk';
+import { PaydesksService } from 'src/app/Services/Firestore/paydesks.service';
 
 @Component({
   selector: 'app-edit-caja',
@@ -41,13 +41,21 @@ export class EditCajaComponent implements OnInit {
         name: [this.route.snapshot.params.name, Validators.required]
       });
   
-      if(this.route.snapshot.params.id == undefined){
-        this.isUpdate = false;
-        this.heading = "Nueva Caja";
+      if(this.route.snapshot.params.id){
+        let editSubscribe =  this._paydesksService.get(this.route.snapshot.params.id).subscribe((paydesk:any) => {
+          
+          this.isUpdate = true;
+          this.heading ="Editar Caja";
+          
+          this.registerForm.setValue({
+            name: paydesk.payload.data().name
+          });
+          editSubscribe.unsubscribe();
+        });
       }
       else{
-        this.isUpdate = true;
-        this.heading ="Editar Caja";
+        this.isUpdate = false;
+        this.heading = "Nueva Caja";
       }
   
     }
@@ -74,29 +82,29 @@ export class EditCajaComponent implements OnInit {
       if(this.isUpdate){
         //Update
         console.log(this.paydesk);
-        this._paydesksService.update(this.paydesk).subscribe(
-          response=>{
-            console.log(response);
+        this.toastr.success(this.paydesk.name+' ha sido actualizada!','Caja Actualizada', {
+          timeOut: 5000,
+        });    
   
-            this.toastr.success(this.paydesk.name+' ha sido actualizada!','Actualizado', {
-              timeOut: 5000,
-            });
-  
-            this._location.back();
-          }
-        )
+        this._paydesksService.update(this.paydesk.id.toString(), this.paydesk).then(() => {        
+              
+        }, (error) => {
+          console.log(error);
+        });
+        this._location.back();
+        
       }
       else{
-        this._paydesksService.add(this.paydesk).subscribe(
-          response=>{
-            console.log(response);
-            this.toastr.success(this.paydesk.name+' ha sido creado!','Creado', {
-              timeOut: 5000,
-            });
-            this._location.back();
-          }
-        )
-       
+  
+        this.toastr.success(this.paydesk.name+' ha sido creada!','Caja Creada', {
+          timeOut: 5000,
+        });
+        this._paydesksService.create(this.paydesk).then(() => {
+          
+        }, (error) => {
+          console.error(error);        
+        });  
+        this._location.back();
       }
     }
 

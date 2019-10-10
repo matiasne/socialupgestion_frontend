@@ -5,6 +5,7 @@ import { Commerce } from 'src/app/Models/Commerce';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/Services/user.service';
+import { AuthenticationProvider } from 'src/app/Services/Firestore/authentication/authentication';
 
 @Component({
   selector: 'app-user-box',
@@ -12,7 +13,6 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class UserBoxComponent implements OnInit {
 
-  public user:any;
   public commerceName:string;
   private commerceSubscription: Subscription;
 
@@ -20,10 +20,10 @@ export class UserBoxComponent implements OnInit {
     public globals: ThemeOptions,
     public router: Router,
     public _commerceService:CommercesService,
-    public _userService:UserService
+    public _userService:UserService,
+    public auth:AuthenticationProvider
     ) {
       this.commerceName="";
-      this.user="";
   }
 
   ngOnInit() {
@@ -32,22 +32,14 @@ export class UserBoxComponent implements OnInit {
       if(data != undefined)
         this.commerceName = data.name;
     });
-
-    this._userService.validate().subscribe(
-      data=>{
-        this.user= data;
-      }
-    );
   }
 
-  cerrarSesion(){
-    
-    this._userService.logout();
+  cerrarSesion(){    
+    this.auth.signOut();
     this.router.navigate(['/']);
   }
 
   ngOnDestroy() {
     this.commerceSubscription.unsubscribe();
   }
-
 }

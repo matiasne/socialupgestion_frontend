@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommercesService } from 'src/app/Services/commerces.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { EmployeesService } from 'src/app/Services/employees.service';
-import { UserService } from 'src/app/Services/user.service';
-import { User } from 'src/app/Models/User';
 import { ToastrService } from 'ngx-toastr';
+import { EmployeesService } from 'src/app/Services/Firestore/employees.service';
 
 @Component({
   selector: 'app-employe',
@@ -26,13 +23,15 @@ export class EmployeComponent implements OnInit {
 
   public commerce:any;
   public employees:any;
-  private commerceSubscription: Subscription;
+  private employeesSubscription: Subscription;
+  
   empleadoValue;
+  
+  closeResult: string;
   
   
   constructor(
     private modalService: NgbModal,
-    public _commerceService:CommercesService,
     public router: Router,
     public _employeeService:EmployeesService,
     private toastr: ToastrService
@@ -40,38 +39,58 @@ export class EmployeComponent implements OnInit {
   
     this.commerce = "";
     
-    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
-      this.commerce = data;
-      console.log(this.commerce);
-      if(this.commerce == "0"){
-        this.router.navigate(['/home']);
-      }
-    });
+    
+    
   }
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
+    if(this.employeesSubscription)
+      this.employeesSubscription.unsubscribe();
   }
 
+  
   ngOnInit() {
-    this.obtenerEmpleados();
-  }
-
-  obtenerEmpleados(){
-    this._employeeService.get().subscribe(data=>{
-      this.employees = data;
-    })
-  }
-
-
-  desasignar(user){
-    this._employeeService.desasignarRolEmpleado(user).subscribe(data=>{
-      this.toastr.info('el empleado '+user.name+' ha sido removido','Empleado Borrado', {
-        timeOut: 5000,
+        
+    this.employeesSubscription = this._employeeService.getAll().subscribe((snapshot) => {
+      this.employees = [];
+      snapshot.forEach((snap: any) => {
+        this.employees.push(snap.payload.doc.data());
+        this.employees[this.employees.length - 1].id = snap.payload.doc.id;        
       });
-      this.obtenerEmpleados();
-    })
+      console.log(this.employees);
+    });
   }
+
+  deleteEmployee(content,employee){
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){     
+        console.log(employee.id);
+        this.toastr.info(employee.name+' ha sido borrado!','Empleado Borrado', {
+          timeOut: 5000,
+        });      
+        this._employeeService.delete(employee.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });      
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+ 
 
   public updateTable(){
     this.empleadoValue="";

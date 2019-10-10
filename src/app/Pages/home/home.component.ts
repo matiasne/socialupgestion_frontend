@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user.service';
 import { Router } from '@angular/router';
-import { CommercesService } from 'src/app/Services/commerces.service';
 import { Commerce } from 'src/app/Models/Commerce';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   public commerces:any[];
   closeResult: string;
+  private commerceSubscription: Subscription;
   
   constructor(
     private _userService:UserService,
@@ -27,46 +29,23 @@ export class HomeComponent implements OnInit {
   ngOnInit(
   ) {   
     
+    this.commerceSubscription = this._commercesSerivce.getAllbyUser().subscribe((clientSnapshot) => {
+      this.commerces = [];
+      clientSnapshot.forEach((clientData: any) => {
+        this.commerces.push(clientData.payload.doc.data());
+        this.commerces[this.commerces.length - 1].id = clientData.payload.doc.id;        
+      });
+      console.log(this.commerces);
+    });
     
-
-    this._userService.validate().subscribe(
-      data=>{
-        
-        this.getCommerces();
-        
-      },
-      error=>{
-        console.log(error);
-        if(error == "401"){
-          this._userService.logout();
-          this.router.navigate(['/']);
-        }
-      }
-    )
   }
 
-  getCommerces(){
-    this._commercesSerivce.setSelectedCommerce(undefined);   
-    this._commercesSerivce.get().subscribe(
-      (resp:any)=>{
-        this.commerces = resp;
-        console.log(this.commerces);
-        if(this.commerces.length == 0){
-          this.toastr.error('Para comenzar debes crear tu primer comercio!','Crea un comercio', {
-            timeOut: 5000,
-          });
-        }
-      },
-      error=>{
-        alert(error);
-        this._userService.logout();
-        this.router.navigate(['/']);
-      }
-    )
-  }
+  ngOnDestroy() {
+    this.commerceSubscription.unsubscribe();
+  }  
 
   selecionarComercio(commerce){
-    this._commercesSerivce.setSelectedCommerce(commerce);    
+    this._commercesSerivce.setSelectedCommerce(commerce.id);    
     this.router.navigate(['/sales']);
   }
 
@@ -75,15 +54,15 @@ export class HomeComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
-        this._commercesSerivce.delete(commerce).subscribe(
-          response=>{
-            
-            this.toastr.info(commerce.name+' ha sido borrado!','Comercio Borrado', {
-              timeOut: 5000,
-            });
-            this.getCommerces();
-          }
-        )
+        this._commercesSerivce.delete(commerce.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });  
+        this.toastr.info(commerce.name+' ha sido borrado!','Comercio Borrado', {
+          timeOut: 5000,
+        });          
+        
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

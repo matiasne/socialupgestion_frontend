@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/Services/user.service';
-import { EmployeesService } from 'src/app/Services/employees.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/Models/User';
+import { UsersService } from 'src/app/Services/Firestore/users.service';
+import { Subscribable, Subscription } from 'rxjs';
+import { EmployeesService } from 'src/app/Services/Firestore/employees.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -14,9 +15,10 @@ export class AddEmployeeComponent implements OnInit {
   public busqueda:string;
   public users:any;
   public employee:any;
+  private subscriptionUsers:Subscription;
 
   constructor(
-    public _userService:UserService,
+    public _userService:UsersService,
     public _employeeService:EmployeesService,
     private toastr: ToastrService
   ) { 
@@ -27,18 +29,26 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   buscarUsuario(){
-    this._userService.search(this.busqueda).subscribe(users=>{
-      this.users = users;
-      console.log(users);
-    })
+    if(this.subscriptionUsers)
+      this.subscriptionUsers.unsubscribe();
+
+    this.subscriptionUsers = this._userService.getAllbyEMail(this.busqueda).subscribe((snapshot) => {
+      this.users = [];
+      snapshot.forEach((snap: any) => {
+        this.users.push(snap.payload.doc.data());
+        this.users[this.users.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.users);
+    });
   }
 
-  asignar(user){
-    this._employeeService.asignarRolEmpleado(user).subscribe(data=>{
-      this.toastr.info('el usuario '+user.name+' ha sido asignado como empleado!','Empleado Asignado', {
-        timeOut: 5000,
-      });
-    })
+  asignarRol(user){
+
+    
+
+    this.toastr.info('el usuario '+user.name+' ha sido asignado como empleado!','Empleado Asignado', {
+      timeOut: 5000,
+    });
   }
 
   

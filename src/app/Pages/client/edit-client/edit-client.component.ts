@@ -3,7 +3,7 @@ import { Client } from 'src/app/Models/Client';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientsService } from 'src/app/Services/clients.service';
+import { ClientsService } from 'src/app/Services/Firestore/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 
@@ -40,7 +40,6 @@ export class EditClientComponent implements OnInit {
   ngOnInit() {
 
    
-
     this.registerForm = this.formBuilder.group({
       name: [this.route.snapshot.params.name, Validators.required],
       address: [this.route.snapshot.params.address],
@@ -50,17 +49,30 @@ export class EditClientComponent implements OnInit {
       img: [this.route.snapshot.params.img],
     });
 
-    
-
-  
-    if(this.route.snapshot.params.id == undefined){
+    if(this.route.snapshot.params.id){
+      let editSubscribe =  this._clientsService.get(this.route.snapshot.params.id).subscribe((client:any) => {
+        
+        this.isUpdate = true;
+        this.heading ="Editar Cliente";
+        
+        this.registerForm.setValue({
+          name: client.payload.data().name,
+          address: client.payload.data().address,
+          phone_number: client.payload.data().phone_number,
+          email: client.payload.data().email,
+          description: client.payload.data().description,
+          img: client.payload.data().img
+        });
+        editSubscribe.unsubscribe();
+      });
+    }
+    else{
       this.isUpdate = false;
       this.heading = "Nuevo Cliente";
     }
-    else{
-      this.isUpdate = true;
-      this.heading ="Editar Cliente";
-    }
+    
+
+    
 
     
   }
@@ -76,11 +88,9 @@ export class EditClientComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  Guardar(){
-    
+  Guardar(){   
 
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.registerForm.invalid) {
         return;
@@ -97,29 +107,29 @@ export class EditClientComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.client);
-      this._clientsService.update(this.client).subscribe(
-        response=>{
-          console.log(response);
+      this.toastr.success(this.client.name+' ha sido actualizado!','Cliente Actualizado', {
+        timeOut: 5000,
+      });    
 
-          this.toastr.success(this.client.name+' ha sido actualizado!','Cliente Actualizado', {
-            timeOut: 5000,
-          });
-
-          this._location.back();
-        }
-      )
+      this._clientsService.update(this.client.id.toString(), this.client).then(() => {        
+            
+      }, (error) => {
+        console.log(error);
+      });
+      this._location.back();
+      
     }
     else{
-      this._clientsService.add(this.client).subscribe(
-        response=>{
-          console.log(response);
-          this.toastr.success(this.client.name+' ha sido creado!','Cliente Creado', {
-            timeOut: 5000,
-          });
-          this._location.back();
-        }
-      )
-     
+
+      this.toastr.success(this.client.name+' ha sido creado!','Cliente Creado', {
+        timeOut: 5000,
+      });
+      this._clientsService.create(this.client).then(() => {
+        
+      }, (error) => {
+        console.error(error);        
+      });  
+      this._location.back();
     }
   }
 

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
 import { viewAttached } from '@angular/core/src/render3/instructions';
-import { ServicesService } from 'src/app/Services/services.service';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriesService } from 'src/app/Services/categoryes.service';
+import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
+import { ServicesService } from 'src/app/Services/Firestore/services.service';
 
 @Component({
   selector: 'app-service',
@@ -25,69 +24,73 @@ export class ServiceComponent implements OnInit {
   }]
 
   public services:any;
+  public commerce:any;
   private commerceSubscription: Subscription;
 
   serviceValue;
   closeResult: string;
   
-  public categoryes:any;
+  public categories:any;
   private categoryesSubscription: Subscription;
 
+  private serviceSubscription:Subscription;
+
   constructor(
-    public _servicesService:ServicesService,
     private modalService: NgbModal,
     public router: Router,
     private toastr: ToastrService,
-    private _categoriesService:CategoriesService
+    private _categoriesService:CategoriesService,
+    private _servicesService:ServicesService
   ) {  
     this.services = "";
-    this.categoryes = [];
+    this.categories = [];
   }
 
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
+    if(this.serviceSubscription)
+      this.serviceSubscription.unsubscribe();
+
+    if(this.categoryesSubscription)
+      this.categoryesSubscription.unsubscribe();
   }
 
   ngOnInit() {
-    this.obtenerServicios();
-  }
-  
-  obtenerServicios(){
-    this.commerceSubscription =  this._servicesService.get().subscribe(data=>{
-      this.services = data;
-      console.log(this.services);      
+    
+
+    this.serviceSubscription = this._servicesService.getAll().subscribe((serviceSnapshot) => {
+      this.services = [];
+      serviceSnapshot.forEach((serviceData: any) => {
+        this.services.push(serviceData.payload.doc.data());
+        this.services[this.services.length - 1].id = serviceData.payload.doc.id;        
+      });
+      console.log(this.services);
     });
 
-    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
-      this.categoryes = data;
-      console.log(this.categoryes);     
+
+    this.categoryesSubscription = this._categoriesService.getAll().subscribe((categoriesSnapshot) => {
+      this.categories = [];
+      categoriesSnapshot.forEach((categorieData: any) => {
+        this.categories.push(categorieData.payload.doc.data());
+        this.categories[this.categories.length - 1].id = categorieData.payload.doc.id;        
+      });
+      console.log(this.categories);
     });
-  }
-  
-
-
-  UpdateService(_service){
-
-   
 
     
   }
-
+  
+  
   deleteService(content,service,$event){
     $event.stopPropagation();
 
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){
-        this._servicesService.delete(service).subscribe(
-          response=>{
-            this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
-              timeOut: 5000,
-            });
-            this.obtenerServicios();
-          }
-        )
+        this._servicesService.delete(service.id);
+        this.toastr.info(service.name+' ha sido borrado!','Servicio Borrado', {
+          timeOut: 5000,
+        });
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

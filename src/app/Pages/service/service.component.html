@@ -11,7 +11,7 @@
     <div class="position-relative form-group">
       <label for="category_id">Categoria</label>
       <select [(ngModel)]="categoryValue" class="form-control" type="text">
-        <option *ngFor="let category of categoryes" [value]="category.id">{{category.name}}</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
       </select>
     </div>
   </div>

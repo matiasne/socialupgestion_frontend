@@ -36,7 +36,7 @@
           </td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="desasignar(employe)" >Eliminar</button>
+              <button class="btn-shadow btn btn-primary" (click)="deleteEmployee(content,employe)" >Eliminar</button>
             </div>
           </td>
         </tr>  
@@ -53,3 +53,19 @@
     </button>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Empleado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>¿Esta seguro que desea borrar este empleado?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+  </div>
+</ng-template>

@@ -5,7 +5,7 @@ import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
 import { viewAttached } from '@angular/core/src/render3/instructions';
 import { ToastrService } from 'ngx-toastr';
-import { ProvidersService } from 'src/app/Services/providers.service';
+import { ProvidersService } from 'src/app/Services/Firestore/providers.service';
 
 @Component({
   selector: 'app-provider',
@@ -24,7 +24,7 @@ export class ProviderComponent implements OnInit {
   }]
 
   public providers:any;
-  private commerceSubscription: Subscription;
+  private providersSubscription: Subscription;
   providerValue;
   closeResult: string;
   
@@ -39,50 +39,42 @@ export class ProviderComponent implements OnInit {
 
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
-  }
-
-  ngOnInit() {
-    this.obtenerProveedores();
+    if(this.providersSubscription)
+      this.providersSubscription.unsubscribe();
   }
 
   
-  obtenerProveedores(){
-    this.commerceSubscription =  this._providersService.get().subscribe(data=>{
-      this.providers = data;
+  ngOnInit() {
+    
+    this.providersSubscription = this._providersService.getAll().subscribe((snapshot) => {
+      this.providers = [];
+      snapshot.forEach((snap: any) => {
+        this.providers.push(snap.payload.doc.data());
+        this.providers[this.providers.length - 1].id = snap.payload.doc.id;        
+      });
       console.log(this.providers);
-      if(this.providers == "0"){
-        this.router.navigate(['/home']);
-      }
     });
   }
   
 
 
-  UpdateService(provider){
-
-  
-    
-  }
-
-  deleteProvider(content,provider,$event){
-    $event.stopPropagation();
+  deleteProvider(content,provider){
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){
-        this._providersService.delete(provider).subscribe(
-          response=>{
-            this.toastr.info(provider.name+' ha sido borrado!','Servicio Borrado', {
-              timeOut: 5000,
-            });
-            this.obtenerProveedores();
-          }
-        )
+      if(result == "si"){     
+        console.log(provider.id);
+        this.toastr.info(provider.name+' ha sido borrado!','Proveedor Borrado', {
+          timeOut: 5000,
+        });      
+        this._providersService.delete(provider.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });      
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-
   }
 
   public updateTable(){

@@ -24,8 +24,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let provider of providers | filter: providerValue" [routerLink]="['/provider',provider]">        
-          <td class="text-center">{{provider.id}}</td>
+        <tr *ngFor="let provider of providers | filter: providerValue" >        
+          <td class="text-center" [routerLink]="['/provider',{id : provider.id}]" >{{provider.id}}</td>
           <td class="text-center" style="width: 80px;">
             <img width="40" class="rounded-circle" src="./assets/images/avatars/1.jpg" alt="">
           </td>
@@ -37,7 +37,7 @@
           </td>
           <td class="text-center">
             <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteProvider(content,provider,$event)" >Borrar</button>
+              <button class="btn-shadow btn btn-primary" (click)="deleteProvider(content,provider)" >Borrar</button>
             </div>
           </td>
         </tr>    

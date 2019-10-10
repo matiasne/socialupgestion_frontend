@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user.service';
 import { Router } from '@angular/router';
+import { AuthenticationProvider } from 'src/app/Services/Firestore/authentication/authentication';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,25 +16,44 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _userService:UserService,
-    public router: Router
-  ) { }
+    public router: Router,
+    private auth:AuthenticationProvider,
+    private toastr: ToastrService,
+  ) {
+    this.email ="";
+    this.password ="";
+   }
 
   ngOnInit() {
+    if(this.auth.isLoggedIn){
+      this.router.navigate(['/home']);
+    }
+  }
+
+  
+
+  login(){
+
+   
+    
+		this.auth.login(this.email.trim(),this.password.trim());		
+      
     
   }
 
-  login(){
-    this._userService.login(this.email,this.password,false).subscribe(
-      (data:any) => {
-        localStorage.setItem('token',data.access_token);
-        this.router.navigate(['/home']);
-      },
-      error=>{
-        console.log(error);
-        if(error == "401"){
-          alert("Usuario o contraseña Invalido");
-        }
-      }
-    )
+  
+  loginWithGoogle() {
+    if(this.auth.googleSignin()){
+      
+    }
+
+  }
+
+  reiciarPassword(){
+    this.router.navigate(['/reset']);
+  }
+  
+  signup(){
+    this.router.navigate(['/signup']);
   }
 }

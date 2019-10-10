@@ -3,10 +3,9 @@ import { Provider } from 'src/app/Models/Provider';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientsService } from 'src/app/Services/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
-import { ProvidersService } from 'src/app/Services/providers.service';
+import { ProvidersService } from 'src/app/Services/Firestore/providers.service';
 
 @Component({
   selector: 'app-edit-provider',
@@ -50,15 +49,25 @@ export class EditProviderComponent implements OnInit {
     });
 
     
-
-  
-    if(this.route.snapshot.params.id == undefined){
-      this.isUpdate = false;
-      this.heading = "Nuevo Proveedor";
+    if(this.route.snapshot.params.id){
+      let editSubscribe =  this._providersService.get(this.route.snapshot.params.id).subscribe((client:any) => {
+        
+        this.isUpdate = true;
+        this.heading ="Editar Proveedor";
+        
+        this.registerForm.setValue({
+          name: client.payload.data().name,
+          address: client.payload.data().address,
+          phone_number: client.payload.data().phone_number,
+          email: client.payload.data().email,
+          description: client.payload.data().description
+        });
+        editSubscribe.unsubscribe();
+      });
     }
     else{
-      this.isUpdate = true;
-      this.heading ="Editar Proveedor";
+      this.isUpdate = false;
+      this.heading = "Nuevo Proveedor";
     }
 
     
@@ -95,29 +104,29 @@ export class EditProviderComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.provider);
-      this._providersService.update(this.provider).subscribe(
-        response=>{
-          console.log(response);
+      this.toastr.success(this.provider.name+' ha sido actualizado!','Proveedor Actualizado', {
+        timeOut: 5000,
+      });    
 
-          this.toastr.success(this.provider.name+' ha sido actualizado!','Proveedor Actualizado', {
-            timeOut: 5000,
-          });
-
-          this._location.back();
-        }
-      )
+      this._providersService.update(this.provider.id.toString(), this.provider).then(() => {        
+            
+      }, (error) => {
+        console.log(error);
+      });
+      this._location.back();
+      
     }
     else{
-      this._providersService.add(this.provider).subscribe(
-        response=>{
-          console.log(response);
-          this.toastr.success(this.provider.name+' ha sido creado!','Proveedor Creado', {
-            timeOut: 5000,
-          });
-          this._location.back();
-        }
-      )
-     
+
+      this.toastr.success(this.provider.name+' ha sido creado!','Proveedor Creado', {
+        timeOut: 5000,
+      });
+      this._providersService.create(this.provider).then(() => {
+        
+      }, (error) => {
+        console.error(error);        
+      });  
+      this._location.back();
     }
   }
 

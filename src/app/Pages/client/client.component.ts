@@ -5,7 +5,7 @@ import { ModalaboutComponent } from 'src/app/Components/modalabout/modalabout.co
 import { Subscription } from 'rxjs';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
-import { ClientsService } from 'src/app/Services/clients.service';
+import { ClientsService } from 'src/app/Services/Firestore/clients.service';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -27,9 +27,9 @@ export class ClientComponent implements OnInit {
 
   isActive:any;
 
-  public clients:any;
+  public clients:any[];
   public commerce:any;
-  private commerceSubscription: Subscription;
+  private clientsSubscription: Subscription;
 
   clienteValue;
   closeResult: string;
@@ -40,57 +40,48 @@ export class ClientComponent implements OnInit {
     public _clientsService:ClientsService,
     private toastr: ToastrService,
     private modalService: NgbModal,
-  ) {
-  
-    this.commerce = "";
-    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
-      this.commerce = data;
-    
-      if(this.commerce == "0"){
-        this.router.navigate(['/home']);
-      }
-    });
+  ) {  
+    this.commerce = "";    
   }
 
   
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
+    if(this.clientsSubscription)
+      this.clientsSubscription.unsubscribe();
   }
 
   
   ngOnInit() {
-    this.obtenerClientes();
-  }
-
-  obtenerClientes(){
-    this.commerceSubscription =  this._clientsService.get().subscribe(data=>{
-      this.clients = data;
+        
+    this.clientsSubscription = this._clientsService.getAll().subscribe((clientSnapshot) => {
+      this.clients = [];
+      clientSnapshot.forEach((clientData: any) => {
+        this.clients.push(clientData.payload.doc.data());
+        this.clients[this.clients.length - 1].id = clientData.payload.doc.id;        
+      });
       console.log(this.clients);
-      if(this.clients == "0"){
-        this.router.navigate(['/home']);
-      }
     });
   }
 
-  deleteClient(content,client,$event){
-    $event.stopPropagation();
+
+  deleteClient(content,client){
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){
-        this._clientsService.delete(client).subscribe(
-          response=>{
-            this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
-              timeOut: 5000,
-            });
-            this.obtenerClientes();
-          }
-        )
+      if(result == "si"){     
+        console.log(client.id);
+        this.toastr.info(client.name+' ha sido borrado!','Cliente Borrado', {
+          timeOut: 5000,
+        });      
+        this._clientsService.delete(client.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });      
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-
   }
 
   private getDismissReason(reason: any): string {

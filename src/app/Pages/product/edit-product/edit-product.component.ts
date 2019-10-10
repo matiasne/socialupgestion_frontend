@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from 'src/app/Services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/Models/Product';
-import { CategoriesService } from 'src/app/Services/categoryes.service';
-import { ProvidersService } from 'src/app/Services/providers.service';
+import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
+import { ProvidersService } from 'src/app/Services/Firestore/providers.service';
+import { ProductsService } from 'src/app/Services/Firestore/products.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -18,8 +18,8 @@ export class EditProductComponent implements OnInit {
 
   public product:Product;
 
-  public categoryes:any;
-  private categoryesSubscription: Subscription;
+  public categories:any;
+  private categoriesSubscription: Subscription;
 
   public providers:any;
   private providerSubscription: Subscription;
@@ -47,14 +47,22 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
 
-    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
-      this.categoryes = data;
-      console.log(this.categoryes);     
+    this.categoriesSubscription = this._categoriesService.getAll().subscribe((snapshot) => {
+      this.categories = [];
+      snapshot.forEach((snap: any) => {
+        this.categories.push(snap.payload.doc.data());
+        this.categories[this.categories.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.categories);
     });
 
-    this.providerSubscription =  this._providerService.get().subscribe(data=>{
-      this.providers = data;
-      console.log(this.providers);     
+    this.providerSubscription = this._providerService.getAll().subscribe((snapshot) => {
+      this.providers = [];
+      snapshot.forEach((snap: any) => {
+        this.providers.push(snap.payload.doc.data());
+        this.providers[this.providers.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.providers);
     });
 
 
@@ -70,16 +78,25 @@ export class EditProductComponent implements OnInit {
     });
 
     
-
-  
-    if(this.route.snapshot.params.id == undefined){
-      this.isUpdate = false;
-      this.heading = "Nuevo producto";
+    if(this.route.snapshot.params.id){
+      let editSubscribe =  this._productsService.get(this.route.snapshot.params.id).subscribe((service:any) => {
+        
+        this.isUpdate = true;
+        this.heading ="Editar Servicio";
+        
+        this.registerForm.setValue({
+          name: service.payload.data().name,
+          price: service.payload.data().price,
+          description: service.payload.data().description,
+          category_id: service.payload.data().category_id
+        });
+        editSubscribe.unsubscribe();
+      });
     }
     else{
-      this.isUpdate = true;
-      this.heading ="Editar producto";
-    }
+      this.isUpdate = false;
+      this.heading = "Nuevo Servicio";
+    }  
 
 
   }
@@ -118,29 +135,29 @@ export class EditProductComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.product);
-      this._productsService.update(this.product).subscribe(
-        response=>{
-          console.log(response);
+      this.toastr.success(this.product.name+' ha sido actualizado!','Producto Actualizado', {
+        timeOut: 5000,
+      });    
 
-          this.toastr.success(this.product.name+' ha sido actualizado!','Producto Actualizado', {
-            timeOut: 5000,
-          });
-
-          this._location.back();
-        }
-      )
+      this._productsService.update(this.product.id.toString(), this.product).then(() => {        
+            
+      }, (error) => {
+        console.log(error);
+      });
+      this._location.back();
+      
     }
     else{
-      this._productsService.add(this.product).subscribe(
-        response=>{
-          console.log(response);
-          this.toastr.success(this.product.name+' ha sido creado!','Producto Creado', {
-            timeOut: 5000,
-          });
-          this._location.back();
-        }
-      )
-     
+
+      this.toastr.success(this.product.name+' ha sido creado!','Producto Creado', {
+        timeOut: 5000,
+      });
+      this._productsService.create(this.product).then(() => {
+        
+      }, (error) => {
+        console.error(error);        
+      });  
+      this._location.back();
     }
   }
 

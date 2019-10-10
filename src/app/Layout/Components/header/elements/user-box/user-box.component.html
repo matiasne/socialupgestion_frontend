@@ -7,8 +7,10 @@
           <div class="btn-group" ngbDropdown placement="bottom-right">            
             <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>             
               <span>
-                <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                  <img width="42" src="{{user.imguser}}" alt="" class="rounded-circle">
+                <div *ngIf="auth.user$ | async as user">
+                  <div class="icon-wrapper icon-wrapper-alt rounded-circle">
+                    <img width="42"  [src]="user.photoURL" alt="" class="rounded-circle">
+                  </div>
                 </div>
               </span>
             </button>

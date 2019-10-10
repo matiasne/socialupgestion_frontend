@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriesService } from 'src/app/Services/categoryes.service';
 import { Category } from 'src/app/Models/Category';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-category',
@@ -28,6 +29,7 @@ export class CategoryComponent implements OnInit {
 
   
   constructor(
+    private modalService: NgbModal,
     public _categoriesService:CategoriesService,
     private toastr: ToastrService
   ) { 
@@ -36,30 +38,45 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     console.log("Init category");
-    this.obtenerCategorias();
-  }
-
-  obtenerCategorias(){
-    this.categories = [];
-    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
-      this.categories = data;     
+    this.categoryesSubscription = this._categoriesService.getAll().subscribe((snapshot) => {
+      this.categories = [];
+      snapshot.forEach((snap: any) => {
+        this.categories.push(snap.payload.doc.data());
+        this.categories[this.categories.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.categories);
     });
   }
+
 
   ngOnDestroy() {
     console.log("destroy category");
     this.categoryesSubscription.unsubscribe();
   }
 
-  delete(category){
-    this._categoriesService.delete(category).subscribe(
-      response=>{
-        this.toastr.info(category.name+' ha sido borrado!','Servicio Borrado', {
+  delete(content,category){
+
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){
+        this._categoriesService.delete(category.id);
+        this.toastr.info(category.name+' ha sido borrado!','Categoria Borrada', {
           timeOut: 5000,
         });
-        this.obtenerCategorias();
       }
-    )
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

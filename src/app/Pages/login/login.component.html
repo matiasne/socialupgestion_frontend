@@ -25,23 +25,26 @@
                 <input id="exampleInput2" type="password" placeholder="Ingrese contraseña..." required="required"
                           aria-required="true" class="form-control" [(ngModel)]="password">
               </div>
-            </div>
-            <div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
-                                                               autocomplete="off" class="custom-control-input"
-                                                               value="true"><label for="exampleCheck"
-                                                                                   class="custom-control-label">
-              Manteneme conectado
-            </label></div>
+            </div>            
             <div class="divider"></div>
             <h6 class="mb-0">
               No tienes cuenta?
-              <a [routerLink]="" class="text-primary">Inicia Sesion ahora!</a></h6></div>
+              <a [routerLink]="['/signup']" class="text-primary">Registrate</a></h6></div>
           <div class="modal-footer clearfix">
-            <div class="float-left"><a [routerLink]="" class="btn-lg btn btn-link">Recuperar contraseña</a></div>
+            <div class="float-left"><a [routerLink]="['/reset']" class="btn-lg btn btn-link">Recuperar contraseña</a></div>
             <div class="float-right">
               <button type="button" class="btn btn-primary btn-lg" (click)="login()">Ingresar a tu cuenta</button>
-            </div>
+            </div>    
           </div>
+        </div>
+      </div>
+      <div class="modal-dialog w-100 mx-auto">
+        <div class="modal-content">
+            <div class="modal-body">
+              <div class="float-right">
+                <button type="button" class="btn btn-primary btn-lg" (click)="loginWithGoogle()">Ingresar con google</button>
+              </div>
+            </div>
         </div>
       </div>
       <div class="text-center text-white opacity-8 mt-3">

@@ -4,9 +4,9 @@ import { Subscription } from 'rxjs';
 import { CommercesService } from 'src/app/Services/commerces.service';
 import { Commerce } from 'src/app/Models/Commerce';
 import { Router } from '@angular/router';
-import { ProductsService } from 'src/app/Services/products.service';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriesService } from 'src/app/Services/categoryes.service';
+import { ProductsService } from 'src/app/Services/Firestore/products.service';
+import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
 
 @Component({
   selector: 'app-product',
@@ -31,8 +31,8 @@ export class ProductComponent implements OnInit {
   
   serviceValue;
   
-  public categoryes:any;
-  private categoryesSubscription: Subscription;
+  public categories:any;
+  private categoriesSubscription: Subscription;
 
 
   constructor(
@@ -43,52 +43,48 @@ export class ProductComponent implements OnInit {
     private _categoriesService:CategoriesService
   ) {
     this.products = "";
-    this.categoryes = [];
+    this.categories = [];
   }
 
   ngOnDestroy() {
-    this.productSubscription.unsubscribe();
-    this.categoryesSubscription.unsubscribe();
+    if(this.productSubscription)
+      this.productSubscription.unsubscribe();
+    if(this.categoriesSubscription)
+      this.categoriesSubscription.unsubscribe();
   }
 
   ngOnInit() {
-    this.obtenerProductos();
+
+    this.productSubscription = this._productsServices.getAll().subscribe((snapshot) => {
+      this.products = [];
+      snapshot.forEach((snap: any) => {
+        this.products.push(snap.payload.doc.data());
+        this.products[this.products.length - 1].id = snap.payload.doc.id;        
+      });
+      console.log(this.products);
+    });
+
   }
   
-  obtenerProductos(){
-    this.productSubscription =  this._productsServices.get().subscribe(data=>{
-      this.products = data;      
-    });
-
-    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
-      this.categoryes = data;
-      console.log(this.categoryes);     
-    });
-  }
-
-  deleteProducto(product){
-    this._productsServices.delete(product).subscribe(
-      response=>{
-        this.toastr.info(product.name+' ha sido borrado!','Producto Borrado', {
-          timeOut: 5000,
-        });
-        this.obtenerProductos();
-      }
-    )
-  }
-
-  open(content,product) {
-    console.log(product);
+  deleteProducto(content,product){
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      console.log(result);
-      if(result == "si"){
-        this.deleteProducto(product)
+      if(result == "si"){     
+        console.log(product.id);
+        this.toastr.info(product.name+' ha sido borrado!','Producto Borrado', {
+          timeOut: 5000,
+        });      
+        this._productsServices.delete(product.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        });      
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

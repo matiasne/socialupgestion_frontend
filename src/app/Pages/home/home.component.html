@@ -21,7 +21,7 @@
         <td class="text-center"  (click)="selecionarComercio(commerce)">{{commerce.name}}</td>  
         <td class="text-center">
           <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" [routerLink]="['/commerce',commerce]" >Editar</button>
+            <button class="btn-shadow btn btn-primary" [routerLink]="['/commerce',{id : commerce.id}]" >Editar</button>
           </div>
         </td>
         <td class="text-center">

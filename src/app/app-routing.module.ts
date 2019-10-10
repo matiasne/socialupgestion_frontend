@@ -22,6 +22,7 @@ import {LoginComponent} from './Pages/login/login.component';
 import {HomeComponent} from './Pages/home/home.component';
 
 
+
 // Elements
 
 import {StandardComponent} from './DemoPages/Elements/Buttons/standard/standard.component';
@@ -102,6 +103,10 @@ import {CategoryComponent} from './Pages/category/category.component';
 import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
 import { EditCategoryComponent } from './Pages/category/edit-category/edit-category.component';
 import { EditCajaComponent } from './Pages/caja/edit-caja/edit-caja.component';
+import { SignupComponent } from './Pages/signup/signup.component';
+import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
+import { AuthGuard } from './shared/guard/auth.guard';
+import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
 
 
 const routes: Routes = [
@@ -113,7 +118,7 @@ const routes: Routes = [
 
       //home
 
-      {path: 'home' , component:HomeComponent, data:{extraParameter: ''}},
+      {path: 'home' , component:HomeComponent, data:{extraParameter: ''},canActivate: [AuthGuard] },
       {path: 'commerce' , component:EditCommerceComponent, data:{extraParameter: ''}},
 
       // Dashboads
@@ -206,9 +211,11 @@ const routes: Routes = [
 
       // User Pages
       {path: 'login' , component:LoginComponent, data:{extraParameter: ''}},
-      {path: 'pages/login-boxed', component: LoginBoxedComponent, data: {extraParameter: ''}},
-      {path: 'pages/register-boxed', component: RegisterBoxedComponent, data: {extraParameter: ''}},
-      {path: 'pages/forgot-password-boxed', component: ForgotPasswordBoxedComponent, data: {extraParameter: ''}},
+      {path: 'signup' , component:SignupComponent, data:{extraParameter: ''}, canActivate: [SecureInnerPagesGuard]},
+      {path: 'reset' , component:ResetPasswordComponent, data:{extraParameter: ''}, canActivate: [SecureInnerPagesGuard]},
+      {path: 'pages/login-boxed', component: LoginBoxedComponent, data: {extraParameter: ''}, canActivate: [SecureInnerPagesGuard]},
+      {path: 'pages/register-boxed', component: RegisterBoxedComponent, data: {extraParameter: ''}, canActivate: [SecureInnerPagesGuard]},
+      {path: 'pages/forgot-password-boxed', component: ForgotPasswordBoxedComponent, data: {extraParameter: ''}, canActivate: [SecureInnerPagesGuard]},
     ]
   },
   {path: '**', redirectTo: ''}

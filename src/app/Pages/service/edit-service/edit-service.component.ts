@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
-import { ServicesService } from 'src/app/Services/services.service';
 import { Service } from 'src/app/Models/Service';
-import {  CategoriesService } from 'src/app/Services/categoryes.service';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Models/Category';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ServicesService } from 'src/app/Services/Firestore/services.service';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
 @Component({
   selector: 'app-edit-service',
   templateUrl: './edit-service.component.html',
@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class EditServiceComponent implements OnInit {
 
   public service:Service;
+  public commerce:any;
   public categoryes:any;
   private categoryesSubscription: Subscription;
   public isUpdate:boolean;
@@ -32,12 +33,14 @@ export class EditServiceComponent implements OnInit {
     public router: Router,
     private _location: Location,
     public _servicesService:ServicesService,
-    public _categoriesService:CategoriesService,
+    private _commerceService:CommercesService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) { 
-    this.service = new Service();    
-    this.categoryes = [];
+    this.service = new Service();   
+    this._commerceService.getSelectedCommerce().subscribe(data =>{
+      this.commerce = data;
+    });
   }
 
   ngOnInit() {
@@ -53,27 +56,30 @@ export class EditServiceComponent implements OnInit {
 
     
 
-    this.categoryesSubscription =  this._categoriesService.get().subscribe(data=>{
-      this.categoryes = data;
-      console.log(this.categoryes);     
-    });
-
-  
-    if(this.route.snapshot.params.id == undefined){
-      this.isUpdate = false;
-      this.heading = "Nuevo Servicio";
+    if(this.route.snapshot.params.id){
+      let editSubscribe =  this._servicesService.get(this.route.snapshot.params.id).subscribe((service:any) => {
+        
+        this.isUpdate = true;
+        this.heading ="Editar Servicio";
+        
+        this.registerForm.setValue({
+          name: service.payload.data().name,
+          price: service.payload.data().price,
+          description: service.payload.data().description,
+          category_id: service.payload.data().category_id
+        });
+        editSubscribe.unsubscribe();
+      });
     }
     else{
-      this.isUpdate = true;
-      this.heading ="Editar Servicio";
-    }
-
-    
+      this.isUpdate = false;
+      this.heading = "Nuevo Servicio";
+    }   
   }
 
   
   ngOnDestroy() {
-    this.categoryesSubscription.unsubscribe();
+    
   }
 
   Cancelar(){
@@ -101,29 +107,29 @@ export class EditServiceComponent implements OnInit {
     if(this.isUpdate){
       //Update
       console.log(this.service);
-      this._servicesService.update(this.service).subscribe(
-        response=>{
-          console.log(response);
+      this.toastr.success(this.service.name+' ha sido actualizado!','Cliente Actualizado', {
+        timeOut: 5000,
+      });    
 
-          this.toastr.success(this.service.name+' ha sido actualizado!','Actualizado', {
-            timeOut: 5000,
-          });
-
-          this._location.back();
-        }
-      )
+      this._servicesService.update(this.service.id.toString(), this.service).then(() => {        
+            
+      }, (error) => {
+        console.log(error);
+      });
+      this._location.back();
+      
     }
     else{
-      this._servicesService.add(this.service).subscribe(
-        response=>{
-          console.log(response);
-          this.toastr.success(this.service.name+' ha sido creado!','Creado', {
-            timeOut: 5000,
-          });
-          this._location.back();
-        }
-      )
-     
+
+      this.toastr.success(this.service.name+' ha sido creado!','Cliente Creado', {
+        timeOut: 5000,
+      });
+      this._servicesService.create(this.service).then(() => {
+        
+      }, (error) => {
+        console.error(error);        
+      });  
+      this._location.back();
     }
   }
 
