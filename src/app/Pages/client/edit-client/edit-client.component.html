@@ -5,6 +5,11 @@
   <div class="card-body">
     <form [formGroup]="registerForm">
 
+    <webcam [height]="400" [width]="450" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+    [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+    (initError)="handleInitError($event)"></webcam>
+    <br/>
+
       <!--FOTO!!!!-->
       <div class="position-relative form-group">
         <label for="foto">Ingrese una imagen del cliente</label>

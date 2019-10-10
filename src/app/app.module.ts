@@ -132,6 +132,9 @@ import { EditCategoryComponent } from './Pages/category/edit-category/edit-categ
 import { EditProductComponent } from './Pages/product/edit-product/edit-product.component';
 import { EditCajaComponent } from './Pages/caja/edit-caja/edit-caja.component';
 
+//webcamp
+import {WebcamModule} from 'ngx-webcam';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -248,7 +251,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FilterPipe,
     EditCategoryComponent,
     EditProductComponent,
-    EditCajaComponent
+    EditCajaComponent,
+    WebcamModule
   ],
   imports: [
     BrowserModule,

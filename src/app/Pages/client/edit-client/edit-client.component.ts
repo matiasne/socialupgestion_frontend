@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from 'src/app/Services/clients.service';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
+import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
+import Quagga from 'quagga'; // ES6
 
 @Component({
   selector: 'app-edit-client',
@@ -14,6 +16,7 @@ import {Location} from '@angular/common';
 })
 export class EditClientComponent implements OnInit {
 
+  _scannerIsRunning;
   public client:Client;
   public categoryes:any;
   private categoryesSubscription: Subscription;
@@ -35,12 +38,10 @@ export class EditClientComponent implements OnInit {
   ) { 
     this.client = new Client();    
     this.categoryes = [];
+    this._scannerIsRunning = false;
   }
 
   ngOnInit() {
-
-   
-
     this.registerForm = this.formBuilder.group({
       name: [this.route.snapshot.params.name, Validators.required],
       address: [this.route.snapshot.params.address],
@@ -50,9 +51,6 @@ export class EditClientComponent implements OnInit {
       img: [this.route.snapshot.params.img],
     });
 
-    
-
-  
     if(this.route.snapshot.params.id == undefined){
       this.isUpdate = false;
       this.heading = "Nuevo Cliente";
@@ -61,8 +59,6 @@ export class EditClientComponent implements OnInit {
       this.isUpdate = true;
       this.heading ="Editar Cliente";
     }
-
-    
   }
 
   
@@ -77,8 +73,6 @@ export class EditClientComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   Guardar(){
-    
-
     this.submitted = true;
 
     // stop here if form is invalid
@@ -121,6 +115,93 @@ export class EditClientComponent implements OnInit {
       )
      
     }
+  }
+
+
+  public iniciar(){
+    if (this._scannerIsRunning) {
+      Quagga.stop();
+      this._scannerIsRunning = false;
+    } else {
+        this._scannerIsRunning = true;
+        this.startScanner();
+    }
+  }
+  public startScanner() {
+      Quagga.init({
+          inputStream: {
+              name: 'Live',
+              type: 'LiveStream',
+              target: document.querySelector('#scanner-container'),
+              constraints: {
+                  width: 400,
+                  height: 300,
+                  facingMode: 'environment'
+              },
+          },
+          decoder: {
+              readers: [
+                  'code_128_reader',
+                  'ean_reader',
+                  'ean_8_reader',
+                  'code_39_reader',
+                  'code_39_vin_reader',
+                  'codabar_reader',
+                  'upc_reader',
+                  'upc_e_reader',
+                  'i2of5_reader'
+              ],
+              debug: {
+                  showCanvas: true,
+                  showPatches: true,
+                  showFoundPatches: true,
+                  showSkeleton: true,
+                  showLabels: true,
+                  showPatchLabels: true,
+                  showRemainingPatchLabels: true,
+                  boxFromPatches: {
+                      showTransformed: true,
+                      showTransformedBox: true,
+                      showBB: true
+                  }
+              }
+          },
+
+      }, function (err) {
+          if (err) {
+              console.log(err);
+              return;
+          }
+          Quagga.start();
+      });
+
+      Quagga.onProcessed(function (result) {
+          var drawingCtx = Quagga.canvas.ctx.overlay,
+          drawingCanvas = Quagga.canvas.dom.overlay;
+
+          if (result) {
+              if (result.boxes) {
+                  drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute('width')), parseInt(drawingCanvas.getAttribute('height')));
+                  result.boxes.filter(function (box) {
+                      return box !== result.box;
+                  }).forEach(function (box) {
+                      Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: 'green', lineWidth: 2 });
+                  });
+              }
+
+              if (result.box) {
+                  Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: '#00F', lineWidth: 2 });
+              }
+
+              if (result.codeResult && result.codeResult.code) {
+                  Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 10 });
+              }
+          }
+      });
+
+      Quagga.onDetected(function (result) {
+          console.log(result);
+      });
   }
 
 }
