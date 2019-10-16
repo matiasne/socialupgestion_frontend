@@ -37,8 +37,7 @@ export class AuthenticationProvider {
     this.user$ = this.firebaseAuth.authState.pipe(
       switchMap(user => {
           // Logged in
-        if (user) {
-          
+        if (user) {          
           return this.afs.doc(`users/${user.uid}`).valueChanges();
         } else {
           // Logged out
@@ -64,7 +63,8 @@ export class AuthenticationProvider {
   }
 
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));    
+    const user = JSON.parse(localStorage.getItem('user'));   
+    console.log(user); 
     return (user !== null) ? true : false;
   }
 
@@ -223,7 +223,7 @@ private updateUserData(user) {
 }
 
 async signOut() {
-  localStorage.setItem('user',"0");
+  localStorage.setItem('user',null);
   await this.firebaseAuth.auth.signOut();
   
 }

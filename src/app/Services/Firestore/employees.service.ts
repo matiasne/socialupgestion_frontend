@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthenticationProvider } from './authentication/authentication';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class EmployeesService {
   constructor(
     private firestore: AngularFirestore
   ) {
-    this.collection = 'employees';
+    let commerce_id = localStorage.getItem('commerce_id');
+    this.collection = 'commerces/'+commerce_id+'/employees';
   }
 
 
@@ -25,7 +27,8 @@ export class EmployeesService {
   }
 
   public getAll() {   
-    return this.firestore.collection(this.collection).snapshotChanges();
+    let commerce_id = localStorage.getItem('commerce_id');
+    return this.firestore.collection('roles', ref => ref.where('commerce_id', '==', commerce_id).where('rol','==','employee')).snapshotChanges();
   }
 
   public update(documentId: string, data: any) {
@@ -33,8 +36,17 @@ export class EmployeesService {
     return this.firestore.collection(this.collection).doc(documentId).set(param);
   }
 
-  public delete(documentId: string) {
-    return this.firestore.collection(this.collection).doc(documentId).delete();
+  public delete(employee_id) {
+    
+    let commerce_id = localStorage.getItem('commerce_id');    
+    this.firestore.collection('roles', ref => ref.where('user_id', '==', employee_id).where('rol','==','employee')).snapshotChanges().subscribe(
+      snapshot =>{
+        snapshot.forEach((snap: any) => {
+          console.log(snap.payload.doc.id)
+          this.firestore.collection('roles').doc(snap.payload.doc.id).delete();
+        });
+      }
+    );
   }
 
 }

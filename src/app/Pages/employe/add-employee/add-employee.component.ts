@@ -44,7 +44,7 @@ export class AddEmployeeComponent implements OnInit {
 
   asignarRol(user){
 
-    
+    this._userService.asignEmployee(user);
 
     this.toastr.info('el usuario '+user.name+' ha sido asignado como empleado!','Empleado Asignado', {
       timeOut: 5000,

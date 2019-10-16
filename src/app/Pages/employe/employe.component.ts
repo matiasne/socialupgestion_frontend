@@ -4,6 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeesService } from 'src/app/Services/Firestore/employees.service';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-employe',
@@ -34,7 +35,8 @@ export class EmployeComponent implements OnInit {
     private modalService: NgbModal,
     public router: Router,
     public _employeeService:EmployeesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,    
+    private firestore: AngularFirestore,
   ) {
   
     this.commerce = "";
@@ -54,8 +56,19 @@ export class EmployeComponent implements OnInit {
     this.employeesSubscription = this._employeeService.getAll().subscribe((snapshot) => {
       this.employees = [];
       snapshot.forEach((snap: any) => {
-        this.employees.push(snap.payload.doc.data());
-        this.employees[this.employees.length - 1].id = snap.payload.doc.id;        
+
+        console.log(snap.payload.doc.data());
+          this.firestore.doc('users/'+snap.payload.doc.data().user_id).valueChanges().subscribe(
+            data=>{
+              if(data){
+                console.log(data);                
+                this.employees.push(data);
+                this.employees[this.employees.length - 1].id = snap.payload.doc.data().user_id;
+              }                 
+            }
+          );          
+        
+               
       });
       console.log(this.employees);
     });
@@ -69,11 +82,7 @@ export class EmployeComponent implements OnInit {
         this.toastr.info(employee.name+' ha sido borrado!','Empleado Borrado', {
           timeOut: 5000,
         });      
-        this._employeeService.delete(employee.id).then(() => {
-                 
-        }, (error) => {
-          console.error(error);
-        });      
+        this._employeeService.delete(employee.id);
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(this.auth.isLoggedIn){
+      console.log("Usuario Logueado");
       this.router.navigate(['/home']);
     }
   }

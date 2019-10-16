@@ -13,8 +13,7 @@ export class CategoriesService {
     let commerce_id = localStorage.getItem('commerce_id'); 
     this.collection = 'commerces/'+commerce_id+'/categories';
   }
-
-
+  
   public create(data:any) {
    
     const param = JSON.parse(JSON.stringify(data));

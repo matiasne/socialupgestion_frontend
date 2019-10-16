@@ -1,46 +1,9 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div class="main-card mb-3 card">
-  <div class="card-header">
-    <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Comercios</div>
-  </div>
-  <div class="table-responsive">
-    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-      <thead>
-      <tr>
-        <th class="text-center">Número</th>
-        <th class="text-center">Imagen</th>
-        <th class="text-center">Nombre</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let commerce of commerces">
-        <td class="text-center text-muted" style="width: 80px;"  (click)="selecionarComercio(commerce)" >{{commerce.id}}</td>
-        <td class="text-center" style="width: 80px;">
-          <img width="40" class="rounded-circle" src="{{commerce.imgcommerce}}" alt=""  (click)="selecionarComercio(commerce)">
-        </td>
-        <td class="text-center"  (click)="selecionarComercio(commerce)">{{commerce.name}}</td>  
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" [routerLink]="['/commerce',{id : commerce.id}]" >Editar</button>
-          </div>
-        </td>
-        <td class="text-center">
-          <div role="group" class="btn-group-sm btn-group">
-            <button class="btn-shadow btn btn-primary" (click)="deleteCommerce(content,commerce)" >Borrar</button>
-          </div>
-        </td>     
-      </tr>      
-      </tbody>
-    </table>
-  </div>
-  <div class="d-block p-4 text-center card-footer">
-    <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
-      <span class="mr-2 opacity-7">
-          <i class="fa fa-cog fa-spin"></i>
-      </span>
-      <span class="mr-1" [routerLink]="['/commerce']">Crear Nuevo Comercio</span>
-    </button>
-  </div>
+  <div *ngFor="let commerce of commerces" class="btn-select-item" (click)="selecionarComercio(commerce)">
+    <i class="pe-7s-shopbag btn-select-item-icon"> </i>
+    <div class="btn-select-item-title">{{commerce.name}}</div>    
+  </div> 
 
   <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
@@ -57,5 +20,3 @@
       <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
     </div>
   </ng-template>
-
-</div>
