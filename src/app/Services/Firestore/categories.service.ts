@@ -13,6 +13,10 @@ export class CategoriesService {
     let commerce_id = localStorage.getItem('commerce_id'); 
     this.collection = 'commerces/'+commerce_id+'/categories';
   }
+
+  public getCommerceCategories(){
+    return this.firestore.collection('commerces_categories').snapshotChanges();
+  }
   
   public create(data:any) {
    

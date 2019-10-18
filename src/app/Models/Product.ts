@@ -9,7 +9,8 @@ export class Product{
     public provider_id:number;
     public category_id:number;
     public description:string;
-    public img:string;
+    public icon:string;
+    public portada:string;
 	constructor(
 		
 		){

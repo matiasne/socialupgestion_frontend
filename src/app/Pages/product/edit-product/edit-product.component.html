@@ -2,11 +2,45 @@
 <div class="card-body">
   <form [formGroup]="registerForm">
 
-    <!--FOTO!!!!-->
-    <div class="position-relative form-group">
-      <label for="foto">Ingrese una imagen del producto</label>
-      <input formControlName="img" name="img" id="img" type="file" class="form-control-file">
-    </div>
+      <div class="row">
+        <div class="col-3"> 
+          <div class="btn-input-icon" (click)="openAddIcon()">
+            <img  src="{{product.icon}}" *ngIf="product.icon"/>
+            <i class="pe-7s-shopbag" *ngIf="!product.icon"> </i>
+            <div class="title">Icono</div>    
+          </div>   
+        </div>
+        <div class="col-9"> 
+          <div class="btn-input-portada" (click)="openAddPortada()">
+            <img  src="{{product.portada}}" *ngIf="product.portada"/>
+            <i class="pe-7s-shopbag" *ngIf="!product.portada"> </i>   
+            <div class="btn-select-item-title">Portada</div>    
+          </div>
+        </div>
+      </div>
+
+      <div class="position-relative form-group">
+        <app-image-select  #iconSelect 
+          (imagenBase64)="iconoImagen($event)"
+          aspectRatio_Y ="3"
+          aspectRatio_X ="3"
+          resizeToWidth=350
+          titulo="Seleccionar Imagen"
+          >
+        </app-image-select> 
+      </div>
+      
+      <div class="position-relative form-group">
+        <app-image-select  #portadaSelect 
+          (imagenBase64)="portadaImagen($event)"
+          aspectRatio_Y ="7"
+          aspectRatio_X ="3"
+          resizeToWidth=350
+          titulo="Seleccionar Imagen"
+          >
+        </app-image-select> 
+      </div>
+
     <!--Nombre-->
     <div class="position-relative form-group">
       <label for="name">Nombre</label>

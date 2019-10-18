@@ -14,7 +14,11 @@ export class Commerce{
 		user_id:number
 	};
 	public nombre:string;
-	public img:string;
+	public icon:string;
+  	public portada: any;
+  	public lat: any;
+  	public lng: any;
+  	public category_id: any;
 
 	constructor(
 		

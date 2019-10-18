@@ -2,12 +2,62 @@
 <div class="card-body">
   <form [formGroup]="registerForm">
 
-    <!--FOTO!!!!-->
-    <div class="position-relative form-group">
-      <label for="foto">Ingrese una imagen del comercio</label>
-      <input formControlName="img" name="img" id="img" type="file" class="form-control-file">
+    <div class="row">
+      <div class="col-3"> 
+        <div class="btn-input-icon" (click)="openAddIcon()">
+          <img  src="{{commerce.icon}}" *ngIf="commerce.icon"/>
+          <i class="pe-7s-shopbag" *ngIf="!commerce.icon"> </i>
+          <div class="title">Icono</div>    
+        </div>   
+      </div>
+      <div class="col-9"> 
+        <div class="btn-input-portada" (click)="openAddPortada()">
+          <img  src="{{commerce.portada}}" *ngIf="commerce.portada"/>
+          <i class="pe-7s-shopbag" *ngIf="!commerce.portada"> </i>   
+          <div class="btn-select-item-title">Portada</div>    
+        </div>
+      </div>
     </div>
-    <!--Nombre-->
+  
+    
+    <div class="position-relative form-group">
+      <app-image-select  #iconSelect 
+        (imagenBase64)="iconoImagen($event)"
+        aspectRatio_Y ="3"
+        aspectRatio_X ="3"
+        resizeToWidth=350
+        titulo="Seleccionar Imagen"
+        >
+      </app-image-select> 
+    </div>
+
+    <div class="position-relative form-group">
+      <app-image-select  #portadaSelect 
+        (imagenBase64)="portadaImagen($event)"
+        aspectRatio_Y ="7"
+        aspectRatio_X ="3"
+        resizeToWidth=350
+        titulo="Seleccionar Imagen"
+        >
+      </app-image-select> 
+    </div>
+
+    <app-location-select #locationSelect 
+      titulo="Seleccionar Ubicación"
+      (latlong)="setearLocalizacion($event)"
+    ></app-location-select>
+
+    <div class="position-relative form-group">
+      <label for="category_id">Categoria</label>
+      <select formControlName="category_id" name="category_id" id="category_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category_id.errors }">
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+        <div *ngIf="submitted && f.category_id.errors" class="invalid-feedback">
+            <div *ngIf="f.category_id.errors.required">Seleccione una categoria o cree una nueva (link)</div>
+        </div>
+      </select>
+    </div>
+
+     <!--Nombre-->
     <div class="position-relative form-group">
       <label for="name">Nombre</label>
       <input formControlName="name" name="name" id="name" placeholder="Ingrese el nombre del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
@@ -15,16 +65,24 @@
           <div *ngIf="f.name.errors.required">El nombre es requerido</div>
       </div>
     </div>
+    
     <!--Nombre-->
-    <div class="position-relative form-group">
-      <label for="address">Dirección</label>
-      <input formControlName="address" name="address" id="address" placeholder="Ingrese la dirección del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
-      <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
-          <div *ngIf="f.address.errors.required">La Dirección es requerido</div>
+    <div class="row">
+      <div class="position-relative form-group col-md-9">
+        <label for="address">Dirección</label>
+        <input formControlName="address" name="address" id="address" placeholder="Ingrese la dirección del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+            <div *ngIf="f.address.errors.required">La Dirección es requerido</div>
+        </div>
+      </div>
+
+      <div class="position-relative form-group col-md-3">
+        <label for="address">Localiza tu local sobre el mapa</label>
+        <button class="mt-1 btn btn-success form-control" (click)="openAddLocation()">Setear Mapa</button>
       </div>
     </div>
-
-    <div class="position-relative form-group">
+    
+    <div class="position-relative  form-group">
       <label for="phone_number">Teléfono</label>
       <input formControlName="phone_number" type="number" name="phone_number" id="phone_number" placeholder="Ingrese el teléfono del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone_number.errors }">
       <div *ngIf="submitted && f.phone_number.errors" class="invalid-feedback">
@@ -39,6 +97,14 @@
           <div *ngIf="f.email.errors.required">El email es requerido</div>
       </div>
     </div>
+
+    <div class="position-relative form-group">
+        <label for="email">Horarios</label>
+        <input formControlName="email"  type="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">El email es requerido</div>
+        </div>
+      </div>
     
     <!--Descripcion-->
     <div class="position-relative form-group">

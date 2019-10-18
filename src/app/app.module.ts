@@ -141,7 +141,12 @@ import { SignupComponent } from './Pages/signup/signup.component';
 import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthenticationProvider } from './Services/Firestore/authentication/authentication';
+import { ImageSelectComponent } from './Components/image-select/image-select.component';
 
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { LocationSelectComponent } from './Components/location-select/location-select.component';
+import { AgmCoreModule } from '@agm/core';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -271,7 +276,9 @@ const firebaseConfig = {
     EditProductComponent,
     EditCajaComponent,
     SignupComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ImageSelectComponent,
+    LocationSelectComponent
   ],
   imports: [
     BrowserModule,
@@ -279,12 +286,17 @@ const firebaseConfig = {
     AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB3wHh6FC8s9pGTodHC9F47Ac8OAWG-6as',
+      libraries: ['places']
+    }),
     AppRoutingModule,
     BrowserAnimationsModule,
     NgReduxModule,
     CommonModule,
     LoadingBarRouterModule,
-
+    ImageCropperModule,
+    NgxFileDropModule,
     // Angular Bootstrap Components
 
     PerfectScrollbarModule,

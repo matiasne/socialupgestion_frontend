@@ -42,7 +42,10 @@
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.category}}</td>
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.code}}</td>
           <td class="text-center" style="width: 80px;" [routerLink]="['/client',client]">
-            <img width="40" class="rounded-circle" src="{{product.imgproduct}}" alt="">
+            <div class="item-icon" [routerLink]="['/client',client]">
+              <img  src="{{product.icon}}" *ngIf="product.icon"/>
+              <i class="pe-7s-box2" *ngIf="!product.icon"> </i>
+            </div>   
           </td>
           <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.name}}</td>
           <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.description}}</td>

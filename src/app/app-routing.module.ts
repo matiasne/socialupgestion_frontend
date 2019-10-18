@@ -107,6 +107,8 @@ import { SignupComponent } from './Pages/signup/signup.component';
 import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
+import { ImageSelectComponent } from './Components/image-select/image-select.component';
+import { LocationSelectComponent } from './Components/location-select/location-select.component';
 
 
 const routes: Routes = [
@@ -201,6 +203,10 @@ const routes: Routes = [
       //Category
       {path: 'categories', component:CategoryComponent, data:{extraParameter: ''} },
       {path: 'category', component:EditCategoryComponent, data:{extraParameter: ''} },
+
+      //Image
+      {path: 'img', component:ImageSelectComponent, data:{extraParameter: ''} },
+      {path: 'map', component:LocationSelectComponent, data:{extraParameter: ''} },
 
     ]
   },
