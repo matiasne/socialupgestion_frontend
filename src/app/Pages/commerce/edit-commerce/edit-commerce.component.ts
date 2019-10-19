@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageSelectComponent } from 'src/app/Components/image-select/image-select.component';
 import { LocationSelectComponent } from 'src/app/Components/location-select/location-select.component';
 import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
+import { PeriodTimeSelectComponent } from 'src/app/Components/period-time-select/period-time-select.component';
 
 @Component({
   selector: 'app-edit-commerce',
@@ -23,6 +24,7 @@ export class EditCommerceComponent implements OnInit {
   @ViewChild("iconSelect") iconSelect: ImageSelectComponent;
   @ViewChild("portadaSelect") portadaSelect: ImageSelectComponent;
   @ViewChild("locationSelect") locationSelect: LocationSelectComponent;
+  @ViewChild("periodoSelect") periodoSelect: PeriodTimeSelectComponent;
   
   public commerce:Commerce;
   public isUpdate:boolean;
@@ -33,6 +35,8 @@ export class EditCommerceComponent implements OnInit {
 
   public categories:any;
   private categoriesSubscription: Subscription;
+
+  public diaEditando:number;
 
   heading = 'Comercio';
   subheading = '';
@@ -62,6 +66,7 @@ export class EditCommerceComponent implements OnInit {
   openAddLocation(){
     this.locationSelect.openModal(this.locationSelect.content);
   }
+
 
   ngOnInit() {  
 
@@ -102,7 +107,8 @@ export class EditCommerceComponent implements OnInit {
         this.commerce.portada = commerce.payload.data().portada;
         this.commerce.lat = commerce.payload.data().lat;
         this.commerce.lng = commerce.payload.data().lng;
-        
+        this.commerce.horarios = commerce.payload.data().horarios;
+
         editSubscribe.unsubscribe();
       });
     }
@@ -184,6 +190,22 @@ export class EditCommerceComponent implements OnInit {
     let location:any = JSON.parse(json);
     this.commerce.lat = location.lat;
     this.commerce.lng = location.lng;
+  }
+
+  public openAddHorario (){
+    this.periodoSelect.openModal(this.periodoSelect.content);
+  }
+
+  public setearPeriodo(periodo){
+    console.log(periodo);
+    let p = JSON.parse(JSON.stringify(periodo));
+    this.commerce.horarios.push(p);
+    console.log(this.commerce);
+
+  }
+
+  public borrarPeriodo(index){
+    this.commerce.horarios.splice(index,1);
   }
   
 }

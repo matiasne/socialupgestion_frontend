@@ -18,7 +18,8 @@ export class Commerce{
   	public portada: any;
   	public lat: any;
   	public lng: any;
-  	public category_id: any;
+	public category_id: any;
+  	public horarios:any=[];
 
 	constructor(
 		

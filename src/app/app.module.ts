@@ -147,6 +147,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { LocationSelectComponent } from './Components/location-select/location-select.component';
 import { AgmCoreModule } from '@agm/core';
+import { PeriodTimeSelectComponent } from './Components/period-time-select/period-time-select.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -278,7 +279,8 @@ const firebaseConfig = {
     SignupComponent,
     ResetPasswordComponent,
     ImageSelectComponent,
-    LocationSelectComponent
+    LocationSelectComponent,
+    PeriodTimeSelectComponent
   ],
   imports: [
     BrowserModule,

@@ -99,12 +99,12 @@
     </div>
 
     <div class="position-relative form-group">
-        <label for="email">Horarios</label>
-        <input formControlName="email"  type="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">El email es requerido</div>
-        </div>
+      <label for="email">Horarios</label>
+      <input formControlName="email"  type="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">El email es requerido</div>
       </div>
+    </div>
     
     <!--Descripcion-->
     <div class="position-relative form-group">
@@ -115,11 +115,35 @@
           <div *ngIf="f.description.errors.required">ingrese una breve descripción</div>
       </div>
     </div>
+
+    <h5>Horarios Disponibles</h5>
+    
+    
+    <div class="row" *ngFor="let horario of commerce.horarios; index as i">
+      <div class="col-md-1">
+        <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="borrarPeriodo(i)">
+            <i class="pe-7s-trash btn-icon-wrapper"> </i>
+          </button>
+      </div>
+
+      <div class="col-md-9" >
+        <b>{{horario.nombre}}</b>  de {{horario.desde.hour}}:{{horario.desde.minute}} a {{horario.hasta.hour}}:{{horario.hasta.minute}}
+      </div> 
+      
+    </div>  
+    <div class="position-relative form-group col-md-3">
+        <button class="mt-1 btn btn-success form-control" (click)="openAddHorario()">Agregar Horario</button>
+      </div>
     <div class="modal-footer">
       <button class="mt-1 btn btn-primary" type="submit" (click)="Cancelar()">Cancelar</button>
       <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
     </div>
   </form>
 
+  <app-period-time-select
+    #periodoSelect 
+    titulo="Seleccionar Periodo"
+    (retorno)="setearPeriodo($event)"
+  ></app-period-time-select>
     
 </div>

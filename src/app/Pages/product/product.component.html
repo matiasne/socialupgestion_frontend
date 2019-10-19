@@ -41,8 +41,8 @@
         <tr *ngFor="let product of products">
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.category}}</td>
           <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.code}}</td>
-          <td class="text-center" style="width: 80px;" [routerLink]="['/client',client]">
-            <div class="item-icon" [routerLink]="['/client',client]">
+          <td class="text-center" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">
+            <div class="item-icon" [routerLink]="['/product',{id : product.id}]">
               <img  src="{{product.icon}}" *ngIf="product.icon"/>
               <i class="pe-7s-box2" *ngIf="!product.icon"> </i>
             </div>   
