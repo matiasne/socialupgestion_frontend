@@ -29,19 +29,19 @@ export class HomeComponent implements OnInit {
   ngOnInit(
   ) {   
     
-    this.commerceSubscription = this._commercesSerivce.getAllbyUser().subscribe((clientSnapshot) => {
+   /* this.commerceSubscription = this._commercesSerivce.getAllbyUser().subscribe((clientSnapshot) => {
       this.commerces = [];
       clientSnapshot.forEach((clientData: any) => {
         this.commerces.push(clientData.payload.doc.data());
         this.commerces[this.commerces.length - 1].id = clientData.payload.doc.id;        
       });
       console.log(this.commerces);
-    });
+    });*/
     
   }
 
   ngOnDestroy() {
-    this.commerceSubscription.unsubscribe();
+    //this.commerceSubscription.unsubscribe();
   }  
 
   selecionarComercio(commerce){

@@ -1,0 +1,111 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+
+<div class="row">
+  <button class="btn btn-success" (click)="guardar()">Guardar</button>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 text-center">
+
+    <table class="table">
+        <thead class="table">
+          <tr>
+            <th scope="col"><h2>Pedido</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <div *ngFor="let ord of orders ; let i = index" class="mb-2">
+            <div *ngIf="ord.enum_status === 'pedido'" class="card text-center bg-danger text-white mx-auto" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Cliente:{{ord.cliente}}</h5>
+                <ul class="card-text text-left">
+                  <li><b>Telefono:</b> {{ord.telefono}} </li>
+                  <li><b>Direccion:</b> {{ord.direccion}}</li>
+                  <li><b>Enviado Por:</b> {{ord.enviadopor}}</li>
+                  <li><b>Tiempo de preparado:</b> {{ord.timeprepared}}</li>
+                  <li><b>Tiempo envio:</b> {{ord.timesend}}</li>
+                  <li><b>Pedido:</b>
+                    <ul *ngFor="let a of ord.items">
+                      <li><b>Producto:</b> {{a.producto}}</li>
+                      <li><b>Cantidad:</b> {{a.count}}</li>
+                      <li><b>Precio:</b> {{a.price * a.count}}</li>
+                    </ul>
+                  </li>
+                  <li><b>Precio Total:</b>{{ord.total}}</li>
+                </ul>
+                <button (click)="listo(ord)" class="btn btn-success ">Listo</button>
+              </div>
+            </div>
+          </div>
+        </tbody>
+    </table>
+
+  </div>
+  <div class="col-lg-4 text-center">
+      <table class="table">
+          <thead class="table">
+            <tr>
+              <th scope="col"><h2>Confirmado</h2></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngFor="let ord of orders" class="mb-2 text-center">
+              <div *ngIf="ord.enum_status === 'confirmado'" class="card text-center bg-info text-white mx-auto" style="width: 18rem;">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Cliente: {{ord.cliente}}</h5>
+                  <ul class="card-text text-left">
+                    <li><b>Telefono:</b> {{ord.telefono}} </li>
+                    <li><b>Direccion:</b> {{ord.direccion}}</li>
+                    <li><b>Enviado Por:</b> {{ord.enviadopor}}</li>
+                    <li><b>Tiempo de preparado:</b> {{ord.timeprepared}}</li>
+                    <li><b>Tiempo envio:</b> {{ord.timesend}}</li>
+                    <li><b>Pedido:</b>
+                      <ul *ngFor="let a of ord.items">
+                        <li><b>Producto:</b> {{a.producto}}</li>
+                        <li><b>Cantidad:</b> {{a.count}}</li>
+                        <li><b>Precio:</b> {{a.price * a.count}}</li>
+                      </ul>
+                    </li>
+                    <li><b>Precio Total:</b> {{ord.total}}</li>
+                  </ul>
+                  <button (click)="confirmado(ord)" class="btn btn-success ">Enviar</button>
+                </div>
+              </div>
+            </div>
+          </tbody>
+      </table>
+  </div>
+  <div class="col-lg-4 text-center">
+    <table class="table">
+        <thead class="table">
+          <tr>
+            <th scope="col"><h2>Enviado</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <div *ngFor="let ord of orders" class="mb-2">
+            <div *ngIf="ord.enum_status === 'enviado'" class="card text-center bg-success text-white mx-auto" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Cliente: {{ord.cliente}}</h5>
+                <ul class="card-text text-left">
+                  <li><b>Telefono:</b> {{ord.telefono}} </li>
+                  <li><b>Direccion:</b> {{ord.direccion}}</li>
+                  <li><b>Enviado Por:</b> {{ord.enviadopor}}</li>
+                  <li><b>Tiempo de preparado:</b> {{ord.timeprepared}}</li>
+                  <li><b>Tiempo envio:</b> {{ord.timesend}}</li>
+                  <li><b>Pedido:</b>
+                    <ul *ngFor="let a of ord.items">
+                      <li><b>Producto:</b> {{a.producto}}</li>
+                      <li><b>Cantidad:</b> {{a.count}}</li>
+                      <li><b>Precio:</b>{{a.price * a.count}}</li>
+                    </ul>
+                  </li>
+                  <li><b>Precio Total:</b> {{ord.total}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </tbody>
+    </table>
+  </div>
+</div>

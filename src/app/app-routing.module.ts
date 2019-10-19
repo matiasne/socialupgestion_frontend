@@ -109,6 +109,10 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
 
 
+//Orders  
+import {OrdersComponent} from './Pages/orders/orders.component';
+
+
 const routes: Routes = [
   {path: '', component: LoginComponent, data: {extraParameter: 'dashboardsMenu'}},
   {
@@ -201,6 +205,9 @@ const routes: Routes = [
       //Category
       {path: 'categories', component:CategoryComponent, data:{extraParameter: ''} },
       {path: 'category', component:EditCategoryComponent, data:{extraParameter: ''} },
+
+      //Orders
+      {path: 'orders', component:OrdersComponent, data:{extraParameter: ''}},
 
     ]
   },

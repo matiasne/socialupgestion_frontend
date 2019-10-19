@@ -141,6 +141,7 @@ import { SignupComponent } from './Pages/signup/signup.component';
 import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthenticationProvider } from './Services/Firestore/authentication/authentication';
+import { OrdersComponent } from './Pages/orders/orders.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -271,7 +272,8 @@ const firebaseConfig = {
     EditProductComponent,
     EditCajaComponent,
     SignupComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
