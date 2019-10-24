@@ -10,6 +10,7 @@ import { auth } from 'firebase/app';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommercesService } from '../commerces.service';
 
 /*
   Generated class for the AuthProvider provider.
@@ -31,7 +32,7 @@ export class AuthenticationProvider {
     private afs: AngularFirestore,
     private router: Router,
     private toastr: ToastrService,
-    private ngZone:NgZone
+    private ngZone:NgZone,
   ) {
     
     this.user$ = this.firebaseAuth.authState.pipe(

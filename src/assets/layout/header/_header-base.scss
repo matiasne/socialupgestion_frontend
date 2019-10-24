@@ -1,5 +1,26 @@
 // Header Base
+.header-submenu{
+  margin-top: 59px;
+  background-color: #296dc7 !important;
+  color: white;
+  font-size: 25px !important;
+  z-index: 9 !important;
+  animation: fade-in3 .5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
 
+
+.submenu-btn{
+  display: inline-block;
+  color:white;
+  font-size: 15px !important;  
+  margin-right: 0px;
+  margin-left: auto;
+}
+
+.cantidad-productos-numero{
+  display: inline-block;
+
+}
 .app-header {
   height: $app-header-height;
   display: flex;

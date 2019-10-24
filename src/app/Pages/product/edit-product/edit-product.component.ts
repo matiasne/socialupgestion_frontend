@@ -9,6 +9,7 @@ import { CategoriesService } from 'src/app/Services/Firestore/categories.service
 import { ProvidersService } from 'src/app/Services/Firestore/providers.service';
 import { ProductsService } from 'src/app/Services/Firestore/products.service';
 import { ImageSelectComponent } from 'src/app/Components/image-select/image-select.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-product',
@@ -20,6 +21,9 @@ export class EditProductComponent implements OnInit {
   @ViewChild("iconSelect") iconSelect: ImageSelectComponent;
   @ViewChild("portadaSelect") portadaSelect: ImageSelectComponent;
   
+  
+  closeResult: string;
+
   public product:Product;
 
   public categories:any;
@@ -44,7 +48,8 @@ export class EditProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private _categoriesService:CategoriesService,
-    private _providerService:ProvidersService
+    private _providerService:ProvidersService,    
+    private modalService: NgbModal, 
   ) {
     this.product = new Product();
    }
@@ -77,7 +82,6 @@ export class EditProductComponent implements OnInit {
       provider_id: [this.route.snapshot.params.provider_id],
       category_id: [this.route.snapshot.params.category_id],
       description: [this.route.snapshot.params.description],
-      icon: [this.route.snapshot.params.icon],
     });
 
     
@@ -85,15 +89,21 @@ export class EditProductComponent implements OnInit {
       let editSubscribe =  this._productsService.get(this.route.snapshot.params.id).subscribe((product:any) => {
         
         this.isUpdate = true;
-        this.heading ="Editar Servicio";
+        this.heading ="Editar Producto";
+
+        console.log(product.payload.data());
         
         this.registerForm.setValue({
           name: product.payload.data().name,
           price: product.payload.data().price,
           description: product.payload.data().description,
-          category_id: product.payload.data().category_id
+          category_id: product.payload.data().category_id,
+          stock: product.payload.data().stock,
+          code: product.payload.data().code,
+          provider_id: product.payload.data().provider_id
         });
         this.product.icon = product.payload.data().icon;
+        this.product.name = product.payload.data().name;
         this.product.portada = product.payload.data().portada;
 
         editSubscribe.unsubscribe();
@@ -183,6 +193,37 @@ export class EditProductComponent implements OnInit {
   public portadaImagen(imagen) {
     console.log(imagen);
     this.product.portada = imagen;
+  }
+
+  
+  deleteProducto(content){
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){     
+        this.toastr.info(this.product.name+' ha sido borrado!','Producto Borrado', {
+          timeOut: 5000,
+        }); 
+        this.router.navigate(['/products']);
+        this._productsService.delete(this.route.snapshot.params.id).then(() => {
+            
+        }, (error) => {
+          console.error(error);
+        });      
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

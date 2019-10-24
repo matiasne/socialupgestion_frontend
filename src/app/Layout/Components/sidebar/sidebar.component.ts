@@ -1,8 +1,9 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {ThemeOptions} from '../../../theme-options';
 import {select} from '@angular-redux/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +12,20 @@ import {ActivatedRoute} from '@angular/router';
 export class SidebarComponent implements OnInit {
   public extraParameter: any;
 
-  constructor(public globals: ThemeOptions, private activatedRoute: ActivatedRoute) {
+  private commerceSubscription: Subscription;
+  public commerceName:string;
+
+  constructor(public globals: ThemeOptions, private activatedRoute: ActivatedRoute,
+    public _commerceService:CommercesService,
+    ) {
+
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+      console.log(data);  
+      if(data)   
+        this.commerceName = data.name; 
+      else
+        this.commerceName = undefined;     
+    });
 
   }
 

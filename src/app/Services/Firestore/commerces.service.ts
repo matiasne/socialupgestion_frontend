@@ -78,10 +78,21 @@ export class CommercesService {
   }
 
   public setSelectedCommerce(commerce_id){
-    this.get(commerce_id).subscribe(data =>{
-      console.log(data.payload.data());
-      this.commerceSubject.next(data.payload.data());
-    })     
+    
+    if(commerce_id){
+        console.log(commerce_id);
+        this.get(commerce_id).subscribe(data =>{
+         
+          var commerce:any = data.payload.data();
+          commerce.id = commerce_id;
+          console.log(commerce);
+          this.commerceSubject.next(commerce);
+        });
+    }
+    else{
+      this.commerceSubject.next(undefined);    
+    }
+       
 
     localStorage.setItem('commerce_id',commerce_id);
   }

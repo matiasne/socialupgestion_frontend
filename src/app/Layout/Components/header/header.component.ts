@@ -1,7 +1,10 @@
 import {Component, HostBinding} from '@angular/core';
 import {select} from '@angular-redux/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ThemeOptions} from '../../../theme-options';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
+import { SaleService } from 'src/app/Services/Globals/sale.service';
+import { Sale } from 'src/app/Models/Sale';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +12,37 @@ import {ThemeOptions} from '../../../theme-options';
 })
 export class HeaderComponent {
 
-  constructor(public globals: ThemeOptions) {
+  public commerceName:string;
+  public commerceIcon:string;
+  private commerceSubscription: Subscription;
+  private saleSubscription:Subscription;
+  public sale:Sale;
+
+  constructor(public globals: ThemeOptions,
+    public _commerceService:CommercesService,
+    public _saleService:SaleService
+    ) {
+      this.sale = new Sale();
   }
+
+  ngOnInit() {
+
+    this.saleSubscription = this._saleService.getActualSaleSubs().subscribe(data=>{
+      this.sale = data;
+    })
+
+    this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
+       console.log(data);   
+       if(data)   {
+         this.commerceName = data.name;
+         this.commerceIcon = data.icon;
+       }  
+       else{
+         this.commerceName = undefined;
+         this.commerceIcon = undefined;
+       }       
+     });
+   }
 
   @HostBinding('class.isActive')
   get isActiveAsGetter() {

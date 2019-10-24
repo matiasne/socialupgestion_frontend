@@ -1,8 +1,5 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
-
- 
-
-  <div *ngFor="let commerce of commerces" class="btn-select-icon" [routerLink]="['/commerce',{id : commerce.id}]">
+  <div *ngFor="let commerce of commerces" class="btn-select-icon" (click)="selecionarComercio(commerce.id)">
     <img  src="{{commerce.icon}}" *ngIf="commerce.icon"/>
     <i class="pe-7s-shopbag" *ngIf="!commerce.icon"> </i>
     <div class="title">{{commerce.name}}</div>    

@@ -8,7 +8,7 @@
       <app-user-box></app-user-box>
     </div>
   </div>
-  <div class="app-header__mobile-menu">
+  <div class="app-header__mobile-menu" *ngIf="commerceName">
     <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
             [ngClass]="{'is-active' : globals.toggleSidebarMobile}" (click)="toggleSidebarMobile()">
         <span class="hamburger-box">
@@ -26,4 +26,19 @@
         </button>
     </span>
   </div>
+</div>
+<div *ngIf="sale.total_products > 0" [class]="'app-header header-shadow header-submenu' + (config$ | async).headerTheme">
+  <div class="submenu-btn">
+    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">        
+      <div class="cantidad-productos-numero">Venta en Curso</div>
+    </button>
+    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">
+      <i class="pe-7s-cash btn-icon-cash "> </i>
+      <div class="cantidad-productos-numero">{{sale.total_amount | currency}}</div>
+    </button>
+    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">
+      <i class="pe-7s-cart btn-icon-cart "> </i>
+      <div class="cantidad-productos-numero">{{sale.total_products}}</div>
+    </button>
+  </div> 
 </div>

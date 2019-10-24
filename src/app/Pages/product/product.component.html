@@ -16,55 +16,21 @@
       </select>
     </div>
   </div>
-
 </div>
 
-<div class="main-card mb-3 card">
-  <div class="card-header">
-    <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Productos</div>
-  </div>
-  <div class="table-responsive">
-    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-      <thead>
-      <tr>
-          <th class="text-center">Categoria</th> 
-          <th class="text-center">Código</th>
-        <th class="text-center">Imagen</th>
-        <th class="text-center">Nombre</th>          
-        <th class="text-center">Precio</th>
-        <th class="text-center">Stock</th>
-        <th class="text-center"></th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products | filter: productValue:null:null:null:null:null:categoryValue" [routerLink]="['/product',product]">
-        <tr *ngFor="let product of products">
-          <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.category}}</td>
-          <td class="text-center text-muted" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">{{product.code}}</td>
-          <td class="text-center" style="width: 80px;" [routerLink]="['/product',{id : product.id}]">
-            <div class="item-icon" [routerLink]="['/product',{id : product.id}]">
-              <img  src="{{product.icon}}" *ngIf="product.icon"/>
-              <i class="pe-7s-box2" *ngIf="!product.icon"> </i>
-            </div>   
-          </td>
-          <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.name}}</td>
-          <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.description}}</td>
-          <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.price}}</td>
-          <td class="text-center" [routerLink]="['/product',{id : product.id}]">{{product.stock}}</td> 
-          
-          <td class="text-center">
-            <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteProducto(content,product)" >Borrar</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<app-sale-add-product  #saleAddProduct
+  (ventaDetalles)="agregarVenta($event)"
+  titulo="Agregar a Venta:"
+  >
+</app-sale-add-product> 
 
-  <div class="d-block p-4 text-center card-footer">
-  
-  </div>
+
+
+<div *ngFor="let product of products" class="btn-select-icon" (click)="selecionarProducto(product)">
+  <img  src="{{product.icon}}" *ngIf="product.icon"/>
+  <i class="pe-7s-box2" *ngIf="!product.icon"> </i>
+  <div class="title">{{product.name}}</div>    
+</div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -74,10 +40,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>¿Esta seguro que desea borrar este producto?</p>
+    
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
-    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    <button type="button" class="btn btn-secondary" (click)="c('no')">Cancelar</button>
+    <button type="button" class="btn btn-primary"  (click)="c('si')" >Vender</button>
   </div>
 </ng-template>

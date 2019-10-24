@@ -1,6 +1,6 @@
 export class Service{
 
-    public id:number;
+    public id:string;
     public name:string;
     public description:string;
     public category_id:number;

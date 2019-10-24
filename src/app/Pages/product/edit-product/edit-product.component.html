@@ -10,12 +10,17 @@
             <div class="title">Icono</div>    
           </div>   
         </div>
-        <div class="col-9"> 
+        <div class="col-8"> 
           <div class="btn-input-portada" (click)="openAddPortada()">
             <img  src="{{product.portada}}" *ngIf="product.portada"/>
             <i class="pe-7s-shopbag" *ngIf="!product.portada"> </i>   
             <div class="btn-select-item-title">Portada</div>    
           </div>
+        </div>
+        <div class="col-1">
+          <button *ngIf="isUpdate" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteProducto(content)">
+            <i class="pe-7s-trash btn-icon-wrapper"> </i>
+          </button>
         </div>
       </div>
 
@@ -108,5 +113,23 @@
     </div>
   </form>
 
+
+  
     
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Eliminar Producto?</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este producto?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>

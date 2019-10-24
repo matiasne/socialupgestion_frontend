@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { CommercesService } from 'src/app/Services/commerces.service';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/Services/Firestore/products.service';
 import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
+import { SaleAddProductComponent } from 'src/app/Components/sale-add-product/sale-add-product.component';
 
 @Component({
   selector: 'app-product',
@@ -15,6 +16,8 @@ import { CategoriesService } from 'src/app/Services/Firestore/categories.service
 })
 export class ProductComponent implements OnInit {
   
+  @ViewChild("saleAddProduct") saleAddProduct: SaleAddProductComponent;
+
   closeResult: string;
   heading = 'Productos';
   subheading = 'Listado de todos los productos del comercio.';
@@ -31,6 +34,7 @@ export class ProductComponent implements OnInit {
   
   serviceValue;
   
+  public productoSeleccionado:any;
   public categories:any;
   private categoriesSubscription: Subscription;
 
@@ -39,7 +43,6 @@ export class ProductComponent implements OnInit {
     public _productsServices:ProductsService,
     public router: Router,
     private toastr: ToastrService,
-    private modalService: NgbModal, 
     private _categoriesService:CategoriesService
   ) {
     this.products = "";
@@ -65,35 +68,17 @@ export class ProductComponent implements OnInit {
     });
 
   }
+
+  selecionarProducto(product){
+    this.productoSeleccionado = product;
+    this.saleAddProduct.openModal(product);    
+  }
+
+  public agregarVenta(venta) {
+        
+  }
   
-  deleteProducto(content,product){
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){     
-        console.log(product.id);
-        this.toastr.info(product.name+' ha sido borrado!','Producto Borrado', {
-          timeOut: 5000,
-        });      
-        this._productsServices.delete(product.id).then(() => {
-                 
-        }, (error) => {
-          console.error(error);
-        });      
-      }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
 }

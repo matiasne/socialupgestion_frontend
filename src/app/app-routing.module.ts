@@ -109,6 +109,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
 import { ImageSelectComponent } from './Components/image-select/image-select.component';
 import { LocationSelectComponent } from './Components/location-select/location-select.component';
+import { SaleAddProductComponent } from './Components/sale-add-product/sale-add-product.component';
 
 
 const routes: Routes = [
@@ -207,6 +208,7 @@ const routes: Routes = [
       //Image
       {path: 'img', component:ImageSelectComponent, data:{extraParameter: ''} },
       {path: 'map', component:LocationSelectComponent, data:{extraParameter: ''} },
+      {path: 'addProduct', component:SaleAddProductComponent, data:{extraParameter: ''} },
 
     ]
   },

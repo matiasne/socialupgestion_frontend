@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
     private _commercesSerivce:CommercesService,
     public router: Router,
     private toastr: ToastrService,
-    private modalService: NgbModal,
     private auth:AuthenticationProvider,    
     private firestore: AngularFirestore,
   ) { }
@@ -59,55 +58,23 @@ export class HomeComponent implements OnInit {
               }                 
             }
           );        
-        
+        this.commerceSubscription.unsubscribe();
       }); 
       console.log(this.commerces);
     });
+  }
 
-    
-    
-  
-    
+  ngAfterViewInit(){
+    this._commercesSerivce.setSelectedCommerce(0);  
   }
 
   ngOnDestroy() {
     this.commerceSubscription.unsubscribe();
   }  
 
-  selecionarComercio(commerce){
-    this._commercesSerivce.setSelectedCommerce(commerce.id);    
-    this.router.navigate(['/sales']);
-  }
-
-  deleteCommerce(content,commerce){  
-
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){
-        this._commercesSerivce.delete(commerce.id).then(() => {
-                 
-        }, (error) => {
-          console.error(error);
-        });  
-        this.toastr.info(commerce.name+' ha sido borrado!','Comercio Borrado', {
-          timeOut: 5000,
-        });          
-        
-      }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  selecionarComercio(commerce_id){
+    this._commercesSerivce.setSelectedCommerce(commerce_id);    
+    this.router.navigate(['/products']);
   }
 
 }

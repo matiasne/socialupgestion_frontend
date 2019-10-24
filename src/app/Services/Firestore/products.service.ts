@@ -35,7 +35,7 @@ export class ProductsService {
     return this.firestore.collection(this.collection).doc(documentId).set(param);
   }
 
-  public delete(documentId: string) {
+  public delete(documentId) {
     return this.firestore.collection(this.collection).doc(documentId).delete();
   }
 

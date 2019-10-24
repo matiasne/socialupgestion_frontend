@@ -1,7 +1,7 @@
 export class Product{
 
 
-    public id:number;
+    public id:string;
     public name:string;
     public stock:number;
     public price:number;

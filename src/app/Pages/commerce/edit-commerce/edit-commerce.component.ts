@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { Commerce } from 'src/app/Models/Commerce';
 import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ImageSelectComponent } from 'src/app/Components/image-select/image-select.component';
 import { LocationSelectComponent } from 'src/app/Components/location-select/location-select.component';
 import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
@@ -31,6 +31,8 @@ export class EditCommerceComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
+  closeResult: string;
+
   public commerce_icon:string = "";
 
   public categories:any;
@@ -49,7 +51,8 @@ export class EditCommerceComponent implements OnInit {
     public _commercesService:CommercesService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    public _categoriesService:CategoriesService
+    public _categoriesService:CategoriesService,    
+    private modalService: NgbModal,
   ) { 
     this.commerce = new Commerce();    
   }
@@ -207,6 +210,40 @@ export class EditCommerceComponent implements OnInit {
   public borrarPeriodo(index){
     this.commerce.horarios.splice(index,1);
   }
+
+  
+  deleteCommerce(content){  
+
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      if(result == "si"){
+        this._commercesService.delete(this.route.snapshot.params.id).then(() => {
+                 
+        }, (error) => {
+          console.error(error);
+        }); 
+        this.router.navigate(['/commerces']); 
+        this.toastr.info(this.registerForm.controls.name.value+' ha sido borrado!','Comercio Borrado', {
+          timeOut: 5000,
+        });          
+        
+      }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   
 }
 
