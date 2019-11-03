@@ -10,6 +10,7 @@ import { ProvidersService } from 'src/app/Services/Firestore/providers.service';
 import { ProductsService } from 'src/app/Services/Firestore/products.service';
 import { ImageSelectComponent } from 'src/app/Components/image-select/image-select.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -47,7 +48,7 @@ export class EditProductComponent implements OnInit {
     public _productsService:ProductsService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private _categoriesService:CategoriesService,
+    private _commerceService:CommercesService,
     private _providerService:ProvidersService,    
     private modalService: NgbModal, 
   ) {
@@ -56,14 +57,13 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
 
-    this.categoriesSubscription = this._categoriesService.getAll().subscribe((snapshot) => {
-      this.categories = [];
-      snapshot.forEach((snap: any) => {
-        this.categories.push(snap.payload.doc.data());
-        this.categories[this.categories.length - 1].id = snap.payload.doc.id;        
-      });
-      console.log(this.categories);
+    this.categoriesSubscription = this._commerceService.getSelectedCommerce().subscribe(data=>{
+      console.log(data);   
+      this.categories = data.productCategories;
+      
     });
+  
+
 
     this.providerSubscription = this._providerService.getAll().subscribe((snapshot) => {
       this.providers = [];
@@ -80,7 +80,7 @@ export class EditProductComponent implements OnInit {
       price: [this.route.snapshot.params.price],
       code: [this.route.snapshot.params.code],
       provider_id: [this.route.snapshot.params.provider_id],
-      category_id: [this.route.snapshot.params.category_id],
+      category: [this.route.snapshot.params.category],
       description: [this.route.snapshot.params.description],
     });
 
@@ -97,7 +97,7 @@ export class EditProductComponent implements OnInit {
           name: product.payload.data().name,
           price: product.payload.data().price,
           description: product.payload.data().description,
-          category_id: product.payload.data().category_id,
+          category: product.payload.data().category,
           stock: product.payload.data().stock,
           code: product.payload.data().code,
           provider_id: product.payload.data().provider_id
@@ -153,7 +153,7 @@ export class EditProductComponent implements OnInit {
     this.product.price = this.registerForm.controls.price.value;
     this.product.code = this.registerForm.controls.code.value;
     this.product.provider_id = this.registerForm.controls.provider_id.value;
-    this.product.category_id = this.registerForm.controls.category_id.value;
+    this.product.category = this.registerForm.controls.category.value;
     this.product.description = this.registerForm.controls.description.value;
    
     if(this.isUpdate){

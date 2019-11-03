@@ -27,18 +27,66 @@
     </span>
   </div>
 </div>
-<div *ngIf="sale.total_products > 0" [class]="'app-header header-shadow header-submenu' + (config$ | async).headerTheme">
+
+<div  *ngIf="sale.on" [class]="'app-header header-shadow header-submenu' + (config$ | async).headerTheme">
   <div class="submenu-btn">
-    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">        
-      <div class="cantidad-productos-numero">Venta en Curso</div>
+    
+    <button class="mr-2 btn-icon btn-transition btn btn-outline-info submenu-btn">
+      <i class="pe-7s-user"> </i>
+      <div class="cantidad-productos-numero" [routerLink]="['/clients']"> {{sale.clientName}}</div>
     </button>
-    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">
-      <i class="pe-7s-cash btn-icon-cash "> </i>
-      <div class="cantidad-productos-numero">{{sale.total_amount | currency}}</div>
-    </button>
-    <button class="mr-2 btn-icon btn-icon-only btn submenu-btn">
-      <i class="pe-7s-cart btn-icon-cart "> </i>
-      <div class="cantidad-productos-numero">{{sale.total_products}}</div>
+    
+    <div class="btn-group" ngbDropdown placement="bottom-right">            
+      
+      <button  ngbDropdownToggle class="mr-2 btn-icon btn-transition btn btn-outline-info submenu-btn" >
+        <i class="pe-7s-cash"> </i>
+        <div class="cantidad-productos-numero" *ngIf="!sale.total_payment" >Agregar Pago</div>
+        <div class="cantidad-productos-numero" *ngIf="sale.total_payment" >Pago {{sale.total_payment | currency}}</div>
+      </button>
+      <div ngbDropdownMenu>             
+        <button  class="dropdown-item" *ngFor="let payment of sale.payments">          
+          <b>{{payment.method}}</b> {{payment.amount | currency}}
+        </button>
+        <div class="dropdown-divider" ></div>
+        <button  class="dropdown-item" (click)="agregarPago()">
+          Agregar Pago
+        </button>
+      </div>
+    </div>
+    
+    <div class="btn-group" ngbDropdown placement="bottom-right">            
+      
+      <button  ngbDropdownToggle class="mr-2 btn-icon btn-transition btn btn-outline-info submenu-btn" >
+        <i class="pe-7s-cart"> </i>
+        <div class="cantidad-productos-numero" *ngIf="!sale.total_products" >Agregar</div>
+        <div class="cantidad-productos-numero" *ngIf="sale.total_products" >{{sale.total_products}} Total: {{sale.total_amount | currency}}</div>
+      </button>
+      <div ngbDropdownMenu>             
+        <button  class="dropdown-item" *ngFor="let product of sale.products" [routerLink]="['/sale']">
+            <i class="pe-7s-diamond"> </i>&nbsp;&nbsp;
+            {{product.count}}&nbsp;&nbsp;<b>{{product.name}}</b> {{product.price * product.count | currency}} 
+        </button>
+        <button  class="dropdown-item" *ngFor="let service of sale.services" [routerLink]="['/sale']">
+            <i class="pe-7s-clock"> </i>&nbsp;&nbsp;
+            1 &nbsp;&nbsp;<b>{{service.name}}</b> {{service.plan.price | currency}}
+        </button>
+        <div class="dropdown-divider" ></div>
+        <button  class="dropdown-item" [routerLink]="['/products']">
+          <i class="pe-7s-plus"> </i>&nbsp;&nbsp;
+          Agregar Producto
+        </button>
+        <button  class="dropdown-item" [routerLink]="['/services']">
+          <i class="pe-7s-plus"> </i>&nbsp;&nbsp;
+          Agregar Servicio
+        </button>
+      </div>
+    </div>
+    <button class="mr-2 btn-icon btn-transition btn btn-info submenu-btn" [routerLink]="['/sale']">        
+      <i class="pe-7s-angle-right-circle"> </i>
+      <div class="cantidad-productos-numero">Confirmar Venta</div>
     </button>
   </div> 
 </div>
+
+<app-sale-add-payment  #saleAddPayment>
+  </app-sale-add-payment>

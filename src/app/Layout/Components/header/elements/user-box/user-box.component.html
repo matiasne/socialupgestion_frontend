@@ -17,10 +17,8 @@
             </button>
             <div ngbDropdownMenu>              
               
-              <button *ngIf="commerceId" class="dropdown-item" [routerLink]="['/commerce',{id : commerceId}]">Configurar Comercio</button>
-              <button class="dropdown-item" routerLink="/home">Seleccionar Comercio</button>
+              <button class="dropdown-item" (click)="seleccionarComercio()">Seleccionar Comercio</button>
               <div class="dropdown-divider"></div>
-              <button class="dropdown-item" >Mis Datos</button>
               <button class="dropdown-item" (click)="cerrarSesion()">Cerrar Sesión</button>
             </div>
           </div>

@@ -2,7 +2,7 @@ export class Commerce{
 	public address:string;
 	public description:string;
 	public email:string;
-	public id:number;
+	public id:string;
 	public imgcommerce:string;
 	public latitud:string;
 	public longitud:string;
@@ -19,7 +19,10 @@ export class Commerce{
   	public lat: any;
   	public lng: any;
 	public category_id: any;
-  	public horarios:any=[];
+	public horarios:any=[];
+	public paydesks:any=[];
+	public serviceCategories:any=[];
+	public productCategories:any=[];
 
 	constructor(
 		

@@ -1,139 +1,164 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div class="card-body">
-  <div class="row">
-    <div class="form-group col-md-6 text-center">
-      <div class="row">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col" >Producto</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Precio Unit.</th>
-              <th scope="col">Total</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let product of productosAgregados; let i = index" [attr.data-index]="i" class="table-light text-center">
-              <td>{{product.name}}</td>
-              <td>{{product.count}}</td>
-              <td>{{product.price}}</td>
-              <td>{{product.priceTotal}}</td>
-              <td><button  type="button" class="btn btn-primary" (click)="deleteProduct(contentDeleteProduct,product,i)" >Borrar</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <button  class="btn btn-primary col-md-text-center" (click)="open(content)" >Nuevo producto</button>
-      </div>
-      <div class="row">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Servicio</th>
-              <th scope="col">Precio</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let service of serviciosAgregados; let e = index" [attr.data-index]="e" class="table-light text-center">
-              <td>{{service.name}}</td>
-              <td>{{service.price}}</td>
-              <td><button  type="button" class="btn btn-primary" (click)="deleteService(contentDeleteService,service,e)" >Borrar</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <button  class="btn btn-primary col-md-text-center" (click)="open(content2)" >Nuevo Servicio</button>
-      </div>
-      
-    </div>
-
-    <form [formGroup]="registerForm" class="col-md-6">
-      <div class="form-row">        
-        <div class="form-group  text-center">
-          <label for="cliente">Cajas</label>
-          <select formControlName="caja_id" name="caja_id" id="caja_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.caja_id.errors }">
-            <option *ngFor="let caja of cajas" [value]="caja.id">{{caja.name}}</option>
-            <div *ngIf="submitted && f.caja_id.errors" class="invalid-feedback">
-              <div *ngIf="f.caja_id.errors.required">Seleccione una caja o genere una nueva: link</div>
-            </div>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group  text-center">
-          <label for="cliente">Cliente</label>
-          <select formControlName="cliente_id" name="cliente_id" id="cliente_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cliente_id.errors }">
-            <option *ngFor="let cliente of clientes" [value]="cliente.id">{{cliente.name}}</option>
-            <div *ngIf="submitted && f.cliente_id.errors" class="invalid-feedback">
-              <div *ngIf="f.cliente_id.errors.required">Seleccione un cliente o genere uno nuevo: link</div>
-            </div>
-          </select>
-        </div>
-      </div>  
-      <div class="form-row">
-        <div class="form-group  text-center">
-          <label for="enum_status">Estado</label>
-          <select formControlName="enum_status" name="enum_status" id="enum_status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enum_status.errors }">
-            <option selected >PAGADO</option>
-            <option >PENDIENTE</option>
-            <option >CANCELADO</option>
-            <div *ngIf="submitted && f.enum_status.errors" class="invalid-feedback">
-                <div *ngIf="f.enum_status.errors.required">Seleccione un Estado o genere uno nuevo: link</div>
-            </div>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group  text-center">
-          <label for="costototal">Total</label>
-          <input formControlName="total" disabled name="total" id="total" placeholder="$0" type="text" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.total.errors }">
-          <div *ngIf="submitted && f.total.errors" class="invalid-feedback">
-            <div *ngIf="f.total.errors.required">Cargue un producto/servicio</div>
-          </div>
-        </div>
-      </div>
-    </form>   
-  </div>
-  <div class="row">
-     
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Forma de pago</th>
-            <th scope="col">Porcentaje</th>
-            <th scope="col">Subtotal</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let entry of entries; let m = index" [attr.data-index]="e" class="table-light text-center">
-            <td>{{entry.enum_pay_with}}</td>
-            <td>{{entry.porciento|percent}}</td>
-            <td>{{entry.amount}}</td>
-            <td><button  type="button" class="btn btn-primary" (click)="deleteMethod(contentDeleteMethod,entry,m)" >Borrar</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <button  class="btn btn-primary col-md-text-center" (click)="open(contentpayment)">Nuevo Pago</button>
-
-  </div>
-    <div class="position-relative form-group">
-        <label for="descripcion">Descripcion</label>
-        <textarea formControlName="description"  name="descripcion" id="descripcion" class="form-control">
-        {{descripcion}}
-        </textarea>
-    </div>
-
-    <!--Guardar-->
+<div class="main-card mb-3 card">
+  <form [formGroup]="registerForm" class="container">
     <div class="form-row">
+      
+      <div class="form-group col-md-12">
+        <label for="cliente">Cliente</label>
+        <select formControlName="cliente_id" name="cliente_id" id="cliente_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cliente_id.errors }">
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">{{cliente.name}}</option>
+          <div *ngIf="submitted && f.cliente_id.errors" class="invalid-feedback">
+              <div *ngIf="f.cliente_id.errors.required">Seleccione un cliente o genere uno nuevo: link</div>
+          </div>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="cliente">Cajas</label>
+        <select formControlName="caja_id" name="caja_id" id="caja_id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.caja_id.errors }">
+          <option *ngFor="let caja of cajas" [value]="caja.id">{{caja.name}}</option>
+          <div *ngIf="submitted && f.caja_id.errors" class="invalid-feedback">
+              <div *ngIf="f.caja_id.errors.required">Seleccione una caja o genere una nueva: link</div>
+          </div>
+        </select>
+      </div>
+     
+
+      <div class="form-group col-md-4">
+        <label for="enum_status">Estado</label>
+        <select formControlName="enum_status" name="enum_status" id="enum_status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enum_status.errors }">
+          <option selected >PAGADO</option>
+          <option >PENDIENTE</option>
+          <option >CANCELADO</option>
+          <div *ngIf="submitted && f.enum_status.errors" class="invalid-feedback">
+              <div *ngIf="f.enum_status.errors.required">Seleccione un Estado o genere uno nuevo: link</div>
+          </div>
+        </select>
+      </div>      
+
+       <!--Precio Total-->
+      <div class="form-group col-md-4">
+        <label for="costototal">Total</label>
+        <input  disabled placeholder="{{sale.total_amount}}" type="number" class="form-control">
+       </div>
+
+      
+
+      <!--Descripcion-->
+      <div class="form-group col-md-12">
+          <label for="descripcion">Descripcion</label>
+          <textarea formControlName="description"  name="descripcion" id="descripcion" class="form-control">
+          {{descripcion}}
+          </textarea>
+      </div>
+
+
+    </div>
+  </form>  
+</div>
+<div class="main-card mb-3 card">
+    <!--Productos-->
+    <table class="table col-md-12 text-center">
+      <thead>
+        <tr>
+          <th scope="col" >Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio Unit.</th>
+          <th scope="col">Total</th>
+          <th scope="col">
+              <button type="button"  class="btn btn-primary col-md-text-center" [routerLink]="['/products']" >Agregar producto</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of sale.products" class="table-light text-center">       
+          <td>{{product.name}}</td>
+          <td>{{product.count}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.price * product.count}}</td>
+          <td><button  type="button" class="btn btn-primary" (click)="deleteProduct(contentDeleteProduct,product,i)" >Borrar</button></td>
+        </tr>
+      </tbody>
+    </table>
+      
+</div>
+<div class="main-card mb-3 card">
+    <!--Servicios-->
+    <div  class="form-row">
       <div class="form-group col-md-12 text-center">
-        <button class="mt-1 btn btn-primary" type="submit"  (click)="Guardar()" >Guardar</button>
+        <table class="table">
+          <thead>
+            <tr>            
+              <th scope="col">Servicio</th>
+              <th scope="col">Periodo</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Total</th>
+              <th scope="col">
+                  <button  class="btn btn-primary col-md-text-center">Agregar Servicio</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let service of sale.services"  class="table-light text-center">
+              <td>{{service.plan.perido}}</td>
+              <td>{{service.plan.period}} </td>
+              <td>{{service.plan.price}} </td>
+              <td>{{service.plan.price}} </td>
+              <td>
+                <button  type="button" class="btn btn-primary" (click)="deleteService(contentDeleteService,service,e)" >Borrar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+    </div>
+  </div>
+  <div class="main-card mb-3 card">
+
+     <!--Payment Method-->
+    <div  class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Forma de pago</th>
+              <th scope="col">Porcentaje</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col">
+                  <button type="button" class="btn btn-primary col-md-text-center" (click)="open(contentpayment)">Nuevo Pago</button>
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of entries; let m = index" [attr.data-index]="e" class="table-light text-center">
+              <td>{{entry.enum_pay_with}}</td>
+              <td>{{entry.porciento|percent}}</td>
+              <td>{{entry.amount}}</td>
+              <td><button  type="button" class="btn btn-primary" (click)="deleteMethod(contentDeleteMethod,entry,m)" >Borrar</button></td>
+            </tr>
+          </tbody>
+        </table>
+        
       </div>
     </div>
+  </div>
 
-  
-</div>
+    
+  <!--Guardar-->
+  <div class="form-row text-center">
+    <div class="form-group ">
+      <button class="mt-1 btn btn-outline" type="submit"  (click)="Cancelar()" >Cancelar</button>
+    </div>
+
+    <div class="form-group">
+      <button class="mt-1 btn btn-primary" type="submit"  (click)="Guardar()" >Guardar</button>
+    </div>
+  </div>
+
+
+
 
 
 

@@ -1,63 +1,37 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
 
-<div class="row">
-    <div class="col-md-4">
-      <div class="position-relative form-group">
-        <label>Servicio</label>
-        <input [(ngModel)]="serviceValue" class="form-control" type="text" placeholder="Nombre">
-      </div>
+  <div class="search-wrapper" [class.active]="isActive">
+    <div class="input-holder">
+      <input type="text" [(ngModel)]="clienteValue" placeholder="busqueda" class="search-input">
+      <button class="search-icon" (click)="isActive = true"><span></span></button>
     </div>
-       
-    <div class="position-relative form-group">
-      <label for="category_id">Categoria</label>
-      <select [(ngModel)]="categoryValue" class="form-control" type="text">
-        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
-      </select>
-    </div>
+    <button class="close" (click)="isActive = false"></button>
   </div>
+  <!--button  routerLink="/service" class="btn-shadow d-inline-flex align-items-center btn btn-success btn-rigth">
+    <fa class="mr-2" name=""></fa>
+    Crear Nuevo Servicio
+  </button-->
+<br>
+<app-sale-add-service  #saleAddService
+  (ventaDetalles)="agregarVenta($event)"
+  titulo="Agregar a Venta:"
+  >
+</app-sale-add-service>
 
-<div class="main-card mb-3 card">
-  <div class="table-responsive">
-    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-      <thead>
-      <tr>
-        <th class="text-center">Nro</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Precio Mensual</th>
-        <th class="text-center"></th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let service of services |filter: serviceValue:null:null:null:null:null:categoryValue" [routerLink]="['/service',service]">
-          <td class="text-center">{{service.id}}</td>
-          <td class="text-center">{{service.name}}</td>
-          <td class="text-center">{{service.price}}</td>
-          
-          <td class="text-center">
-            <div role="group" class="btn-group-sm btn-group">
-              <button class="btn-shadow btn btn-primary" (click)="deleteService(content,service,$event)" >Borrar</button>
-            </div>
-          </td>
-        </tr>
-        
-      </tbody>
-    </table>
+<div class="btn-select-icon col-5 col-md-2" routerLink="/service">
+  <div class="icon">
+    <i class="pe-7s-plus" ></i>
   </div>
-
+  <div class="title">Agregar Nuevo Servicio</div>    
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Servicio</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+<div *ngFor="let service of services" class="btn-select-icon col-5 col-md-2 text-center" (click)="selecionarServicio(service)">
+  <img  src="{{service.icon}}" *ngIf="service.icon"/>
+  <div class="icon" *ngIf="!service.icon">
+    <i class="pe-7s-box2" ></i>
   </div>
-  <div class="modal-body">
-    <p>¿Esta seguro que desea borrar este Servicio?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
-    <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
-  </div>
-</ng-template>
+  <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" [routerLink]="['/service',{id:service.id}]">
+      <i class="pe-7s-plus btn-icon-info"> </i> Editar
+  </button>
+  <div class="title">{{service.name}}</div>    
+</div>

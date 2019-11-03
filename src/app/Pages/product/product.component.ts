@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
   buttons = [{
     href:"/product",
     icon:"plus",
-    title:"Agregar Producto"
+    title:"Crear Nuevo Producto"
   }]
 
   public products:any;
@@ -77,6 +77,7 @@ export class ProductComponent implements OnInit {
   public agregarVenta(venta) {
         
   }
+  
   
 
 

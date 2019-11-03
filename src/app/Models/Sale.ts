@@ -1,6 +1,7 @@
 import { Product } from './Product';
 import { Service } from './Service';
 import { Paydesk } from './Paydesk';
+import { Plan } from './Plan';
 
 class SaleProduct{
 
@@ -18,11 +19,10 @@ class SaleProduct{
 
 class SaleService{
 
+    
     public id:string = "";
     public name:string = "";
-    public count:number = 0;
-    public price:number = 0;
-    public periodDays:number = 0; 
+    public plan:any;
 
     constructor(
 		
@@ -46,13 +46,29 @@ class SalePayments{
 
 export class Sale{
 
-      
+    public on:boolean = false;
     public clientId:string = "";
-    public status:string = "";
-    public paydeskId:string = "";
+    public clientName:string = "Seleccione un cliente";
+    public status:string = "PAGADO";
+    public paydesk:string = "";
     public total_amount:number = 0;
+    public total_payment:number = 0;
     public total_products:number = 0;
     public description:string = "";
+
+    public paymentMethods=[{
+        name: "Efectivo"
+    },{
+        name: "Credito"
+    },{
+        name: "Debito"
+    },{
+        name: "Cuenta Corriente"
+    },{
+        name: "Descuentos"
+    }];
+
+    
 
 
     public products:SaleProduct[] = [];
@@ -67,14 +83,16 @@ export class Sale{
     
     public addClient(client){
         this.clientId = client.id;
+        this.clientName = client.name;
     }
   
     public setStatus(status){
         this.status = status;
     }
 
-    public setPaydesk(paydesk:Paydesk){
-        this.paydeskId = paydesk.id;
+    public setPaydesk(paydesk){
+        this.paydesk = paydesk;
+        
     }
 
  
@@ -87,26 +105,44 @@ export class Sale{
         this.total_products += cantidad;
         this.total_amount += cantidad * product.price;
         var p:SaleProduct = new SaleProduct();
-        p.count = cantidad;
         p.id = product.id;
         p.name = product.name;
+        p.count = cantidad;
         p.price = product.price;
         this.products.push(p);
     }
   
-    public addService(service:Service,periodDays,price){
+    public addService(service:Service,plan:Plan){
+        this.total_products += 1;
+        this.total_amount += plan.price;
+        console.log(plan);
         var s:SaleService = new SaleService();
         s.id = service.id;
         s.name = service.name;
-        s.periodDays = periodDays;
-        s.price = price;
+        s.plan = plan;
+        
         this.services.push(s);
     }
   
     public addPayment(amount,method){
+
+        this.total_payment += amount;
+
         var pay:SalePayments = new SalePayments();
         pay.amount = amount;
         pay.method = method;
         this.payments.push(pay);
+    }
+
+    deleteProduct(index){
+        this.products.splice(index,1);
+    }
+
+    deleteService(index){
+        this.services.splice(index,1);
+    }
+
+    deleteMethod(index){
+        this.payments.splice(index,1);
     }
 }

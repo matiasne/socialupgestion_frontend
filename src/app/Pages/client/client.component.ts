@@ -7,6 +7,7 @@ import { CommercesService } from 'src/app/Services/commerces.service';
 import { Router } from '@angular/router';
 import { ClientsService } from 'src/app/Services/Firestore/clients.service';
 import { ToastrService } from 'ngx-toastr';
+import { SaleService } from 'src/app/Services/Globals/sale.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class ClientComponent implements OnInit {
     public _clientsService:ClientsService,
     private toastr: ToastrService,
     private modalService: NgbModal,
+    private _saleService:SaleService
   ) {  
     this.commerce = "";    
   }
@@ -94,6 +96,12 @@ export class ClientComponent implements OnInit {
     }
   }
 
+  public agregarClienteAVenta(client){
+    this._saleService.addClient(client);
+    this.toastr.success('El cliente ha sido asignado a la venta!','Cliente Asignado a venta', {
+      timeOut: 5000,
+    });
+  }
  
   public updateTable(){
     this.clienteValue="";

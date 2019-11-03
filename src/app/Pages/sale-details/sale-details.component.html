@@ -1,0 +1,333 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
+
+<app-sale-add-payment  #saleAddPayment>
+</app-sale-add-payment>
+
+<div class="main-card mb-3 card">
+  <div class="card-header">
+  <div class="col-md-12">
+    <h3 [routerLink]="['/clients']">
+      <i class="pe-7s-user"> </i>
+      {{sale.clientName}}
+    
+      <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" >
+        <i class="pe-7s-plus btn-icon-wrapper"> </i>
+      </button>
+    </h3>
+  </div>
+  </div>
+
+  <form class="container">
+    <div class="form-row">
+      
+      
+
+      <div class="form-group col-md-4">
+        <label for="cliente">Caja:</label>
+        <select [(ngModel)]="sale.paydesk" class="form-control" (change)="setPaydesk()" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let caja of commerce.paydesks" [value]="caja" >{{caja}}</option>
+          <div *ngIf="submitted && f.caja.errors" class="invalid-feedback">
+              <div *ngIf="f.caja.errors.required">Seleccione una caja o genere una nueva: link</div>
+          </div>
+        </select>
+      </div>
+     
+
+      <div class="form-group col-md-4">
+        <label for="enum_status">Estado:</label>
+        <select [(ngModel)]="sale.status" class="form-control" (change)="setStatus()" [ngModelOptions]="{standalone: true}">
+          <option >PAGADO</option>
+          <option >PENDIENTE</option>
+          <option >CANCELADO</option>
+         
+        </select>
+      </div>      
+
+      
+      <div class="form-group col-md-4">
+        <label for="costototal">Total</label>
+        <input  disabled placeholder="{{sale.total_amount | currency:'USD':true:'1.2'}}" type="number" class="form-control">
+       </div>
+
+      
+
+      <div class="form-group col-md-12">
+          <label for="descripcion">Descripcion</label>
+          <textarea [(ngModel)]="sale.description" class="form-control" (change)="setStatus()" [ngModelOptions]="{standalone: true}">
+          {{descripcion}}
+          </textarea>
+      </div>
+
+
+    </div>
+  </form>  
+</div>
+<div class="main-card mb-3 card">
+    <!--Productos-->
+    
+    <table class="table col-md-12 text-center">
+      
+      <thead>
+        <tr>
+          <th scope="col" >Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio Unit.</th>
+          <th scope="col">Total</th>
+          <th scope="col">
+            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" [routerLink]="['/products']">
+              <i class="pe-7s-plus btn-icon-wrapper"> </i>
+            </button>
+             
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of sale.products" class="table-light text-center">       
+          <td>{{product.name}}</td>
+          <td>{{product.count}}</td>
+          <td>{{product.price | currency:'USD':true:'1.2'}}</td>
+          <td>{{product.price * product.count | currency:'USD':true:'1.2'}}</td>
+          <td>
+            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteProduct(i)">
+              <i class="pe-7s-trash btn-icon-wrapper"> </i>
+            </button>
+          </td>          
+        </tr>
+      </tbody>
+    </table>
+      
+</div>
+<div class="main-card mb-3 card">
+    <!--Servicios-->
+    <div  class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Servicio</th>
+              <th scope="col">Periodo</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Total</th>
+              <th scope="col">
+                  <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" [routerLink]="['/services']">
+                    <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                  </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let service of sale.services"  class="table-light text-center">
+              <td>{{service.name}}</td>
+              <td>{{service.plan.period}} </td>
+              <td>{{service.plan.price | currency:'USD':true:'1.2'}} </td>
+              <td>{{service.plan.price | currency:'USD':true:'1.2'}} </td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteService(i)">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>              
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+    </div>
+  </div>
+  <div class="main-card mb-3 card">
+
+     <!--Payment Method-->
+    <div  class="form-row">
+      <div class="form-group col-md-12 text-center">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Forma de pago</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col">
+                  <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="agregarPago()">
+                    <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                  </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payment of sale.payments; let m = index" [attr.data-index]="e" class="table-light text-center">
+              <td>{{payment.method}}</td>
+              <td>{{payment.amount | currency:'USD':true:'1.2'}}</td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteMethod(m)">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>              
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button class="mt-1 btn btn-outline" type="submit"  (click)="Cancelar()" >Cancelar</button>
+      <button class="mt-1 btn btn-primary" type="submit"  (click)="Guardar()" >Guardar</button>
+    </div>
+   
+
+
+
+
+
+
+
+
+<!--Modals-->
+
+<!--Product Modal-->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Producto</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="registerFormProduct">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>Productos</label>
+            <select  formControlName="producto" (change)="onProductChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && fProd.producto.errors }">
+              <option *ngFor="let p of productos" [ngValue]="p">
+                {{p.name}}
+              </option>
+            </select>
+            <div *ngIf="submittedprod && fProd.producto.errors" class="invalid-feedback">
+              <div *ngIf="fProd.producto.errors.required">Seleccione un producto</div>
+            </div>
+          </div>
+          <div  class="form-group col-md-3">
+            <label>Cantidad</label>
+            <input formControlName="cantidad" minlength="1" type="number" min="1" class="form-control"
+            onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+            [ngClass]="{ 'is-invalid': submittedprod && fProd.cantidad.errors }" >
+            <div *ngIf="submittedprod && fProd.cantidad.errors" class="invalid-feedback">
+              <div *ngIf="fProd.cantidad.errors.required">Cantidad Requerida</div>
+            </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label>Precio Unit.</label>
+            <input formControlName="precio" disabled type="text" class="form-control" [ngClass]="{ 'is-invalid': submittedprod && fProd.precio.errors }" >
+            <div *ngIf="submittedprod && fProd.precio.errors" class="invalid-feedback">
+              <div *ngIf="fProd.precio.errors.required">Precio Requerido</div>
+            </div>
+          </div>
+          <div class="form-group col-md-3">
+            <button class="btn btn-primary" type="submit" (click)="agregarProducto()" style="margin-top: 2.1em">Agregar</button>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+    <div class="modal-footer">
+  
+    </div>
+  </ng-template>
+  
+  
+  <!--Service Modal-->
+  <ng-template #content2 let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Servicio</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="registerFormService">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Servicio</label>
+            <select  formControlName="servicio" (change)="onServiceChange()" class="form-control" [ngClass]="{ 'is-invalid': submittedserv && fServ.servicio.errors }">
+              <option *ngFor="let s of servicios" [ngValue]="s">
+                {{s.name}}
+              </option>
+            </select>
+            <div *ngIf="submittedserv && fServ.servicio.errors" class="invalid-feedback">
+              <div *ngIf="fServ.servicio.errors.required">Servicio requerido</div>
+            </div>
+          </div> 
+          <div class="form-group col-md-4">
+            <label>Precio</label>
+            <input formControlName="priceserv" disabled class="form-control"  [ngClass]="{ 'is-invalid': submittedserv && fServ.priceserv.errors }">
+              <div *ngIf="submitted && fServ.priceserv.errors" class="invalid-feedback">
+                <div *ngIf="fServ.priceserv.errors.required || fServ.priceserv.errors.min">El precio es requerido</div>
+             </div>
+          </div>
+          <div class="form-group col-md-4">
+            <button class="btn btn-primary" type="submit" (click)="agregarService()" style="margin-top: 2.1em">Agregar</button>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+    <div class="modal-footer">
+  
+    </div>
+  </ng-template>
+
+
+  
+  
+  
+  <!--Detele Product-->
+  <ng-template #contentDeleteProduct let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Producto</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este producto?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>
+  
+  
+  
+  <!--Detele Service-->
+  <ng-template #contentDeleteService let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Servico</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este servicio?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>
+
+
+  <!--Detele Method-->
+  <ng-template #contentDeleteMethod let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Pago</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Esta seguro que desea borrar este Pago?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
+      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
+    </div>
+  </ng-template>
+  
+  

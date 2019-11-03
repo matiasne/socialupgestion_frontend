@@ -1,10 +1,11 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, ViewChild} from '@angular/core';
 import {select} from '@angular-redux/store';
 import {Observable, Subscription} from 'rxjs';
 import {ThemeOptions} from '../../../theme-options';
 import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
 import { SaleService } from 'src/app/Services/Globals/sale.service';
 import { Sale } from 'src/app/Models/Sale';
+import { SaleAddPaymentComponent } from 'src/app/Components/sale-add-payment/sale-add-payment.component';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,8 @@ import { Sale } from 'src/app/Models/Sale';
 })
 export class HeaderComponent {
 
+  @ViewChild("saleAddPayment") saleAddPayment: SaleAddPaymentComponent;
+  
   public commerceName:string;
   public commerceIcon:string;
   private commerceSubscription: Subscription;
@@ -29,6 +32,7 @@ export class HeaderComponent {
 
     this.saleSubscription = this._saleService.getActualSaleSubs().subscribe(data=>{
       this.sale = data;
+      console.log(this.sale);
     })
 
     this.commerceSubscription =  this._commerceService.getSelectedCommerce().subscribe(data=>{
@@ -59,6 +63,11 @@ export class HeaderComponent {
 
   toggleHeaderMobile() {
     this.globals.toggleHeaderMobile = !this.globals.toggleHeaderMobile;
+  }
+
+  
+  public agregarPago(){
+    this.saleAddPayment.openModal();
   }
 
 }

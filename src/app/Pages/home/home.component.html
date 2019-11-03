@@ -1,22 +1,22 @@
-<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
-  <div *ngFor="let commerce of commerces" class="btn-select-icon" (click)="selecionarComercio(commerce.id)">
+
+  <div class="btn-select-icon col-5 col-md-2" routerLink="/commerce" *ngIf="commerces.length == 0">
+    <div class="icon">
+      <i class="pe-7s-plus"></i>
+    </div>
+    <div class="title">Agregar Nuevo Comercio</div>    
+  </div>
+
+  <div *ngFor="let commerce of commerces" class="btn-select-icon col-5 col-md-2" (click)="selecionarComercio(commerce.id)">
     <img  src="{{commerce.icon}}" *ngIf="commerce.icon"/>
-    <i class="pe-7s-shopbag" *ngIf="!commerce.icon"> </i>
+    <div class="icon" *ngIf="!commerce.icon">
+        <i class="pe-7s-shopbag" > </i>
+    </div>
+    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" [routerLink]="['/commerce',{id:commerce.id}]">
+        <i class="pe-7s-plus btn-icon-info"> </i> Editar
+    </button>
     <div class="title">{{commerce.name}}</div>    
   </div>  
 
-  <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">Borrar Comercio</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>¿Esta seguro que desea borrar este comercio?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="c('no')">No</button>
-      <button type="button" class="btn btn-primary"  (click)="c('si')" >Si</button>
-    </div>
-  </ng-template>
+  
+
+  

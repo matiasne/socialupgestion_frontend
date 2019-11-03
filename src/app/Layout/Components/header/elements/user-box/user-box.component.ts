@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/Services/user.service';
 import { AuthenticationProvider } from 'src/app/Services/Firestore/authentication/authentication';
 import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
+import { SaleService } from 'src/app/Services/Globals/sale.service';
 
 @Component({
   selector: 'app-user-box',
@@ -23,7 +24,8 @@ export class UserBoxComponent implements OnInit {
     public router: Router,
     public _commerceService:CommercesService,
     public _userService:UserService,
-    public auth:AuthenticationProvider
+    public auth:AuthenticationProvider,
+    public _saleService:SaleService
     ) {
       this.commerceName="";
       this.commerceIcon = "";
@@ -47,9 +49,15 @@ export class UserBoxComponent implements OnInit {
     });
   }
 
+  seleccionarComercio(){
+    this._commerceService.setSelectedCommerce(0);
+    this._saleService.cancel();
+    this.router.navigate(['/home']);
+  }
 
   cerrarSesion(){    
     this._commerceService.setSelectedCommerce(0);
+    this._saleService.cancel();
     this.auth.signOut();
     this.router.navigate(['/']);
   }

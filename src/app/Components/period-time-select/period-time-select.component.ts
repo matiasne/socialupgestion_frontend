@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-period-time-select',
@@ -26,20 +28,34 @@ export class PeriodTimeSelectComponent implements OnInit {
   closeResult: string;
 
   @Output() public retorno = new EventEmitter<any>();
+
+  formGroup: FormGroup;
   
   constructor(
-    private modalService: NgbModal, 
+    private modalService: NgbModal,     
+    private toastr: ToastrService,    
+    private formBuilder: FormBuilder
   ) { 
     
   }
 
   ngOnInit() {
+
+    this.formGroup = this.formBuilder.group({
+      dia: ['', Validators.required]
+    });
+
   }
 
   openModal(content){
+
+    
+
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       if(result == "si"){ 
+
+        this.periodo.dia = this.formGroup.controls.dia.value;
 
         switch(this.periodo.dia){
           case "1":
@@ -73,7 +89,10 @@ export class PeriodTimeSelectComponent implements OnInit {
         this.periodo.desde.minute = this.n(this.periodo.desde.minute);
         this.periodo.hasta.hour = this.n(this.periodo.hasta.hour);
         this.periodo.hasta.minute = this.n(this.periodo.hasta.minute);
+        
         this.retorno.emit(this.periodo);
+
+        
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

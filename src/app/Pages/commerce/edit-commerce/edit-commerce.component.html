@@ -98,13 +98,7 @@
       </div>
     </div>
 
-    <div class="position-relative form-group">
-      <label for="email">Horarios</label>
-      <input formControlName="email"  type="email" name="email" id="email" placeholder="Ingrese el email del comercio" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">El email es requerido</div>
-      </div>
-    </div>
+ 
     
     <!--Descripcion-->
     <div class="position-relative form-group">
@@ -115,25 +109,113 @@
           <div *ngIf="f.description.errors.required">ingrese una breve descripción</div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table text-left">
+          <thead>
+            <tr>
+              <th scope="col" >Cajas</th>
+              <th scope="col">
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="openAddCaja()">
+                  <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                </button>                  
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paydesk of commerce.paydesks; index as i" class="table-light text-left">       
+              <td>{{paydesk}}</td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="borrarCaja(i)">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>          
+            </tr>
+          </tbody>
+        </table>
 
-    <h5>Horarios Disponibles</h5>
-    
-    
-    <div class="row" *ngFor="let horario of commerce.horarios; index as i">
-      <div class="col-md-1">
-        <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="borrarPeriodo(i)">
-            <i class="pe-7s-trash btn-icon-wrapper"> </i>
-          </button>
+        
       </div>
+      <div class="col-md-6">
+        <table class="table text-left">
+          <thead>
+            <tr>
+              <th scope="col" >Horarios Disponibles</th>
+              <th scope="col">
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="openAddHorario()">
+                  <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                </button>                  
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of commerce.horarios; index as i" class="table-light text-left">       
+              <td><b>{{horario.nombre}}</b>  de {{horario.desde.hour}}:{{horario.desde.minute}} a {{horario.hasta.hour}}:{{horario.hasta.minute}}</td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="borrarPeriodo()">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>          
+            </tr>
+          </tbody>
+        </table>        
+      </div>
+    </div>
 
-      <div class="col-md-9" >
-        <b>{{horario.nombre}}</b>  de {{horario.desde.hour}}:{{horario.desde.minute}} a {{horario.hasta.hour}}:{{horario.hasta.minute}}
-      </div> 
-      
-    </div>  
-    <div class="position-relative form-group col-md-3">
-        <button class="mt-1 btn btn-success form-control" (click)="openAddHorario()">Agregar Horario</button>
+    <div class="row">
+
+      <div class="col-md-6">
+        <table class="table text-left">
+          <thead>
+            <tr>
+              <th scope="col" >Categorias de Productos</th>
+              <th scope="col">
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="openAddProductCategory()">
+                  <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                </button>                  
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of commerce.productCategories; index as i" class="table-light text-left">       
+              <td>{{category}}</td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteCategoriaProducto(i)">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>          
+            </tr>
+          </tbody>
+        </table>  
+        
       </div>
+      <div class="col-md-6">
+        <table class="table text-left">
+          <thead>
+            <tr>
+              <th scope="col" >Categorias de Servicios</th>
+              <th scope="col">
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="openAddServiceCategory()">
+                  <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                </button>                  
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of commerce.serviceCategories; index as i" class="table-light text-left">       
+              <td>{{category}}</td>
+              <td>
+                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteCategoriaServicio(i)">
+                  <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                </button>
+              </td>          
+            </tr>
+          </tbody>
+        </table>           
+      </div>
+    </div>
+
+
     <div class="modal-footer">
       <button class="mt-1 btn btn-primary" type="submit" (click)="Cancelar()">Cancelar</button>
       <button class="mt-1 btn btn-success" type="submit"  (click)="Guardar()">Guardar</button>
@@ -146,4 +228,19 @@
     (retorno)="setearPeriodo($event)"
   ></app-period-time-select>
     
+  <app-commerce-add-paydesk
+    #asignarCaja
+    (retorno)="agregarCaja($event)"
+  ></app-commerce-add-paydesk>
+
+  <app-commerce-add-category-product
+    #agregarCategoriaProducto
+    (retorno)="addCategoriaProducto($event)"
+  ></app-commerce-add-category-product>
+
+  <app-commerce-add-category-service
+    #agregarCategoriaServicio
+    (retorno)="addCategoriaService($event)"
+  ></app-commerce-add-category-service>
+
 </div>

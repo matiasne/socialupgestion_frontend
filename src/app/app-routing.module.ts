@@ -110,6 +110,8 @@ import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
 import { ImageSelectComponent } from './Components/image-select/image-select.component';
 import { LocationSelectComponent } from './Components/location-select/location-select.component';
 import { SaleAddProductComponent } from './Components/sale-add-product/sale-add-product.component';
+import { SaleDetailsComponent } from './Pages/sale-details/sale-details.component';
+import { SaleAddPaymentComponent } from './Components/sale-add-payment/sale-add-payment.component';
 
 
 const routes: Routes = [
@@ -170,7 +172,7 @@ const routes: Routes = [
       
       //Sale 
       {path: 'sales', component:SaleComponent, data: {extraParameter: ''}},
-      {path: 'sale', component:EditSaleComponent, data: {extraParameter: ''}},
+      {path: 'sale', component:SaleDetailsComponent, data: {extraParameter: ''}},
 
       //Subscription 
       {path: 'subscriptions', component:SubscriptionComponent, data: {extraParameter: ''}},
@@ -209,6 +211,7 @@ const routes: Routes = [
       {path: 'img', component:ImageSelectComponent, data:{extraParameter: ''} },
       {path: 'map', component:LocationSelectComponent, data:{extraParameter: ''} },
       {path: 'addProduct', component:SaleAddProductComponent, data:{extraParameter: ''} },
+      {path: 'addPayment', component:SaleAddPaymentComponent, data:{extraParameter: ''} },
 
     ]
   },

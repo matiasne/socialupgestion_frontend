@@ -1,6 +1,56 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"  [buttons]="buttons"></app-page-title>
-<div class="card-body">
+<div class="card-body">    
   <form [formGroup]="registerForm">
+      <div class="row">
+          <div class="col-3"> 
+            <div class="btn-input-icon" (click)="openAddIcon()">
+              <img  src="{{service.icon}}" *ngIf="service.icon"/>
+              <i class="pe-7s-shopbag" *ngIf="!service.icon"> </i>
+              <div class="title">Icono</div>    
+            </div>   
+          </div>
+          <div class="col-8"> 
+            <div class="btn-input-portada" (click)="openAddPortada()">
+              <img  src="{{service.portada}}" *ngIf="service.portada"/>
+              <i class="pe-7s-shopbag" *ngIf="!service.portada"> </i>   
+              <div class="btn-select-item-title">Portada</div>    
+            </div>
+          </div>
+          <div class="col-1">
+            <button *ngIf="isUpdate" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteService(content)">
+              <i class="pe-7s-trash btn-icon-wrapper"> </i>
+            </button>
+          </div>
+        </div>
+  
+        <div class="position-relative form-group">
+          <app-image-select  #iconSelect 
+            (imagenBase64)="iconoImagen($event)"
+            aspectRatio_Y ="3"
+            aspectRatio_X ="3"
+            resizeToWidth=350
+            titulo="Seleccionar Imagen"
+            >
+          </app-image-select> 
+        </div>
+        
+        <div class="position-relative form-group">
+          <app-image-select  #portadaSelect 
+            (imagenBase64)="portadaImagen($event)"
+            aspectRatio_Y ="7"
+            aspectRatio_X ="3"
+            resizeToWidth=350
+            titulo="Seleccionar Imagen"
+            >
+          </app-image-select> 
+        </div>
+
+        <app-service-add-plan
+        #addPlan 
+        titulo="Agregar Plan"
+        (retorno)="pushPlan($event)"
+        >
+        </app-service-add-plan>
     <!--Nombre-->
     <div class="position-relative form-group">
       <label for="nameservice">Nombre</label>
@@ -21,10 +71,19 @@
     </div>
     <!--Precio-->
     <div class="position-relative form-group">
-      <label for="price">Precio mensual</label>
-      <input formControlName="price" type="number" min="0" name="price" id="price"  placeholder="Ingrese el precio del servicio"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
-      <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
-          <div *ngIf="f.price.errors.required">ingrese el precio mensual</div>
+      <h5>Planes</h5>
+      <div class="row" *ngFor="let plan of service.plans; index as i">
+        <div class="col-md-1">
+          <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="borrarPlan(i)">
+            <i class="pe-7s-trash btn-icon-wrapper"> </i>
+          </button>
+        </div>
+        <div class="col-md-9" >
+          <b>{{plan.name}}</b> {{plan.period}} días por {{plan.price | currency:'USD':true:'1.2'}}
+        </div>       
+      </div>  
+      <div class="position-relative form-group col-md-3">
+        <button class="mt-1 btn btn-success form-control" (click)="openAddPlan()">Agregar Plan</button>
       </div>
     </div>
     <!--Descripcion-->

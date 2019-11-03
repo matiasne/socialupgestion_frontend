@@ -13,6 +13,10 @@ import { ImageSelectComponent } from 'src/app/Components/image-select/image-sele
 import { LocationSelectComponent } from 'src/app/Components/location-select/location-select.component';
 import { CategoriesService } from 'src/app/Services/Firestore/categories.service';
 import { PeriodTimeSelectComponent } from 'src/app/Components/period-time-select/period-time-select.component';
+import { CommerceAddPaydeskComponent } from 'src/app/Components/commerce-add-paydesk/commerce-add-paydesk.component';
+import { CommerceAddCategoryProductComponent } from 'src/app/Components/commerce-add-category-product/commerce-add-category-product.component';
+import { CommerceAddCategoryServiceComponent } from 'src/app/Components/commerce-add-category-service/commerce-add-category-service.component';
+import { Paydesk } from 'src/app/Models/Paydesk';
 
 @Component({
   selector: 'app-edit-commerce',
@@ -25,6 +29,9 @@ export class EditCommerceComponent implements OnInit {
   @ViewChild("portadaSelect") portadaSelect: ImageSelectComponent;
   @ViewChild("locationSelect") locationSelect: LocationSelectComponent;
   @ViewChild("periodoSelect") periodoSelect: PeriodTimeSelectComponent;
+  @ViewChild("asignarCaja") asignarCaja: CommerceAddPaydeskComponent;
+  @ViewChild("agregarCategoriaProducto") agregarCategoriaProducto: CommerceAddCategoryProductComponent;
+  @ViewChild("agregarCategoriaServicio") agregarCategoriaServicio: CommerceAddCategoryServiceComponent;
   
   public commerce:Commerce;
   public isUpdate:boolean;
@@ -95,6 +102,7 @@ export class EditCommerceComponent implements OnInit {
     if(this.route.snapshot.params.id){
       let editSubscribe =  this._commercesService.get(this.route.snapshot.params.id).subscribe((commerce:any) => {
         
+        console.log(commerce.payload.data())
         this.isUpdate = true;
         this.heading ="Editar Comercio";
         
@@ -111,6 +119,7 @@ export class EditCommerceComponent implements OnInit {
         this.commerce.lat = commerce.payload.data().lat;
         this.commerce.lng = commerce.payload.data().lng;
         this.commerce.horarios = commerce.payload.data().horarios;
+        this.commerce.paydesks = commerce.payload.data().paydesks;
 
         editSubscribe.unsubscribe();
       });
@@ -148,6 +157,34 @@ export class EditCommerceComponent implements OnInit {
     this.commerce.email = this.registerForm.controls.email.value;
     this.commerce.description = this.registerForm.controls.description.value;
     this.commerce.category_id = this.registerForm.controls.category_id.value;
+
+    if(this.commerce.horarios.length == 0){
+      this.toastr.error('Por favor Agrege un horario al comercio','Error al guardar comercio', {
+        timeOut: 5000,
+      });  
+      return;
+    }
+
+    if(this.commerce.paydesks.length == 0){
+      this.toastr.error('Por favor Agrege una caja al comercio','Error al guardar comercio', {
+        timeOut: 5000,
+      });  
+      return;
+    }
+
+    if(this.commerce.productCategories.length == 0){
+      this.toastr.error('Por favor Agrege una categoria de productos al comercio','Error al guardar comercio', {
+        timeOut: 5000,
+      });  
+      return;
+    }
+
+    if(this.commerce.serviceCategories.length == 0){
+      this.toastr.error('Por favor Agrege una categoria de servicios al comercio','Error al guardar comercio', {
+        timeOut: 5000,
+      });  
+      return;
+    }
    
     if(this.isUpdate){
       //Update
@@ -199,16 +236,100 @@ export class EditCommerceComponent implements OnInit {
     this.periodoSelect.openModal(this.periodoSelect.content);
   }
 
+  public openAddProductCategory (){
+    this.agregarCategoriaProducto.openModal();
+  }
+
+  public openAddServiceCategory (){
+    this.agregarCategoriaServicio.openModal();
+  }
+
+  public openAddCaja (){
+    this.asignarCaja.openModal();
+  }
+
   public setearPeriodo(periodo){
     console.log(periodo);
     let p = JSON.parse(JSON.stringify(periodo));
     this.commerce.horarios.push(p);
     console.log(this.commerce);
+  }
 
+  public addCategoriaProducto(categoria){
+
+    var repetido = false;
+    this.commerce.productCategories.forEach(c =>{
+      if(c == categoria){
+        this.toastr.error('El nombre de categoría ya existe!','Categoria no guardada', {
+          timeOut: 5000,
+        });
+        repetido = true;
+      }
+    });
+    if(!repetido){
+      this.toastr.success('Categoria asignada a commercio!','Categoria Guardada', {
+        timeOut: 5000,
+      });
+      this.commerce.productCategories.push(categoria);
+    }
+    console.log(this.commerce);
+  }
+
+  public addCategoriaService(categoria){
+
+    var repetido = false;
+    this.commerce.serviceCategories.forEach(c =>{
+      if(c == categoria){
+        this.toastr.error('El nombre de categoría ya existe!','Categoria no guardada', {
+          timeOut: 5000,
+        });
+        repetido = true;
+      }
+    });
+    if(!repetido){
+      this.toastr.success('Categoria asignada a commercio!','Categoria Guardada', {
+        timeOut: 5000,
+      });
+      this.commerce.serviceCategories.push(categoria);
+    }
+  }
+
+  public deleteCategoriaProducto(index){
+    this.commerce.productCategories.splice(index,1);
+  }
+
+  public deleteCategoriaServicio(index){
+    this.commerce.serviceCategories.splice(index,1);
+  }
+
+  public agregarCaja(caja){
+    console.log(caja);
+    let p = JSON.parse(JSON.stringify(caja));
+
+    var repetido = false;
+    this.commerce.paydesks.forEach(paydesk =>{
+      if(paydesk == caja){
+        this.toastr.error('El nombre de caja ya existe!','Caja no guardada', {
+          timeOut: 5000,
+        });        
+      }
+      repetido = true;
+    });
+    if(!repetido){
+      this.toastr.success('Caja asignada a commercio!','Caja Guardada', {
+        timeOut: 5000,
+      });
+      this.commerce.paydesks.push(caja);
+    }
+    console.log(this.commerce);
   }
 
   public borrarPeriodo(index){
     this.commerce.horarios.splice(index,1);
+  }
+
+  public borrarCaja(index){
+    this.commerce.paydesks.splice(index,1);
   }
 
   

@@ -45,13 +45,13 @@ export class SaleAddProductComponent implements OnInit {
     this.calcularTotal();
     this.modalService.open(this.content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if(result == "si"){  
+      if(result == "si"){         
+
         this.toastr.success('El producto ha sido agregado!','Producto Agregado', {
           timeOut: 5000,
         });
         this._saleservice.addProduct(this.product,this.venta.cantidad);  
-        this.ventaDetalles.emit(this.venta);
-        this.venta.cantidad = 1;
+        
       }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

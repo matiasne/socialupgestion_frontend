@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthenticationProvider } from './authentication/authentication';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Commerce } from 'src/app/Models/Commerce';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CommercesService {
 
   private collection:string;
+  private commerce:Commerce;
   public commerceSubject = new BehaviorSubject <any>("");
   
   constructor(
@@ -16,6 +18,7 @@ export class CommercesService {
     private auth:AuthenticationProvider
   ) {
     this.collection = 'commerces';
+    this.commerce = new Commerce();
     this.setSelectedCommerce(localStorage.getItem('commerce_id'));
   }
 
@@ -28,11 +31,8 @@ export class CommercesService {
     let user_id = this.auth.getUID();
     data.user_id = user_id;
     const param = JSON.parse(JSON.stringify(data));
-
     const commerce_id = this.firestore.createId();
-
     this.setUserAsAdmin(user_id,commerce_id);
-
     return this.firestore.doc(this.collection+'/'+commerce_id).set(param);
    
   }
@@ -41,30 +41,20 @@ export class CommercesService {
     return this.firestore.collection(this.collection).doc(documentId).snapshotChanges();
   }
 
-  private setUserAsAdmin(user_id,commerce_id){
-   
-    
+  private setUserAsAdmin(user_id,commerce_id){   
     var collection = 'roles';
     let params = {
       user_id : user_id,
       commerce_id : commerce_id,
       rol : "admin"
     }
-    this.firestore.collection(collection).add(Object.assign({}, params));          
-    
-    
-  }
-  
+    this.firestore.collection(collection).add(Object.assign({}, params));       
+  } 
 
   public getAllbyUser() {  
-
-    //Acá obtener los comercios que están dentro de la coleccion del usuario
-
     let user_id = this.auth.getUID(); 
     return this.firestore.collection(this.collection, ref => ref.where('user_id', '==', user_id)).snapshotChanges();
-  }
-
-  
+  }  
 
   public update(documentId: string, data: any) {
     let user_id = this.auth.getUID();
@@ -80,19 +70,16 @@ export class CommercesService {
   public setSelectedCommerce(commerce_id){
     
     if(commerce_id){
-        console.log(commerce_id);
-        this.get(commerce_id).subscribe(data =>{
-         
+        this.get(commerce_id).subscribe(data =>{         
           var commerce:any = data.payload.data();
           commerce.id = commerce_id;
-          console.log(commerce);
+          this.commerce = commerce;
           this.commerceSubject.next(commerce);
         });
     }
     else{
       this.commerceSubject.next(undefined);    
     }
-       
 
     localStorage.setItem('commerce_id',commerce_id);
   }

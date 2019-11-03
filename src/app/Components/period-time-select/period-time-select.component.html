@@ -7,41 +7,41 @@
   </div>
   <div class="modal-body">
     <div class="container">
-      <div class="row form-group">
-        <label for="category_id">Dias</label>
-        <select class="form-control" [(ngModel)]="periodo.dia">
-          <option [value]="1">Lunes</option>
-          <option [value]="2">Martes</option>
-          <option [value]="3">Miercoles</option>
-          <option [value]="4">Jueves</option>
-          <option [value]="5">Viernes</option>
-          <option [value]="6">Sábados</option>
-          <option [value]="7">Domingos</option>
-          <option [value]="8">Feriados</option>          
-        </select>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          Desde
+        <form [formGroup]="formGroup" >
+          <div class="row form-group">
+            <label for="category_id">Dias</label>
+            <select class="form-control" formControlName="dia">
+              <option [value]="1">Lunes</option>
+              <option [value]="2">Martes</option>
+              <option [value]="3">Miercoles</option>
+              <option [value]="4">Jueves</option>
+              <option [value]="5">Viernes</option>
+              <option [value]="6">Sábados</option>
+              <option [value]="7">Domingos</option>
+              <option [value]="8">Feriados</option>          
+            </select>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-md-6">
+            Desde
+          </div>
+          <div class="col-md-6">
+            <ngb-timepicker [(ngModel)]="periodo.desde"></ngb-timepicker>
+          </div>          
         </div>
-        <div class="col-md-6">
-          Hasta
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <ngb-timepicker [(ngModel)]="periodo.desde"></ngb-timepicker>
-        </div>
-        <div class="col-md-6">
-          <ngb-timepicker [(ngModel)]="periodo.hasta"></ngb-timepicker>
-        </div>
-      </div>
+        <div class="row">
+          <div class="col-md-6">
+            Hasta
+          </div>
+          <div class="col-md-6">
+            <ngb-timepicker [(ngModel)]="periodo.hasta"></ngb-timepicker>
+          </div>
+        </div>      
     </div>
   </div>
   <div class="modal-footer">     
-    <button  (click)="c('si')" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+    <button  [disabled]="!formGroup.valid" (click)="c('si')" class="btn-shadow d-inline-flex align-items-center btn btn-success">
         Guardar
     </button>
   </div>

@@ -149,6 +149,13 @@ import { LocationSelectComponent } from './Components/location-select/location-s
 import { AgmCoreModule } from '@agm/core';
 import { PeriodTimeSelectComponent } from './Components/period-time-select/period-time-select.component';
 import { SaleAddProductComponent } from './Components/sale-add-product/sale-add-product.component';
+import { SaleDetailsComponent } from './Pages/sale-details/sale-details.component';
+import { SaleAddPaymentComponent } from './Components/sale-add-payment/sale-add-payment.component';
+import { CommerceAddPaydeskComponent } from './Components/commerce-add-paydesk/commerce-add-paydesk.component';
+import { SaleAddServiceComponent } from './Components/sale-add-service/sale-add-service.component';
+import { ServiceAddPlanComponent } from './Components/service-add-plan/service-add-plan.component';
+import { CommerceAddCategoryProductComponent } from './Components/commerce-add-category-product/commerce-add-category-product.component';
+import { CommerceAddCategoryServiceComponent } from './Components/commerce-add-category-service/commerce-add-category-service.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -282,7 +289,14 @@ const firebaseConfig = {
     ImageSelectComponent,
     LocationSelectComponent,
     PeriodTimeSelectComponent,
-    SaleAddProductComponent
+    SaleAddProductComponent,
+    SaleDetailsComponent,
+    SaleAddPaymentComponent,
+    CommerceAddPaydeskComponent,
+    SaleAddServiceComponent,
+    ServiceAddPlanComponent,
+    CommerceAddCategoryProductComponent,
+    CommerceAddCategoryServiceComponent
   ],
   imports: [
     BrowserModule,
