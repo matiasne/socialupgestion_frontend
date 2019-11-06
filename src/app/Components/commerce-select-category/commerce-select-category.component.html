@@ -1,0 +1,38 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title">{{titulo}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6"> 
+        <div class="btn-select-icon" style="width:100%">
+          <div class="icon">
+            <i class="pe-7s-cash"> </i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <form [formGroup]="formGroup" >
+        <label for="name">Categoria</label>
+        <select formControlName="name" name="name" id="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+          <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Seleccione una categoria o cree una nueva (link)</div>
+          </div>
+        </select> 
+        </form>   
+      </div>
+    </div>      
+  </div>
+  <div class="modal-footer">       
+      <button (click)="c('no')" class="btn-shadow d-inline-flex align-items-center btn btn-sm">
+         Cancelar
+      </button>      
+      <button (click)="c('si')"  [disabled]="!formGroup.valid" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+          Guardar
+      </button>
+  </div>
+</ng-template>

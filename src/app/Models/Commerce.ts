@@ -21,6 +21,7 @@ export class Commerce{
 	public category_id: any;
 	public horarios:any=[];
 	public paydesks:any=[];
+	public categories:any=[];
 	public serviceCategories:any=[];
 	public productCategories:any=[];
 

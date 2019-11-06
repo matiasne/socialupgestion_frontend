@@ -90,14 +90,33 @@
     </div>
 
     <div class="position-relative form-group">
-      <label for="category">Categoria</label>
-      <select formControlName="category" name="category" id="category" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
-        <option *ngFor="let category of categories" [value]="category">{{category}}</option>
-        <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
-            <div *ngIf="f.category.errors.required">Seleccione una categoria o cree una nueva (link)</div>
+        <div class="col-md-6">
+          <table class="table text-left">
+            <thead>
+              <tr>
+                <th scope="col">Categorias del Producto</th>
+                <th scope="col">
+                  <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info" (click)="openAddProductoCategoria()">
+                    <i class="pe-7s-plus btn-icon-wrapper"> </i>
+                  </button>                  
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of product.categories; index as i" class="table-light text-left">       
+                <td>{{category}}</td>
+                <td>
+                  <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteCategoriaProducto(i)">
+                    <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                  </button>
+                </td>          
+              </tr>
+            </tbody>
+          </table>
+  
+          
         </div>
-      </select>
-    </div>
+      </div>
     <!--Descripcion-->
     <div class="position-relative form-group">
       <label for="descripcion">Descripcion</label>
@@ -117,6 +136,11 @@
   
     
 </div>
+
+<app-product-select-category
+    #agregarProductoCategoria
+    (retorno)="addCategoriaProducto($event)"
+  ></app-product-select-category>
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">

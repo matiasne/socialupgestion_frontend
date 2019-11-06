@@ -11,6 +11,7 @@ import { ProductsService } from 'src/app/Services/Firestore/products.service';
 import { ImageSelectComponent } from 'src/app/Components/image-select/image-select.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommercesService } from 'src/app/Services/Firestore/commerces.service';
+import { ProductSelectCategoryComponent } from 'src/app/Components/product-select-category/product-select-category.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -21,7 +22,7 @@ export class EditProductComponent implements OnInit {
 
   @ViewChild("iconSelect") iconSelect: ImageSelectComponent;
   @ViewChild("portadaSelect") portadaSelect: ImageSelectComponent;
-  
+  @ViewChild("agregarProductoCategoria") agregarProductoCategoria: ProductSelectCategoryComponent;
   
   closeResult: string;
 
@@ -80,13 +81,12 @@ export class EditProductComponent implements OnInit {
       price: [this.route.snapshot.params.price],
       code: [this.route.snapshot.params.code],
       provider_id: [this.route.snapshot.params.provider_id],
-      category: [this.route.snapshot.params.category],
       description: [this.route.snapshot.params.description],
     });
 
     
     if(this.route.snapshot.params.id){
-      let editSubscribe =  this._productsService.get(this.route.snapshot.params.id).subscribe((product:any) => {
+        let editSubscribe =  this._productsService.get(this.route.snapshot.params.id).subscribe((product:any) => {
         
         this.isUpdate = true;
         this.heading ="Editar Producto";
@@ -97,7 +97,6 @@ export class EditProductComponent implements OnInit {
           name: product.payload.data().name,
           price: product.payload.data().price,
           description: product.payload.data().description,
-          category: product.payload.data().category,
           stock: product.payload.data().stock,
           code: product.payload.data().code,
           provider_id: product.payload.data().provider_id
@@ -105,6 +104,10 @@ export class EditProductComponent implements OnInit {
         this.product.icon = product.payload.data().icon;
         this.product.name = product.payload.data().name;
         this.product.portada = product.payload.data().portada;
+
+        if(product.payload.data().categories)
+          this.product.categories = product.payload.data().categories;
+        
 
         editSubscribe.unsubscribe();
       });
@@ -124,6 +127,17 @@ export class EditProductComponent implements OnInit {
 
   openAddPortada(){
     this.portadaSelect.openModal(this.portadaSelect.content);
+  }
+
+  public openAddProductoCategoria(){
+
+    if(this.product.categories.length > 2){
+      this.toastr.error('Solo puede agregar hasta 3 categorias','Maximo de categorias superado', {
+        timeOut: 5000,
+      });  
+      return;
+    }
+    this.agregarProductoCategoria.openModal();
   }
 
   
@@ -153,9 +167,8 @@ export class EditProductComponent implements OnInit {
     this.product.price = this.registerForm.controls.price.value;
     this.product.code = this.registerForm.controls.code.value;
     this.product.provider_id = this.registerForm.controls.provider_id.value;
-    this.product.category = this.registerForm.controls.category.value;
     this.product.description = this.registerForm.controls.description.value;
-   
+    
     if(this.isUpdate){
       //Update
       console.log(this.product);
@@ -193,6 +206,28 @@ export class EditProductComponent implements OnInit {
   public portadaImagen(imagen) {
     console.log(imagen);
     this.product.portada = imagen;
+  }
+
+  public addCategoriaProducto(categoria){
+    var repetido = false;
+    this.product.categories.forEach(c =>{
+      if(c == categoria){
+        this.toastr.error('El nombre de categoría ya existe!','Categoria no asignada', {
+          timeOut: 5000,
+        });
+        repetido = true;
+      }
+    });
+    if(!repetido){
+      this.toastr.success('Categoria asignada a producto!','Categoria asignada', {
+        timeOut: 5000,
+      });
+      this.product.categories.push(categoria);
+    }
+  }
+
+  public deleteCategoriaProducto(index){
+    this.product.categories.splice(index,1);
   }
 
   

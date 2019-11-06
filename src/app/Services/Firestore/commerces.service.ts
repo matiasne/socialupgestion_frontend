@@ -72,9 +72,11 @@ export class CommercesService {
     if(commerce_id){
         this.get(commerce_id).subscribe(data =>{         
           var commerce:any = data.payload.data();
-          commerce.id = commerce_id;
+
+          
           this.commerce = commerce;
-          this.commerceSubject.next(commerce);
+          this.commerce.id = commerce_id;
+          this.commerceSubject.next(this.commerce);
         });
     }
     else{

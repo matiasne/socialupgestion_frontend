@@ -7,7 +7,7 @@ export class Product{
     public price:number;
     public code:string;
     public provider_id:number;
-    public category:number;
+	public categories:any=[];
     public description:string;
     public icon:string;
     public portada:string;

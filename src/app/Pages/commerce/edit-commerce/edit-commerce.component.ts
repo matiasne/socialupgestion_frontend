@@ -17,6 +17,7 @@ import { CommerceAddPaydeskComponent } from 'src/app/Components/commerce-add-pay
 import { CommerceAddCategoryProductComponent } from 'src/app/Components/commerce-add-category-product/commerce-add-category-product.component';
 import { CommerceAddCategoryServiceComponent } from 'src/app/Components/commerce-add-category-service/commerce-add-category-service.component';
 import { Paydesk } from 'src/app/Models/Paydesk';
+import { CommerceSelectCategoryComponent } from 'src/app/Components/commerce-select-category/commerce-select-category.component';
 
 @Component({
   selector: 'app-edit-commerce',
@@ -32,7 +33,10 @@ export class EditCommerceComponent implements OnInit {
   @ViewChild("asignarCaja") asignarCaja: CommerceAddPaydeskComponent;
   @ViewChild("agregarCategoriaProducto") agregarCategoriaProducto: CommerceAddCategoryProductComponent;
   @ViewChild("agregarCategoriaServicio") agregarCategoriaServicio: CommerceAddCategoryServiceComponent;
+  @ViewChild("agregarComercioCategoria") agregarComercioCategoria: CommerceSelectCategoryComponent;
   
+  
+
   public commerce:Commerce;
   public isUpdate:boolean;
   registerForm: FormGroup;
@@ -120,6 +124,9 @@ export class EditCommerceComponent implements OnInit {
         this.commerce.lng = commerce.payload.data().lng;
         this.commerce.horarios = commerce.payload.data().horarios;
         this.commerce.paydesks = commerce.payload.data().paydesks;
+        this.commerce.productCategories = commerce.payload.data().productCategories;
+        this.commerce.serviceCategories = commerce.payload.data().serviceCategories;
+        this.commerce.categories = commerce.payload.data().categories;
 
         editSubscribe.unsubscribe();
       });
@@ -236,6 +243,17 @@ export class EditCommerceComponent implements OnInit {
     this.periodoSelect.openModal(this.periodoSelect.content);
   }
 
+  public openAddComercioCategoria(){
+
+    if(this.commerce.categories.length > 2){
+      this.toastr.error('Solo puede agregar hasta 3 categorias','Maximo de categorias superado', {
+        timeOut: 5000,
+      });  
+      return;
+    }
+    this.agregarComercioCategoria.openModal();
+  }
+
   public openAddProductCategory (){
     this.agregarCategoriaProducto.openModal();
   }
@@ -275,6 +293,24 @@ export class EditCommerceComponent implements OnInit {
     console.log(this.commerce);
   }
 
+  public addCategoriaComercio(categoria){
+    var repetido = false;
+    this.commerce.categories.forEach(c =>{
+      if(c == categoria){
+        this.toastr.error('El nombre de categoría ya existe!','Categoria no asignada', {
+          timeOut: 5000,
+        });
+        repetido = true;
+      }
+    });
+    if(!repetido){
+      this.toastr.success('Categoria asignada a commercio!','Categoria asignada', {
+        timeOut: 5000,
+      });
+      this.commerce.categories.push(categoria);
+    }
+  }
+
   public addCategoriaService(categoria){
 
     var repetido = false;
@@ -296,6 +332,10 @@ export class EditCommerceComponent implements OnInit {
 
   public deleteCategoriaProducto(index){
     this.commerce.productCategories.splice(index,1);
+  }
+
+  public deleteCategoriaComercio(index){
+    this.commerce.categories.splice(index,1);
   }
 
   public deleteCategoriaServicio(index){

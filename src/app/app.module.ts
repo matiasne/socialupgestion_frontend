@@ -156,6 +156,8 @@ import { SaleAddServiceComponent } from './Components/sale-add-service/sale-add-
 import { ServiceAddPlanComponent } from './Components/service-add-plan/service-add-plan.component';
 import { CommerceAddCategoryProductComponent } from './Components/commerce-add-category-product/commerce-add-category-product.component';
 import { CommerceAddCategoryServiceComponent } from './Components/commerce-add-category-service/commerce-add-category-service.component';
+import { ProductSelectCategoryComponent } from './Components/product-select-category/product-select-category.component';
+import { CommerceSelectCategoryComponent } from './Components/commerce-select-category/commerce-select-category.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -296,7 +298,9 @@ const firebaseConfig = {
     SaleAddServiceComponent,
     ServiceAddPlanComponent,
     CommerceAddCategoryProductComponent,
-    CommerceAddCategoryServiceComponent
+    CommerceAddCategoryServiceComponent,
+    ProductSelectCategoryComponent,
+    CommerceSelectCategoryComponent,
   ],
   imports: [
     BrowserModule,
